@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Muscle_Missions</title>
+    </head>
+    <body>
+    <a href="/"> home </a>
+    <form action="/accounts/?target=/" method="post" enctype="multipart/form-data">
+        <input type="text" name="username" required/>
+        <input type="password" name="password" required/>
+        <input type="submit" value="login"/>
+        <input type="hidden" name="operation" value="login"/>
+      </form>
+      <p>Don't have an account? <a href="/accounts/create/"> Sign Up! </a></p>
+    </body>
+</html>
