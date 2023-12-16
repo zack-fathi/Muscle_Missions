@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -Eeuo pipefail
+
+FILE=var/muscle.sqlite3
+if [ -f "$FILE" ]; then
+    flask --app muscle --debug run --host 0.0.0.0 --port 800
+else
+    echo "Can't find database $FILE"
+    echo "Try: ./bin/muscledb create"
+    exit 1
+fi

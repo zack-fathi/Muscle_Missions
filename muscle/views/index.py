@@ -7,7 +7,7 @@ import pathlib
 import flask
 import muscle
 
-muscle.app.route('/', methods = ['GET', 'POST'])
+@muscle.app.route('/')
 def show_index():
     """Main page."""
     connection = muscle.model.get_db()

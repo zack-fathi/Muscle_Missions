@@ -1,7 +1,9 @@
 """Config file."""
 import pathlib
 
-# File Upload to var/uploads/
-SEARCH_ROOT = pathlib.Path(__file__).resolve().parent.parent
+APPLICATION_ROOT = '/'
 
-DATABASE_FILENAME = SEARCH_ROOT/'var'/'muscle.sqlite3'
+# File Upload to var/uploads/
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+
+DATABASE_FILENAME = ROOT/'var'/'muscle.sqlite3'
