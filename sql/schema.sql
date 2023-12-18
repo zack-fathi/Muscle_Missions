@@ -3,7 +3,8 @@ CREATE TABLE users (
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
     age INTEGER,
-    height REAL,
+    height INTEGER,
     fitness_level TEXT,
-    workout_experience TEXT
+    workout_experience TEXT,
+    gender TEXT
 );

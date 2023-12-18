@@ -6,12 +6,19 @@ import hashlib
 import pathlib
 import flask
 import muscle
+from .. import utils
 
 @muscle.app.route('/accounts/login/')
 def show_login():
     """Show the login page for a user."""
 
-    return flask.send_from_directory("static/html","login.html")
+    return flask.render_template("login.html")
+
+@muscle.app.route('/accounts/logout/')
+def complete_logout():
+    """Show the login page for a user."""
+
+    return utils.clear_cookie()
 
 @muscle.app.route('/accounts/create/')
 def show_create():
@@ -23,7 +30,20 @@ def show_create():
 def show_edit():
     """Shows edit password."""
 
-    return flask.send_from_directory("static/html","edit.html")
+    return flask.render_template("edit.html")
+
+@muscle.app.route('/accounts/more_info/')
+def show_more_info():
+    """Ask more questions to the user."""
+
+    logname = flask.request.cookies.get('username', None)
+
+    if not logname:
+        return flask.redirect("/accounts/login/", 302)
+    
+    context = {"logname": logname}
+    return flask.render_template("more_info.html", **context)
+    
 
 @muscle.app.route('/accounts/auth/')
 def auth():
@@ -45,10 +65,11 @@ def handle_submit():
     if operation == "login":
         return login_help(connection, form)
     if operation == "create":
-        test_db_connection()
         return create_help(connection, form)
     if operation == "edit":
         return edit_help(connection, form)
+    if operation == "more":
+        return more_help(connection, form)
     if operation == "delete":
         return 'delete'
     return None
@@ -59,17 +80,19 @@ def login_help(connection, form):
     username = form['username']
     password = form['password']
 
-    user = check_user_exists(connection, username, password)
-
     # hash and salt according to user password
-    password_db_string = get_hashed_password(password, user['password'])
+    user = check_user_exists(connection, username, password)
+    password_db_string = hash_password(password)
 
-    if password_db_string == user["password"]:
-        resp = flask.make_response(flask.redirect("/", 302))
-        resp.set_cookie('username', username)
-        return resp
+    if not user or password_db_string != user["password"]:
+        error = "Username and/or password is incorrect. Please enter a valid username/password"
+        return flask.render_template("login.html", error=error)
+
+    resp = flask.make_response(flask.redirect("/", 302))
+    resp.set_cookie('username', username)
+    return resp
         
-    flask.abort(403)
+
 
 def create_help(connection, form):
     """Account creation submit form."""
@@ -94,9 +117,9 @@ def create_help(connection, form):
     hashed_password = hash_password(password)
     
     cur = connection.execute(
-        "INSERT INTO users(username, password) "
-        "VALUES (?, ?)",
-        (username, hashed_password)
+        "INSERT INTO users(username, password, age) "
+        "VALUES (?, ?, ?)",
+        (username, hashed_password,-1)
     )
     
     connection.commit()
@@ -108,8 +131,8 @@ def create_help(connection, form):
 def edit_help(connection, form):
     """Help with editing password."""
 
-    login_name = flask.request.cookies.get('username', -1)
-    if login_name == -1:
+    login_name = flask.request.cookies.get('username', None)
+    if not login_name:
         flask.abort(403)
     
     password = form['password']
@@ -117,19 +140,49 @@ def edit_help(connection, form):
     new_password2 = form['new2']
 
     if new_password == "" or new_password2 == "":
-        flask.abort(400)
+        error = "New password is invalid. Please enter a valid password."
+        return flask.render_template("edit.html", error = error)
 
     if new_password != new_password2:
-        flask.abort(401)
+        error = "Passwords do not match."
+        return flask.render_template("edit.html", error = error)
 
     user = check_user_exists(connection,login_name, password)
     password_db_string = get_hashed_password(password, user['password'])
 
+    if not user:
+        return flask.abort(403)
+
     if password_db_string == user['password']:
         new_password = hash_password(new_password)
         edit_password(connection,login_name,new_password)
+        return flask.redirect("/",302)
+    
+    error = "Incorrect password. Please try again."
+    return flask.render_template("edit.html", error = error)
 
-    return flask.redirect(flask.request.args.get("target"),302)
+def more_help(connection, form):
+    """Adds new data to the existing user."""
+    
+    logname = flask.request.cookies.get('username', None)
+    if not logname:
+        return flask.redirect("/accounts/login/", 302)
+    
+    age = form['age']
+    height = form['height']
+    activity_level = form['activity_level']
+    experience = form['experience']
+    gender = form['gender']
+
+    cur = connection.execute(
+        "UPDATE users "
+        "SET age = ?, height = ?, fitness_level = ?, workout_experience = ?, gender = ? "
+        "WHERE username = ? ",
+        (age, height, activity_level, experience, gender, logname)
+    )
+    connection.commit()
+
+    return flask.redirect("/", 302)
 
 
 def edit_password(connection, username, new_password):
@@ -141,6 +194,8 @@ def edit_password(connection, username, new_password):
         "WHERE username == ? ",
         (new_password, username,)
     )
+
+    connection.commit()
     
 
 def hash_password(password):
@@ -172,31 +227,13 @@ def get_hashed_password(password, db_password):
 def check_user_exists(connection, username, password):
     """Check if a user exists."""
 
+    if username == "" or password == "":
+        flask.abort(400)
+
     cur = connection.execute(
         "SELECT username, password "
         "FROM users "
         "WHERE username == ?",
         (username,)
     )
-
-    user = cur.fetchone()
-
-    if username == "" or password == "":
-        flask.abort(400)
-
-    print("user is " , user)
-    if user is None:
-        flask.abort(403)
-
-    return user
-
-def test_db_connection():
-    try:
-        connection = muscle.model.get_db()
-        cur = connection.execute("SELECT 1")
-        result = cur.fetchone()
-        print("Database connection test result:", result)
-        return True
-    except Exception as e:
-        print("Error testing database connection:", e)
-        return False
+    return cur.fetchone()
