@@ -4,14 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Index Page</title>
+    <title>Muscle Missions</title>
     <style>
         body {
             background-color: #ffedd5; /* Peach-like color */
         }
+        .card {
+            background-color: #fff5eb; /* Lighter peach for contrast */
+        }
+        .list-group-item {
+            background-color: #f8d7da; /* A soft pink color */
+            border: 1px solid #f5c6cb; /* Slightly darker border for the list items */
+        }
+        .list-group-item a {
+            color: #495057; /* Darker text color for better contrast */
+            text-decoration: none; /* Optional: removes underline from links */
+        }
+        .list-group-item a:hover {
+            color: #212529; /* Slightly darker color on hover */
+        }
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -24,15 +39,14 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link" href="/accounts/login/">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/accounts/create/">Create Account</a>
-                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link" href="/accounts/edit/">Edit Account</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/liftbot/">LiftBot</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="/accounts/logout/">Logout</a>
                     </li>
@@ -43,9 +57,22 @@
 
     <!-- Page Content -->
     <div class="container mt-4">
-        <h1>Welcome to Muscle Missions!</h1>
-        <h2>What would you like to do today?</h2>
-        
+        <h1>Hi {{logname}}!Welcome to Muscle Missions!</h1>
+       
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">What would you like to do today?</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><a href="/workouts/day/">Make me a custom workout for today!</a></li>
+                        <li class="list-group-item"><a href="/workouts/split/">Make me a custom workout split!</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMneT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

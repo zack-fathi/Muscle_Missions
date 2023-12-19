@@ -23,7 +23,8 @@ def show_index():
     if age['age'] == -1:
         return flask.redirect("/accounts/more_info/", 302)
 
-    return flask.render_template("index.html")
+    context = {"logname": logname}
+    return flask.render_template("index.html", **context)
 
 
 def check_user_settings(connection, logname):

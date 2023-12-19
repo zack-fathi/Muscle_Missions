@@ -4,6 +4,7 @@ CREATE TABLE users (
     password TEXT NOT NULL,
     age INTEGER,
     height INTEGER,
+    weight INTEGER,
     fitness_level TEXT,
     workout_experience TEXT,
     gender TEXT

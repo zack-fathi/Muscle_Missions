@@ -82,7 +82,7 @@ def login_help(connection, form):
 
     # hash and salt according to user password
     user = check_user_exists(connection, username, password)
-    password_db_string = hash_password(password)
+    password_db_string = get_hashed_password(password, user["password"])
 
     if not user or password_db_string != user["password"]:
         error = "Username and/or password is incorrect. Please enter a valid username/password"
@@ -170,15 +170,16 @@ def more_help(connection, form):
     
     age = form['age']
     height = form['height']
+    weight = form['weight']
     activity_level = form['activity_level']
     experience = form['experience']
     gender = form['gender']
 
     cur = connection.execute(
         "UPDATE users "
-        "SET age = ?, height = ?, fitness_level = ?, workout_experience = ?, gender = ? "
+        "SET age = ?, height = ?, weight= ?, fitness_level = ?, workout_experience = ?, gender = ? "
         "WHERE username = ? ",
-        (age, height, activity_level, experience, gender, logname)
+        (age, height, weight, activity_level, experience, gender, logname)
     )
     connection.commit()
 
