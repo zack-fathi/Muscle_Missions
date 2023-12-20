@@ -43,11 +43,12 @@ def daily_workout_help(connection, form):
 
     workout_type = form['workout_type']
     muscle_split = form['muscle_split']
+    equipment = form['equipment']
     time = form['time']
 
-    custom_workout = generate_workout(workout_type, muscle_split, time)
+    equipment_string = ','.join(equipment)
 
-    return json.dumps(custom_workout)
+    # MAKE THE API CALL HERE
 
 def split_help(connection, form):
     """Help make the custom workout split."""

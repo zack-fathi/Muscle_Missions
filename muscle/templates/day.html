@@ -27,35 +27,59 @@
         <div class="card">
             <div class="card-body">
                 <form action="/workouts/?target=" method="post">
+                    <!-- workout type -->
                     <div class="mb-3">
                         <label for="workout_type" class="form-label">What kind of workout would you like to do?</label>
                         <select class="form-select" id="workout_type" name="workout_type" required>
                             <option value="cardio">Cardio</option>
-                            <option value="olympic">Olympic Weightlifting</option>
-                            <option value="plyometric">Plyometrics</option>
                             <option value="calisthenics">Calisthenics</option>
-                            <option value="powerlifting">Powerlifting</option>
                             <option value="strength">Strength</option>
                             <option value="stretching">Stretching</option>
-                            <option value="strongman">Strongman</option>
-                            <option value="dumbell">Dumbell-only</option>
+                            <option value="dumbbell">Dumbbell-only</option>
                         </select>
                     </div>
 
+                    <!-- muscle group -->
                     <div class="mb-3">
                         <label for="muscle_split" class="form-label">What kind of muscle group would you like to hit?</label>
                         <select class="form-select" id="muscle_split" name="muscle_split" required>
-                            <option value="back">Back</option>
-                            <option value="arms">Arms</option>
-                            <option value="chest">Chest</option>
-                            <option value="legs">Legs</option>
-                            <option value="abs">Abs</option>
                             <option value="full">Full-body</option>
                             <option value="upper">Upper-body</option>
                             <option value="lower">Lower-body</option>
+                            <option value="push">Push</option>
+                            <option value="pull">Pull</option>
+                            <option value="legs">Legs</option>
+                            <option value="arms">Arms</option>
+                            <option value="chest">Chest</option>
+                            <option value="back">Back</option>
+                            <option value="shoulders">Shoulders</option>
+                            <option value="glutes">Glutes</option>
+                            <option value="biceps">Biceps</option>
+                            <option value="triceps">Triceps</option>
+                            <option value="abs">Abs</option>
                         </select>
                     </div>
 
+                    <!-- Equipment -->
+                    <div class="mb-3">
+                        <label class="form-label">What kind of equipment do you have access to or want to use?</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="barbells" name="equipment" value="barbells">
+                            <label class="form-check-label" for="barbells">Barbells</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="dumbbells" name="equipment" value="dumbbells">
+                            <label class="form-check-label" for="dumbbells">Dumbbells</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="bodyweight" name="equipment" value="bodyweight">
+                            <label class="form-check-label" for="bodyweight">Bodyweight</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="machines" name="equipment" value="machines">
+                            <label class="form-check-label" for="machines">Machines</label>
+                        </div>
+                    </div>
 
 
                     <div class="mb-3">

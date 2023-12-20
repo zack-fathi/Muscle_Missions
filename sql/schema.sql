@@ -9,3 +9,12 @@ CREATE TABLE users (
     workout_experience TEXT,
     gender TEXT
 );
+CREATE TABLE exercises (
+    exerciseID INTEGER PRIMARY KEY AUTOINCREMENT,
+    body_part TEXT NOT NULL,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    equipment TEXT NOT NULL,
+    difficulty TEXT NOT NULL,
+    weight INTEGER
+);
