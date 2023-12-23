@@ -6,15 +6,17 @@ CREATE TABLE users (
     height INTEGER,
     weight INTEGER,
     fitness_level TEXT,
-    workout_experience TEXT,
+    workout_experience INTEGER,
     gender TEXT
 );
 CREATE TABLE exercises (
     exerciseID INTEGER PRIMARY KEY AUTOINCREMENT,
-    body_part TEXT NOT NULL,
+    muscle_group TEXT NOT NULL,
+    main_muscle TEXT NOT NULL,
     name TEXT NOT NULL,
     type TEXT NOT NULL,
     equipment TEXT NOT NULL,
-    difficulty TEXT NOT NULL,
-    weight INTEGER
+    difficulty INTEGER,
+    weight INTEGER,
+    composite_score INTEGER
 );

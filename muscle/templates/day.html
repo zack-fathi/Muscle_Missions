@@ -7,10 +7,10 @@
     <title>Workout Generator</title>
     <style>
         body {
-            background-color: #ffedd5; /* Peach-like color */
+            background-color: peachpuff; /* Peach-like color */
         }
         .card {
-            background-color: #fff5eb; /* Lighter peach for contrast */
+            background-color: peachpuff; /* Lighter peach for contrast */
         }
     </style>
 </head>
@@ -31,11 +31,11 @@
                     <div class="mb-3">
                         <label for="workout_type" class="form-label">What kind of workout would you like to do?</label>
                         <select class="form-select" id="workout_type" name="workout_type" required>
-                            <option value="cardio">Cardio</option>
-                            <option value="calisthenics">Calisthenics</option>
+                            <!-- <option value="cardio">Cardio</option>
+                            <option value="calisthenics">Calisthenics</option> -->
                             <option value="strength">Strength</option>
-                            <option value="stretching">Stretching</option>
-                            <option value="dumbbell">Dumbbell-only</option>
+                            <!-- <option value="stretching">Stretching</option>
+                            <option value="dumbbell">Dumbbell-only</option> -->
                         </select>
                     </div>
 
@@ -64,27 +64,35 @@
                     <div class="mb-3">
                         <label class="form-label">What kind of equipment do you have access to or want to use?</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="barbells" name="equipment" value="barbells">
-                            <label class="form-check-label" for="barbells">Barbells</label>
+                            <input class="form-check-input" type="checkbox" id="barbell" name="equipment" value="barbell">
+                            <label class="form-check-label" for="barbell">Barbells</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="dumbbells" name="equipment" value="dumbbells">
-                            <label class="form-check-label" for="dumbbells">Dumbbells</label>
+                            <input class="form-check-input" type="checkbox" id="dumbbell" name="equipment" value="dumbbell">
+                            <label class="form-check-label" for="dumbbell">Dumbbells</label>
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" id="bodyweight" name="equipment" value="bodyweight">
                             <label class="form-check-label" for="bodyweight">Bodyweight</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="machines" name="equipment" value="machines">
-                            <label class="form-check-label" for="machines">Machines</label>
+                            <input class="form-check-input" type="checkbox" id="machine" name="equipment" value="machine">
+                            <label class="form-check-label" for="machine">Machines</label>
                         </div>
                     </div>
 
 
                     <div class="mb-3">
-                        <label for="time" class="form-label">How long do you want your session to be (in minutes)?</label>
-                        <input type="number" class="form-control" id="time" name="time" required>
+                        <label for="time" class="form-label">How long do you want your workout to be?</label>
+                        <select class="form-select" id="time" name="time" required>
+                            <option value="30">30 minutes</option>
+                            <option value="45">45 minutes</option>
+                            <option value="60">1 hour</option>
+                            <option value="75">1 hour 15 minutes</option>
+                            <option value="90">1 hour 30 minutes</option>
+                            <option value="105">1 hour 45 minutes</option>
+                            <option value="120">2 hours</option>
+                        </select>
                     </div>
 
                     <!-- TODO: You still need to add more to this page.

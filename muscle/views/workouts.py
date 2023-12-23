@@ -9,6 +9,7 @@ import muscle
 import requests
 import json
 from .. import utils
+from muscle.api.workout_endpoints import generate_daily_workout
 
 @muscle.app.route('/workouts/day/')
 def show_daily_workout():
@@ -27,8 +28,8 @@ def handle_workouts_submit():
     """Handle the form submission for creating a workout."""
 
     connection = muscle.model.get_db()
-    form = flask.request.form.to_dict()
-    operation = form['operation']
+    form = flask.request.form
+    operation = form.get('operation')
 
     if operation == "daily_workout_generator":
         return daily_workout_help(connection, form)
@@ -41,14 +42,17 @@ def handle_workouts_submit():
 def daily_workout_help(connection, form):
     """Help make the custom daily workout."""
 
-    workout_type = form['workout_type']
-    muscle_split = form['muscle_split']
-    equipment = form['equipment']
+    workout_type = form.get('workout_type')
+    muscle_split = form.get('muscle_split')
+    equipment = form.getlist('equipment')
+    print("equipment = ", equipment)
     time = form['time']
-
-    equipment_string = ','.join(equipment)
-
-    # MAKE THE API CALL HERE
+    difficulty = get_difficulty(connection)
+    
+    workout_data = generate_daily_workout(time, equipment, muscle_split, workout_type,difficulty,connection).json
+    # formatted_workout = json.dumps(workout_data, indent=2)
+    print(workout_data)
+    return flask.render_template("show_workout.html", workout_data = workout_data)
 
 def split_help(connection, form):
     """Help make the custom workout split."""
@@ -66,3 +70,17 @@ def generate_workout(type, group, split):
 
     return response.json()
 
+
+def get_difficulty(connection):
+    """Get a user's difficulty."""
+
+    logname = flask.request.cookies.get('username')
+
+    cur = connection.execute(
+        "SELECT workout_experience "
+        "FROM users "
+        "WHERE username == ?",
+        (logname,)
+    )
+
+    return cur.fetchone()['workout_experience']
