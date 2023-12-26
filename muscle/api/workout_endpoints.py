@@ -23,6 +23,24 @@ def generate_daily_workout(time, equipment, muscle_group, workout_type, difficul
     elif muscle_group == "upper":
         return generate_daily_upper_workout(time, equipment, workout_type, difficulty, connection, limitations)
 
+    elif muscle_group == "chest":
+        return generate_daily_chest_workout(time, equipment, workout_type, difficulty, connection, limitations)
+
+    elif muscle_group == "back":
+        return generate_daily_back_workout(time, equipment, workout_type, difficulty, connection, limitations)
+
+    elif muscle_group == "arms":
+        return generate_daily_arm_workout(time, equipment, workout_type, difficulty, connection, limitations)
+
+    elif muscle_group == "triceps" or muscle_group == "biceps":
+        return generate_daily_tri_bi_workout(time, equipment, workout_type, difficulty, connection, limitations, muscle_group)
+
+    elif muscle_group == "abs":
+        return generate_daily_ab_workout(time, equipment, workout_type, difficulty, connection, limitations)
+    
+    elif muscle_group == "shoulders":
+        return generate_daily_shoulder_workout(time, equipment, workout_type, difficulty, connection, limitations)
+    
     else:
         return generate_other_workout(time, equipment, workout_type, difficulty, connection, limitations)
 
@@ -44,62 +62,63 @@ def generate_daily_fullbody_workout(time, equipment, workout_type, difficulty, c
                        ("back", random.choice(back_muscles_list), 3, 8, "compound")]
 
     elif time == "45":
-        group_order = [("legs", "legs",3 , 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("back", random.choice(back_muscles_list),3, 8, "compound"),
-                       ("triceps", "triceps",3, 12, "isolation"),
+        group_order = [("legs", "legs", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "compound"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
                        ("abs", "abs", 3, 12, "isolation")]
 
     elif time == "60":
-        group_order = [("legs", "legs",3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("back", random.choice(back_muscles_list),3, 8, "compound"),
-                       ("shoulders", "shoulders",3, 8, "compound"),
-                       ("triceps", "triceps",3, 12, "isolation"),
-                       ("biceps", "biceps",3, 12, "isolation"),
-                       ("abs", "abs",3, 12, "isolation")]
+        group_order = [("legs", "legs", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "compound"),
+                       ("shoulders", "shoulders", 3, 8, "compound"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
+                       ("biceps", "biceps", 3, 12, "isolation"),
+                       ("abs", "abs", 3, 12, "isolation")]
 
     elif time == "75":
-        group_order = [("legs", "legs",3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("back", random.choice(back_muscles_list),3, 8, "compound"),
-                       ("shoulders", "shoulders",3, 8, "compound"),
-                       ("triceps", "triceps",3, 12, "isolation"),
-                       ("biceps", "biceps",3, 12, "isolation"),
-                       ("legs", "calves",3, 16, "isolation"),
-                       ("abs", "abs",3, 12, "isolation")]
+        group_order = [("legs", "legs", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "compound"),
+                       ("shoulders", "shoulders", 3, 8, "compound"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
+                       ("biceps", "biceps", 3, 12, "isolation"),
+                       ("legs", "calves", 3, 16, "isolation"),
+                       ("abs", "abs", 3, 12, "isolation")]
 
     elif time == "90":
-        group_order = [("legs", "legs",3, 8),
-                       ("chest","chest",3, 8),
-                       ("back", random.choice(back_muscles_list),3, 8),
-                       ("legs", random.choice(legs_muscles_list),3, 8),
-                       ("chest", random.choice(chest_muscles_list),3, 8),
-                       ("back", random.choice(back_muscles_list),3, 8),
-                       ("abs", "abs",3, 12)]
+        group_order = [("legs", "legs", 3, 8),
+                       ("chest", "chest", 3, 8),
+                       ("back", random.choice(back_muscles_list), 3, 8),
+                       ("legs", random.choice(legs_muscles_list), 3, 8),
+                       ("chest", random.choice(chest_muscles_list), 3, 8),
+                       ("back", random.choice(back_muscles_list), 3, 8),
+                       ("abs", "abs", 3, 12)]
     elif time == "105":
-        group_order = [("legs", "legs",3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("back", random.choice(back_muscles_list),3, 8, "compound"),
-                       ("legs", random.choice(legs_muscles_list),3, 8, "compound"),
-                       ("chest", random.choice(chest_muscles_list),3, 8, "compound"),
-                       ("back", random.choice(back_muscles_list),3, 8, "compound"),
-                       ("shoulders", "shoulders",3, 8, "compound"),
-                       ("abs", "abs",3, 12, "isolation")]
+        group_order = [("legs", "legs", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "compound"),
+                       ("legs", random.choice(legs_muscles_list), 3, 8, "compound"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "compound"),
+                       ("shoulders", "shoulders", 3, 8, "compound"),
+                       ("abs", "abs", 3, 12, "isolation")]
 
     elif time == "120":
-        group_order = [("legs", "legs",3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("back", random.choice(back_muscles_list),3, 8, "compound"),
-                       ("legs", random.choice(legs_muscles_list),3, 8, "compound"),
-                       ("chest", random.choice(chest_muscles_list),3, 8, "compound"),
-                       ("back", random.choice(back_muscles_list),3, 8, "compound"),
-                       ("shoulders", "shoulders",3, 8, "compound"),
-                       ("biceps", "biceps",3, 12, "isolation"),
-                       ("triceps", "triceps",3, 12, "isolation"),
-                       ("abs", "abs",3, 8, "isolation")]
+        group_order = [("legs", "legs", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "compound"),
+                       ("legs", random.choice(legs_muscles_list), 3, 8, "compound"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "compound"),
+                       ("shoulders", "shoulders", 3, 8, "compound"),
+                       ("biceps", "biceps", 3, 12, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation")]
 
     return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
+
 
 def generate_daily_push_workout(time, equipment, workout_type, difficulty, connection, limitations):
     """Make a daily push workout."""
@@ -112,63 +131,63 @@ def generate_daily_push_workout(time, equipment, workout_type, difficulty, conne
     weight = 3
 
     if time == "30":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("chest", "upper-chest",3, 8, "compound"),
-                       ("triceps","triceps", 3, 12, "isolation")]
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("triceps", "triceps", 3, 12, "isolation")]
 
     elif time == "45":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("chest", "upper-chest",3, 8, "compound"),
-                       ("chest", "chest",3, 8, "isolation"),
-                       ("triceps","triceps",3, 12, "isolation")]
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation")]
 
     elif time == "60":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("chest", "upper-chest",3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("shoulders","shoulders",3, 8, "compound"),
-                       ("triceps","triceps",3, 12, "isolation")]
-        
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("shoulders", "shoulders", 3, 8, "compound"),
+                       ("triceps", "triceps", 3, 12, "isolation")]
+
     elif time == "75":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("chest", "upper-chest",3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("shoulders","shoulders",3, 8, "compound"),
-                       ("shoulders","lateral", 3, 8, "isolation"),
-                       ("triceps","triceps", 3, 12, "isolation")]
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("shoulders", "shoulders", 3, 8, "compound"),
+                       ("shoulders", "lateral", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation")]
 
     elif time == "90":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("chest", "upper-chest",3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("shoulders","shoulders",3, 8, "compound"),
-                       ("shoulders","lateral", 3, 8, "isolation"),
-                       ("triceps","triceps",3, 12, "isolation"),
-                       ("triceps","triceps",3, 12, "isolation")]
-        
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("shoulders", "shoulders", 3, 8, "compound"),
+                       ("shoulders", "lateral", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation")]
+
     elif time == "105":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("chest", "upper-chest",3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("chest", "upper-chest",3, 8, "isolation"),
-                       ("shoulders","shoulders",3, 8, "compound"),
-                       ("shoulders","lateral", 3, 8, "isolation"),
-                       ("triceps","triceps",3, 12, "isolation"),
-                       ("triceps","triceps",3, 12, "isolation")]
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("chest", "upper-chest", 3, 8, "isolation"),
+                       ("shoulders", "shoulders", 3, 8, "compound"),
+                       ("shoulders", "lateral", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation")]
 
     elif time == "120":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("chest", "upper-chest",3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("chest", "upper-chest",3, 8, "isolation"),
-                       ("shoulders","shoulders",3, 8, "compound"),
-                       ("shoulders","lateral", 3, 8, "isolation"),
-                       ("triceps","triceps",3, 12, "isolation"),
-                       ("triceps","triceps",3, 12, "isolation"),
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("chest", "upper-chest", 3, 8, "isolation"),
+                       ("shoulders", "shoulders", 3, 8, "compound"),
+                       ("shoulders", "lateral", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
                        ("abs", "abs", 3, 12, "isolation")]
 
-
     return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
+
 
 def generate_daily_pull_workout(time, equipment, workout_type, difficulty, connection, limitations):
     """Make a daily push workout."""
@@ -179,63 +198,63 @@ def generate_daily_pull_workout(time, equipment, workout_type, difficulty, conne
     weight = 3
 
     if time == "30":
-        group_order = [("back", "mid-back",3, 5, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("biceps","biceps", 3, 12, "isolation")]
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("biceps", "biceps", 3, 12, "isolation")]
 
     elif time == "45":
-        group_order = [("back", "mid-back",3, 5, "compound"),
-                       ("back", "upper-back",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("biceps","bicpes",3, 12, "isolation")]
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("biceps", "bicpes", 3, 12, "isolation")]
 
     elif time == "60":
-        group_order = [("back", "mid-back",3, 5, "compound"),
-                       ("back", "upper-back",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("shoulders","rear",3, 8, "isolation"),
-                       ("biceps","biceps",3, 12, "isolation")]
-        
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("shoulders", "rear", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 12, "isolation")]
+
     elif time == "75":
-        group_order = [("back", "mid-back",3, 5, "compound"),
-                       ("back", "upper-back",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("shoulders","rear",3, 8, "isolation"),
-                       ("biceps","biceps", 3, 8, "isolation"),
-                       ("abs","abs", 3, 12, "isolation")]
-
-    elif time == "90":
-        group_order = [("back", "mid-back",3, 5, "compound"),
-                       ("back", "upper-back",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("back","lats",3, 8, "isolation"),
-                       ("shoulders","rear", 3, 8, "isolation"),
-                       ("biceps","biceps",3, 12, "isolation"),
-                       ("biceps","biceps",3, 12, "isolation")]
-        
-    elif time == "105":
-        group_order = [("back", "mid-back",3, 5, "compound"),
-                       ("back", "upper-back",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("back", "upper-back",3, 8, "isolation"),
-                       ("shoulders","rear",3, 8, "isolation"),
-                       ("biceps","biceps",3, 12, "isolation"),
-                       ("biceps","biceps",3, 12, "isolation"),
-                       ("abs","abs", 3, 12, "isolation")]
-
-    elif time == "120":
-        group_order = [("back", "mid-back",3, 5, "compound"),
-                       ("back", "upper-back",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("back", "upper-back",3, 8, "isolation"),
-                       ("shoulders","rear",3, 8, "isolation"),
-                       ("shoulders","rear", 3, 8, "isolation"),
-                       ("biceps","biceps",3, 12, "isolation"),
-                       ("biceps","biceps",3, 12, "isolation"),
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("shoulders", "rear", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
                        ("abs", "abs", 3, 12, "isolation")]
 
+    elif time == "90":
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "isolation"),
+                       ("shoulders", "rear", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 12, "isolation"),
+                       ("biceps", "biceps", 3, 12, "isolation")]
+
+    elif time == "105":
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", "upper-back", 3, 8, "isolation"),
+                       ("shoulders", "rear", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 12, "isolation"),
+                       ("biceps", "biceps", 3, 12, "isolation"),
+                       ("abs", "abs", 3, 12, "isolation")]
+
+    elif time == "120":
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", "upper-back", 3, 8, "isolation"),
+                       ("shoulders", "rear", 3, 8, "isolation"),
+                       ("shoulders", "rear", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 12, "isolation"),
+                       ("biceps", "biceps", 3, 12, "isolation"),
+                       ("abs", "abs", 3, 12, "isolation")]
 
     return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
+
 
 def generate_daily_lower_workout(time, equipment, workout_type, difficulty, connection, limitations):
     """Make a daily push workout."""
@@ -246,49 +265,48 @@ def generate_daily_lower_workout(time, equipment, workout_type, difficulty, conn
     weight = 3
 
     if time == "30":
-        group_order = [("legs", "legs",3, 5, "compound"),
-                       ("legs", random.choice(legs_muscles_list),3, 8, "compound"),
-                       ("legs", random.choice(legs_muscles_list), 3, 8, "compound" )]
+        group_order = [("legs", "legs", 3, 5, "compound"),
+                       ("legs", random.choice(legs_muscles_list), 3, 8, "compound"),
+                       ("legs", random.choice(legs_muscles_list), 3, 8, "compound")]
 
     elif time == "45":
-        group_order = [("legs", "legs",3, 5, "compound"),
-                       ("legs", "quads",3, 8, "compound"),
-                       ("legs", "hamstrings", 3, 8, "compound"),
-                       ("legs", "calves", 3, 12, "isolation")
-                       ]
-
-    elif time == "60":
-        group_order = [("legs", "legs",3, 5, "compound"),
-                       ("legs", "glutes",3, 8, "compound"),
+        group_order = [("legs", "legs", 3, 5, "compound"),
                        ("legs", "quads", 3, 8, "compound"),
                        ("legs", "hamstrings", 3, 8, "compound"),
                        ("legs", "calves", 3, 12, "isolation")
                        ]
 
-        
+    elif time == "60":
+        group_order = [("legs", "legs", 3, 5, "compound"),
+                       ("legs", "glutes", 3, 8, "compound"),
+                       ("legs", "quads", 3, 8, "compound"),
+                       ("legs", "hamstrings", 3, 8, "compound"),
+                       ("legs", "calves", 3, 12, "isolation")
+                       ]
+
     elif time == "75":
-        group_order = [("legs", "legs",3, 5, "compound"),
-                       ("legs", random.choice(legs_muscles_list),3, 8, "compound"),
-                       ("legs", "glutes",3, 8, "compound"),
+        group_order = [("legs", "legs", 3, 5, "compound"),
+                       ("legs", random.choice(legs_muscles_list), 3, 8, "compound"),
+                       ("legs", "glutes", 3, 8, "compound"),
                        ("legs", "quads", 3, 8, "compound"),
                        ("legs", "hamstrings", 3, 8, "isolation"),
                        ("legs", "calves", 3, 12, "isolation")
                        ]
 
     elif time == "90":
-        group_order = [("legs", "legs",3, 5, "compound"),
-                       ("legs", random.choice(legs_muscles_list),3, 8, "compound"),
-                       ("legs", "glutes",3, 8, "compound"),
+        group_order = [("legs", "legs", 3, 5, "compound"),
+                       ("legs", random.choice(legs_muscles_list), 3, 8, "compound"),
+                       ("legs", "glutes", 3, 8, "compound"),
                        ("legs", "quads", 3, 8, "isolation"),
                        ("legs", "hamstrings", 3, 8, "isolation"),
                        ("legs", "calves", 3, 12, "isolation"),
                        ("abs", "abs", 3, 12, "isolation")
                        ]
-        
+
     elif time == "105":
-        group_order = [("legs", "legs",3, 5, "compound"),
-                       ("legs", random.choice(legs_muscles_list),3, 8, "compound"),
-                       ("legs", "glutes",3, 8, "compound"),
+        group_order = [("legs", "legs", 3, 5, "compound"),
+                       ("legs", random.choice(legs_muscles_list), 3, 8, "compound"),
+                       ("legs", "glutes", 3, 8, "compound"),
                        ("legs", random.choice(legs_muscles_list), 3, 8, "compound"),
                        ("legs", "quads", 3, 8, "isolation"),
                        ("legs", "hamstrings", 3, 8, "isolation"),
@@ -297,9 +315,9 @@ def generate_daily_lower_workout(time, equipment, workout_type, difficulty, conn
                        ]
 
     elif time == "120":
-        group_order = [("legs", "legs",3, 5,"compound"),
-                       ("legs", random.choice(legs_muscles_list),3, 8, "compound"),
-                       ("legs", "glutes",3, 8, "compound"),
+        group_order = [("legs", "legs", 3, 5, "compound"),
+                       ("legs", random.choice(legs_muscles_list), 3, 8, "compound"),
+                       ("legs", "glutes", 3, 8, "compound"),
                        ("legs", "quads", 3, 8, "compound"),
                        ("legs", "hamstrings", 3, 8, "compound"),
                        ("legs", random.choice(legs_muscles_list), 3, 8, "isolation"),
@@ -308,8 +326,8 @@ def generate_daily_lower_workout(time, equipment, workout_type, difficulty, conn
                        ("abs", "abs", 3, 12, "isolation")
                        ]
 
-
     return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
+
 
 def generate_daily_upper_workout(time, equipment, workout_type, difficulty, connection, limitations):
     """Make a daily push workout."""
@@ -319,74 +337,518 @@ def generate_daily_upper_workout(time, equipment, workout_type, difficulty, conn
     back_muscles_list = ["upper-back", "mid-back", "lats"]
     shoulders_muscles_list = ["shoulders", "anterior", "rear", "lateral"]
     chest_muscles_list = ["chest", "upper-chest"]
-    
+
     weight = 3
 
     if time == "30":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("back", "mid-back",3, 8, "compound"),
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("back", "mid-back", 3, 8, "compound"),
                        ("shoulders", "shoulders", 3, 8, "compound")]
 
     elif time == "45":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("back", "mid-back",3, 8, "compound"),
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("back", "mid-back", 3, 8, "compound"),
                        ("shoulders", "shoulders", 3, 8, "compound"),
                        ("abs", "abs", 3, 12, "isolation")]
-
 
     elif time == "60":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("back", "mid-back",3, 8, "compound"),
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("back", "mid-back", 3, 8, "compound"),
                        ("shoulders", "shoulders", 3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
                        ("abs", "abs", 3, 12, "isolation")]
 
-        
     elif time == "75":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("back", "mid-back",3, 8, "compound"),
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("back", "mid-back", 3, 8, "compound"),
                        ("shoulders", "shoulders", 3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("biceps", "biceps",3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("biceps", "biceps", 3, 8, "compound"),
                        ("abs", "abs", 3, 12, "isolation")]
 
     elif time == "90":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("back", "mid-back",3, 8, "compound"),
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("back", "mid-back", 3, 8, "compound"),
                        ("shoulders", "shoulders", 3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("biceps", "biceps",3, 12, "isolation"),
-                       ("triceps", "triceps",3, 12, "isolation"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("biceps", "biceps", 3, 12, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
                        ("abs", "abs", 3, 12, "isolation")]
-        
+
     elif time == "105":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("back", "mid-back",3, 8, "compound"),
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("back", "mid-back", 3, 8, "compound"),
                        ("shoulders", "shoulders", 3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("biceps", "biceps",3, 12, "isolaton"),
-                       ("triceps", "triceps",3, 12, "isolation"),
-                       ("shoulders", "rear",3, 12, "isolation"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("biceps", "biceps", 3, 12, "isolaton"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
+                       ("shoulders", "rear", 3, 12, "isolation"),
                        ("abs", "abs", 3, 12, "isolation")]
 
     elif time == "120":
-        group_order = [("chest", "chest",3, 5, "compound"),
-                       ("back", "mid-back",3, 8, "compound"),
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("back", "mid-back", 3, 8, "compound"),
                        ("shoulders", "shoulders", 3, 8, "compound"),
-                       ("chest", "chest",3, 8, "compound"),
-                       ("back", "lats",3, 8, "compound"),
-                       ("biceps", "biceps",3, 12, "isolation"),
-                       ("triceps", "triceps",3, 12, "isolation"),
-                       ("shoulders", "rear",3, 12, "isolation"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("biceps", "biceps", 3, 12, "isolation"),
+                       ("triceps", "triceps", 3, 12, "isolation"),
+                       ("shoulders", "rear", 3, 12, "isolation"),
                        ("abs", "abs", 3, 12, "isolation"),
                        ("abs", "abs", 3, 12, "isolation")
                        ]
 
+    return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
 
+
+def generate_daily_chest_workout(time, equipment, workout_type, difficulty, connection, limitations):
+    """Make a daily push workout."""
+
+    # different areas of body parts that can be hit
+    # group order is the order of muscle groups in a workout
+
+    chest_muscles_list = ["chest", "upper-chest", "lower-chest"]
+
+    weight = 3
+
+    if time == "30":
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "compound")]
+
+    elif time == "45":
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "compound"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "isolation")]
+
+    elif time == "60":
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "isolation")]
+
+    elif time == "75":
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "lower-chest", 3, 8, "compound"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "isolation")]
+
+    elif time == "90":
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "lower-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "isolation"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "isolation")]
+
+    elif time == "105":
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "lower-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "isolation"),
+                       ("chest", "upper-chest", 3, 8, "isolation"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "isolation")]
+
+    elif time == "120":
+        group_order = [("chest", "chest", 3, 5, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("chest", "upper-chest", 3, 8, "compound"),
+                       ("chest", "lower-chest", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "isolation"),
+                       ("chest", "upper-chest", 3, 8, "isolation"),
+                       ("chest", "upper-chest", 3, 8, "isolation"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "isolation")]
+
+    return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
+
+
+def generate_daily_back_workout(time, equipment, workout_type, difficulty, connection, limitations):
+    """Make a daily push workout."""
+
+    # different areas of body parts that can be hit
+    # group order is the order of muscle groups in a workout
+
+    back_muscles_list = ["back", "upper-back",
+                         "mid-back", "lower-back", "lats"]
+
+    weight = 3
+
+    if time == "30":
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound")]
+
+    elif time == "45":
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "isolation")]
+
+    elif time == "60":
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "isolation")]
+
+    elif time == "75":
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lower-back", 3, 8, "isolation"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "isolation")]
+
+    elif time == "90":
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", "mid-back", 3, 8, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", "lower-back", 3, 8, "isolation")]
+
+    elif time == "105":
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", "mid-back", 3, 8, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "isolation"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "isolation")]
+
+    elif time == "120":
+        group_order = [("back", "mid-back", 3, 5, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", "mid-back", 3, 8, "compound"),
+                       ("back", "upper-back", 3, 8, "compound"),
+                       ("back", "lats", 3, 8, "compound"),
+                       ("back", "mid-back", 3, 8, "isolation"),
+                       ("back", "upper-back", 3, 8, "isolation"),
+                       ("back", "lats", 3, 8, "isolation")]
+
+    return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
+
+def generate_daily_arm_workout(time, equipment, workout_type, difficulty, connection, limitations):
+    """Make a daily push workout."""
+
+    # different areas of body parts that can be hit
+    # group order is the order of muscle groups in a workout
+
+    weight = 3
+
+    if time == "30":
+        group_order = [("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation")
+                       ]
+
+    elif time == "45":
+        group_order = [("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation")
+                       ]
+
+    elif time == "60":
+        group_order = [("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation")
+                       ]
+
+    elif time == "75":
+        group_order = [("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation")
+                       ]
+
+    elif time == "90":
+        group_order = [("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation")
+                       ]
+
+    elif time == "105":
+         group_order = [("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation")
+                       ]
+
+    elif time == "120":
+        group_order = [("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation"),
+                       ("triceps", "triceps", 3, 8, "isolation"),
+                       ("biceps", "biceps", 3, 8, "isolation")
+                       ]
+
+    return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
+
+def generate_daily_tri_bi_workout(time, equipment, workout_type, difficulty, connection, limitations, muscle_group):
+    """Make a daily push workout."""
+
+    # different areas of body parts that can be hit
+    # group order is the order of muscle groups in a workout
+
+    weight = 3
+
+    if time == "30":
+        group_order = [(muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation")
+                       ]
+
+    elif time == "45":
+        group_order = [(muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation")
+                       ]
+
+    elif time == "60":
+        group_order = [(muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation")
+                       ]
+
+    elif time == "75":
+        group_order = [(muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation")
+                       ]
+
+    elif time == "90":
+        group_order = [(muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation")
+                       ]
+
+    elif time == "105":
+         group_order = [(muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation")
+                       ]
+
+    elif time == "120":
+        group_order = [(muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation"),
+                       (muscle_group, muscle_group, 3, 8, "isolation")
+                       ]
+
+    return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
+
+def generate_daily_ab_workout(time, equipment, workout_type, difficulty, connection, limitations):
+    """Make a daily push workout."""
+
+    weight = 3
+
+    if time == "30":
+        group_order = [("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation")
+                       ]
+
+    elif time == "45":
+        group_order = [("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation")
+                       ]
+
+    elif time == "60":
+        group_order = [("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation")
+                       ]
+
+    elif time == "75":
+        group_order = [("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation")
+                       ]
+
+    elif time == "90":
+        group_order = [("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation")
+                       ]
+
+    elif time == "105":
+         group_order = [("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation")
+                       ]
+
+    elif time == "120":
+        group_order = [("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation"),
+                       ("abs", "abs", 3, 8, "isolation")
+                       ]
+
+    return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
+
+def generate_daily_shoulder_workout(time, equipment, workout_type, difficulty, connection, limitations):
+    """Make a daily push workout."""
+    
+
+    shoulder_muscle_list = ["shoulder", "rear", "anterior", "lateral"]
+    weight = 3
+
+    if time == "30":
+        group_order = [("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "isolation")
+                       ]
+
+    elif time == "45":
+        group_order = [("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "isolation"),
+                       ("shoulder", "rear", 3, 8, "isolation")
+                       ]
+
+    elif time == "60":
+        group_order = [("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "isolation"),
+                       ("shoulder", "rear", 3, 8, "isolation")
+                       ]
+
+    elif time == "75":
+        group_order = [("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "isolation"),
+                       ("shoulder", "rear", 3, 8, "isolation"),
+                       ("shoulder", "lateral", 3, 8, "isolation")
+                       ]
+
+    elif time == "90":
+        group_order = [("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "compound"),
+                       ("shoulder", "rear", 3, 8, "isolation"),
+                       ("shoulder", "lateral", 3, 8, "isolation"),
+                       ("shoulder", "rear", 3, 8, "isolation")
+                       ]
+
+    elif time == "105":
+        group_order = [("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "compound"),
+                       ("shoulder", "rear", 3, 8, "isolation"),
+                       ("shoulder", "lateral", 3, 8, "isolation"),
+                       ("shoulder", "anterior", 3, 8, "isolation"),
+                       ("shoulder", "rear", 3, 8, "isolation")
+                       ]
+
+    elif time == "120":
+        group_order = [("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", "shoulder", 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "compound"),
+                       ("shoulder", random.choice(shoulder_muscle_list), 3, 8, "compound"),
+                       ("shoulder", "rear", 3, 8, "isolation"),
+                       ("shoulder", "lateral", 3, 8, "isolation"),
+                       ("shoulder", "anterior", 3, 8, "isolation"),
+                       ("shoulder", "rear", 3, 8, "isolation")
+                       ]
     return generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations)
 
 def generate_workout(group_order, equipment, workout_type, difficulty, weight, connection, limitations):
@@ -407,31 +869,7 @@ def generate_workout(group_order, equipment, workout_type, difficulty, weight, c
     return flask.jsonify(workout)
 
 
-def generate_45_minute_workou(time, equipment, workout_type, difficulty, connection):
-    """Make a daily lower workout."""
-
-
-def generate_60_minute_workou(time, equipment, workout_type, difficulty, connection):
-    """Make a daily push workout."""
-
-
-def generate_75_minute_workou(time, equipment, workout_type, difficulty, connection):
-    """Make a daily pull workout."""
-
-
-def generate_90_minute_workou(time, equipment, workout_type, difficulty, connection):
-    """Make a daily workout."""
-
-
-def generate_105_minute_workou(time, equipment, workout_type, difficulty, connection):
-    """Make a daily workout."""
-
-
-def generate_120_minute_workou(time, equipment, workout_type, difficulty, connection):
-    """Make a daily workout."""
-
-
-def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_type, workout_experience, is_compound, weight, connection, selected_exercises,sets, reps, limitations):
+def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_type, workout_experience, is_compound, weight, connection, selected_exercises, sets, reps, limitations):
     """Return one exercise chosen, ensuring no repetitions."""
 
     workouts_to_pick_from = []
@@ -457,8 +895,9 @@ def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_t
         if selected_exercises:
             # This is added to the query only to check for repeats
             sql_query += f"AND name NOT IN ({placeholders})"
-        
-        query_params = [muscle_to_hit, muscle_subgroup, workout_type, weight, equipment, workout_experience, is_compound] + limitations + list(selected_exercises)
+
+        query_params = [muscle_to_hit, muscle_subgroup, workout_type, weight, equipment,
+                        workout_experience, is_compound] + limitations + list(selected_exercises)
         cur = connection.execute(sql_query, query_params)
         query_result = cur.fetchall()
 
