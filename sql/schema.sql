@@ -13,10 +13,11 @@ CREATE TABLE exercises (
     exerciseID INTEGER PRIMARY KEY AUTOINCREMENT,
     muscle_group TEXT NOT NULL,
     main_muscle TEXT NOT NULL,
+    movement_type TEXT NOT NULL,
+    is_compound TEXT NOT NULL,
     name TEXT NOT NULL,
     type TEXT NOT NULL,
     equipment TEXT NOT NULL,
     difficulty INTEGER,
-    weight INTEGER,
-    composite_score INTEGER
+    weight INTEGER
 );

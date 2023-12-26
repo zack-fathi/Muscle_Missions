@@ -45,11 +45,12 @@ def daily_workout_help(connection, form):
     workout_type = form.get('workout_type')
     muscle_split = form.get('muscle_split')
     equipment = form.getlist('equipment')
+    limitations = form.getlist('limitations')
     print("equipment = ", equipment)
     time = form['time']
     difficulty = get_difficulty(connection)
     
-    workout_data = generate_daily_workout(time, equipment, muscle_split, workout_type,difficulty,connection).json
+    workout_data = generate_daily_workout(time, equipment, muscle_split, workout_type,difficulty,connection, limitations).json
     # formatted_workout = json.dumps(workout_data, indent=2)
     print(workout_data)
     return flask.render_template("show_workout.html", workout_data = workout_data)

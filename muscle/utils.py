@@ -1,6 +1,7 @@
 """Useful functions across all files."""
 
 import flask
+import random
 import muscle
 
 
@@ -10,3 +11,4 @@ def clear_cookie():
     response.set_cookie('username', '', expires=0)  # Clear the cookie
     return response
 
+# TODO: TRY TO MOVE CODE TO HERE
