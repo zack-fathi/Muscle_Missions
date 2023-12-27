@@ -9,40 +9,40 @@ def generate_daily_workout(time, equipment, muscle_group, workout_type, difficul
     """Generate a daily workout for the user."""
 
     if muscle_group == "full":
-        return generate_daily_fullbody_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_daily_fullbody_workout(time, equipment, workout_type, difficulty, connection, limitations))
 
     elif muscle_group == "push":
-        return generate_daily_push_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_daily_push_workout(time, equipment, workout_type, difficulty, connection, limitations))
 
     elif muscle_group == "pull":
-        return generate_daily_pull_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_daily_pull_workout(time, equipment, workout_type, difficulty, connection, limitations))
 
     elif muscle_group == "legs" or muscle_group == "lower":
-        return generate_daily_lower_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_daily_lower_workout(time, equipment, workout_type, difficulty, connection, limitations))
 
     elif muscle_group == "upper":
-        return generate_daily_upper_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_daily_upper_workout(time, equipment, workout_type, difficulty, connection, limitations))
 
     elif muscle_group == "chest":
-        return generate_daily_chest_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_daily_chest_workout(time, equipment, workout_type, difficulty, connection, limitations))
 
     elif muscle_group == "back":
-        return generate_daily_back_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_daily_back_workout(time, equipment, workout_type, difficulty, connection, limitations))
 
     elif muscle_group == "arms":
-        return generate_daily_arm_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_daily_arm_workout(time, equipment, workout_type, difficulty, connection, limitations))
 
     elif muscle_group == "triceps" or muscle_group == "biceps":
-        return generate_daily_tri_bi_workout(time, equipment, workout_type, difficulty, connection, limitations, muscle_group)
+        return flask.jsonify(generate_daily_tri_bi_workout(time, equipment, workout_type, difficulty, connection, limitations, muscle_group))
 
     elif muscle_group == "abs":
-        return generate_daily_ab_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_daily_ab_workout(time, equipment, workout_type, difficulty, connection, limitations))
     
     elif muscle_group == "shoulders":
-        return generate_daily_shoulder_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_daily_shoulder_workout(time, equipment, workout_type, difficulty, connection, limitations))
     
     else:
-        return generate_other_workout(time, equipment, workout_type, difficulty, connection, limitations)
+        return flask.jsonify(generate_other_workout(time, equipment, workout_type, difficulty, connection, limitations))
 
 
 def generate_daily_fullbody_workout(time, equipment, workout_type, difficulty, connection, limitations):
@@ -866,7 +866,7 @@ def generate_workout(group_order, equipment, workout_type, difficulty, weight, c
             selected_exercises.add(exercise["Exercise"])
 
     workout = {"workout": workout_plan}
-    return flask.jsonify(workout)
+    return workout
 
 
 def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_type, workout_experience, is_compound, weight, connection, selected_exercises, sets, reps, limitations):

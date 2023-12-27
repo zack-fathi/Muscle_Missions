@@ -9,7 +9,8 @@ import muscle
 import requests
 import json
 from .. import utils
-from muscle.api.workout_endpoints import generate_daily_workout
+from muscle.api.daily_workout import generate_daily_workout
+from muscle.api.workout_split import generate_workout_split
 
 @muscle.app.route('/workouts/day/')
 def show_daily_workout():
@@ -58,21 +59,18 @@ def daily_workout_help(connection, form):
 def split_help(connection, form):
     """Help make the custom workout split."""
 
-    frequency = form.get('frequency')
+    frequency = int(form.get('frequency'))
     workout_type = form.get('workout_type')
     muscle_split = form.get('muscle_split')
     equipment = form.getlist('equipment')
     limitations = form.getlist('limitations')
-    print("equipment = ", equipment)
     time = form['time']
     difficulty = get_difficulty(connection)
     
-    workout_data = generate_daily_workout(time, equipment, muscle_split, workout_type,difficulty,connection, limitations).json
+    workout_data = generate_workout_split(time, equipment, muscle_split, workout_type,difficulty,connection, limitations, frequency).json
     # formatted_workout = json.dumps(workout_data, indent=2)
     print(workout_data)
-    return flask.render_template("show_workout.html", workout_data = workout_data)
-
-    return NotImplemented
+    return workout_data
 
 def generate_workout(type, group, split):
     """Generate a custom workout for the user."""
