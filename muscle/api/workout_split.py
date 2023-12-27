@@ -4,10 +4,12 @@ import muscle
 import json
 import random
 from .daily_workout import generate_daily_fullbody_workout, generate_daily_lower_workout, generate_daily_pull_workout, generate_daily_push_workout, generate_daily_shoulder_workout, generate_workout, generate_daily_upper_workout
-
+from .. import utils
 
 def generate_workout_split(time, equipment, muscle_group, workout_type, difficulty, connection, limitations, frequency):
     """Generate a workout split for the user."""
+    if not utils.check_logname_exists():
+        return flask.redirect("/accounts/login/", 302)
 
     if frequency == 2:
         workout_split = generate_two_day_split(time, equipment, workout_type,

@@ -36,11 +36,11 @@ def show_edit():
 def show_more_info():
     """Ask more questions to the user."""
 
-    logname = flask.request.cookies.get('username', None)
-
-    if not logname:
+    if not utils.check_logname_exists():
         return flask.redirect("/accounts/login/", 302)
+
     
+    logname = flask.request.cookies.get('username')
     context = {"logname": logname}
     return flask.render_template("more_info.html", **context)
     
@@ -48,8 +48,8 @@ def show_more_info():
 @muscle.app.route('/accounts/auth/')
 def auth():
     """Authenticate a user."""
-    logname = flask.request.cookies.get('username', -1)
-    if logname == -1:
+
+    if not utils.check_logname_exists():
         flask.abort(403)
     return flask.make_response("", 200)
 
@@ -82,6 +82,7 @@ def login_help(connection, form):
 
     # hash and salt according to user password
     user = check_user_exists(connection, username, password)
+    print("USER is ", user)
     password_db_string = get_hashed_password(password, user["password"])
 
     if not user or password_db_string != user["password"]:
@@ -131,10 +132,10 @@ def create_help(connection, form):
 def edit_help(connection, form):
     """Help with editing password."""
 
-    login_name = flask.request.cookies.get('username', None)
-    if not login_name:
+    if not utils.check_logname_exists():
         flask.abort(403)
     
+    login_name = flask.request.cookies.get('username')
     password = form['password']
     new_password = form['new']
     new_password2 = form['new2']
@@ -164,8 +165,7 @@ def edit_help(connection, form):
 def more_help(connection, form):
     """Adds new data to the existing user."""
     
-    logname = flask.request.cookies.get('username', None)
-    if not logname:
+    if not utils.check_logname_exists():
         return flask.redirect("/accounts/login/", 302)
     
     age = form['age']
@@ -174,6 +174,7 @@ def more_help(connection, form):
     activity_level = form['activity_level']
     experience = form['experience']
     gender = form['gender']
+    logname = flask.request.cookies.get('username')
 
     cur = connection.execute(
         "UPDATE users "

@@ -3,10 +3,14 @@ import flask
 import muscle
 import json
 import random
+from ..utils import check_logname_exists
 
 
 def generate_daily_workout(time, equipment, muscle_group, workout_type, difficulty, connection, limitations):
     """Generate a daily workout for the user."""
+
+    if not check_logname_exists():
+        return flask.abort(403)
 
     if muscle_group == "full":
         return flask.jsonify(generate_daily_fullbody_workout(time, equipment, workout_type, difficulty, connection, limitations))
@@ -42,7 +46,7 @@ def generate_daily_workout(time, equipment, muscle_group, workout_type, difficul
         return flask.jsonify(generate_daily_shoulder_workout(time, equipment, workout_type, difficulty, connection, limitations))
     
     else:
-        return flask.jsonify(generate_other_workout(time, equipment, workout_type, difficulty, connection, limitations))
+        return 'Hi'
 
 
 def generate_daily_fullbody_workout(time, equipment, workout_type, difficulty, connection, limitations):
@@ -88,13 +92,13 @@ def generate_daily_fullbody_workout(time, equipment, workout_type, difficulty, c
                        ("abs", "abs", 3, 12, "isolation")]
 
     elif time == "90":
-        group_order = [("legs", "legs", 3, 8),
-                       ("chest", "chest", 3, 8),
-                       ("back", random.choice(back_muscles_list), 3, 8),
-                       ("legs", random.choice(legs_muscles_list), 3, 8),
-                       ("chest", random.choice(chest_muscles_list), 3, 8),
-                       ("back", random.choice(back_muscles_list), 3, 8),
-                       ("abs", "abs", 3, 12)]
+        group_order = [("legs", "legs", 3, 8, "compound"),
+                       ("chest", "chest", 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "compound"),
+                       ("legs", random.choice(legs_muscles_list), 3, 8, "compound"),
+                       ("chest", random.choice(chest_muscles_list), 3, 8, "compound"),
+                       ("back", random.choice(back_muscles_list), 3, 8, "compound"),
+                       ("abs", "abs", 3, 12, "isolation")]
     elif time == "105":
         group_order = [("legs", "legs", 3, 8, "compound"),
                        ("chest", "chest", 3, 8, "compound"),
@@ -863,7 +867,7 @@ def generate_workout(group_order, equipment, workout_type, difficulty, weight, c
         if exercise:  # Only add if an exercise was found and not already selected
             workout_plan.append(exercise)
             # Add the selected exercise to the set
-            selected_exercises.add(exercise["Exercise"])
+            selected_exercises.add(exercise["Parent Exercise"])
 
     workout = {"workout": workout_plan}
     return workout
@@ -881,20 +885,20 @@ def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_t
 
     for equipment in equipment_list:
         sql_query = """
-            SELECT name FROM exercises
+            SELECT name,parent_exercise FROM exercises
             WHERE muscle_group == ? 
             AND main_muscle == ? 
             AND type == ? 
             AND weight >= ? 
             AND equipment == ? 
-            AND difficulty <= ? 
+            AND (difficulty == ? OR difficulty == 3)
             AND is_compound == ?
             """
         if limitations:
             sql_query += f"AND movement_type NOT IN ({limitation_placeholders})"
         if selected_exercises:
             # This is added to the query only to check for repeats
-            sql_query += f"AND name NOT IN ({placeholders})"
+            sql_query += f"AND parent_exercise NOT IN ({placeholders})"
 
         query_params = [muscle_to_hit, muscle_subgroup, workout_type, weight, equipment,
                         workout_experience, is_compound] + limitations + list(selected_exercises)
@@ -905,7 +909,8 @@ def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_t
             for result in query_result:
                 workouts_to_pick_from.append({"Exercise": result['name'],
                                               "Sets": sets,
-                                              "Reps": reps})
+                                              "Reps": reps,
+                                              "Parent Exercise": result['parent_exercise']})
 
     if workouts_to_pick_from:
         return random.choice(workouts_to_pick_from)

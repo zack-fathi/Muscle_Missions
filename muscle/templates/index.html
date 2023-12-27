@@ -1,32 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <title>Muscle Missions</title>
     <style>
         body {
-            background-color: peachpuff; /* Peach-like color */
+            background-color: #f4f4f4;
+            color: #212529;
+            font-family: 'Roboto', sans-serif;
+        }
+        .hero-section {
+            background: url('your-hero-image.jpg') no-repeat center center/cover;
+            color: #212529;
+            padding: 60px 0;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        .hero-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 5px;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+        .hero-btn:hover {
+            background-color: #0056b3;
         }
         .card {
-            background-color: #fff5eb; /* Lighter peach for contrast */
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        .list-group-item {
-            background-color: peachpuff; /* A soft pink color */
-            border: 1px solid #fff5eb; /* Slightly darker border for the list items */
+
+        .card-body {
+            color: #212529; /* Text color for content within the card body */
         }
-        .list-group-item a {
-            color: #495057; /* Darker text color for better contrast */
-            text-decoration: none; /* Optional: removes underline from links */
-        }
-        .list-group-item a:hover {
-            color: #212529; /* Slightly darker color on hover */
+
+        .navbar-brand {
+            font-weight: 700;
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -40,41 +65,63 @@
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/accounts/edit/">Edit Account</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/liftbot/">LiftBot</a>
+                        <a class="nav-link active" href="/accounts/edit/">Edit Account</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/accounts/logout/">Logout</a>
+                        <a class="nav-link active" href="/accounts/logout/">Logout</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container">
+            <h1>Welcome to Muscle Missions</h1>
+            <p>Your personal fitness journey starts here</p>
+            <a href="/workouts/day/" class="hero-btn">Start Now</a>
+        </div>
+    </div>
+
     <!-- Page Content -->
-    <div class="container mt-4">
-        <h1>Hi {{logname}}!Welcome to Muscle Missions!</h1>
-       
-        <div class="container mt-5">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="text-center">What would you like to do today?</h2>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Choose Your Path</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-center mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Daily Custom Workout</h5>
+                        <p class="card-text">Tailored exercises to fit your daily schedule.</p>
+                        <a href="/workouts/day/" class="btn btn-primary">Create Workout</a>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item"><a href="/workouts/day/">Make me a custom workout for today!</a></li>
-                        <li class="list-group-item"><a href="/workouts/split/">Make me a custom workout split!</a></li>
-                    </ul>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Workout Split Plan</h5>
+                        <p class="card-text">Get a structured workout plan for your week.</p>
+                        <a href="/workouts/split/" class="btn btn-primary">Get Plan</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Chat with LiftBot</h5>
+                        <p class="card-text">Need advice? Talk to our virtual trainer.</p>
+                        <a href="/liftbot/" class="btn btn-primary">Start Chatting</a>
+                    </div>
                 </div>
             </div>
         </div>
-    
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMneT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- Optional Footer -->
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

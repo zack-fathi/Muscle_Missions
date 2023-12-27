@@ -15,7 +15,7 @@ def show_index():
 
     logname = flask.request.cookies.get('username', None)
 
-    if not logname or not check_for_user(connection, logname):
+    if not logname or not check_for_user(connection,logname):
         return utils.clear_cookie()
     
     # check if user hasn't inputted new information

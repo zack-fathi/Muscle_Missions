@@ -15,6 +15,7 @@ CREATE TABLE exercises (
     main_muscle TEXT NOT NULL,
     movement_type TEXT NOT NULL,
     is_compound TEXT NOT NULL,
+    parent_exercise TEXT NOT NULL,
     name TEXT NOT NULL,
     type TEXT NOT NULL,
     equipment TEXT NOT NULL,

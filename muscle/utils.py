@@ -12,3 +12,25 @@ def clear_cookie():
     return response
 
 # TODO: TRY TO MOVE CODE TO HERE
+
+def check_logname_exists():
+    """Check if logname exists."""
+
+    connection = muscle.model.get_db()
+    logname = flask.request.cookies.get('username', None)
+
+    if not logname:
+       return False
+    
+    cur = connection.execute(
+        "SELECT username from users "
+        "WHERE username == ? ",
+        (logname,)
+    )
+
+    if not cur.fetchone:
+        return False
+    
+    return True
+    
+    

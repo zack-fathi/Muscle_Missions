@@ -16,17 +16,26 @@ from muscle.api.workout_split import generate_workout_split
 def show_daily_workout():
     """Show the daily workout page."""
 
+    if not utils.check_logname_exists():
+        return flask.redirect("/accounts/login/", 302)
+
     return flask.render_template("day.html")
 
 @muscle.app.route('/workouts/split/')
 def show_split():
     """Show the workout split page."""
 
+    if not utils.check_logname_exists():
+        return flask.redirect("/accounts/login/", 302)
+
     return flask.render_template("split.html")
 
 @muscle.app.route('/workouts/', methods = ['POST'])
 def handle_workouts_submit():
     """Handle the form submission for creating a workout."""
+
+    if not utils.check_logname_exists():
+        return flask.redirect("/accounts/login/", 302)
 
     connection = muscle.model.get_db()
     form = flask.request.form
