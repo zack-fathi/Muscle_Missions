@@ -12,27 +12,27 @@ def generate_workout_split(time, equipment, muscle_group, workout_type, difficul
     if frequency == 2:
         workout_split = generate_two_day_split(time, equipment, workout_type,
                                difficulty, connection, limitations)
-        return flask.jsonify({"Workout Split" :workout_split})
+        return flask.jsonify({"workout_split" :workout_split})
     
     elif frequency == 3:
         workout_split = generate_three_day_split(time, equipment, workout_type,
                                difficulty, connection, limitations)
-        return flask.jsonify({"Workout Split" :workout_split})
+        return flask.jsonify({"workout_split" :workout_split})
     
     elif frequency == 4:
         workout_split = generate_four_day_split(time, equipment, workout_type,
                                difficulty, connection, limitations)
-        return flask.jsonify({"Workout Split" :workout_split})
+        return flask.jsonify({"workout_split" :workout_split})
 
     elif frequency == 5:
         workout_split = generate_five_day_split(time, equipment, workout_type,
                                difficulty, connection, limitations)
-        return flask.jsonify({"Workout Split" :workout_split})
+        return flask.jsonify({"workout_split" :workout_split})
 
     elif frequency == 6:
         workout_split = generate_six_day_split(time, equipment, workout_type,
                                difficulty, connection, limitations)
-        return flask.jsonify({"Workout Split" :workout_split})
+        return flask.jsonify({"workout_split" :workout_split})
 
     return None
 

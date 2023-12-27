@@ -69,8 +69,8 @@ def split_help(connection, form):
     
     workout_data = generate_workout_split(time, equipment, muscle_split, workout_type,difficulty,connection, limitations, frequency).json
     # formatted_workout = json.dumps(workout_data, indent=2)
-    print(workout_data)
-    return workout_data
+    # print(workout_data)
+    return flask.render_template("show_workout_split.html", workout_data = workout_data)
 
 def generate_workout(type, group, split):
     """Generate a custom workout for the user."""

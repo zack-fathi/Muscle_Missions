@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Workout Split</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: peachpuff;
+        }
+        .table {
+            border-color: black;
+        }
+        .table th, .table td {
+            border-color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="mb-4">Here is your Muscle Missions Workout Split!</h2>
+        {% if workout_data.workout_split %}
+            {% for day_workout in workout_data.workout_split %}
+                <h3 class="mt-4 mb-3">Day {{ loop.index }}</h3>
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Exercise</th>
+                            <th scope="col">Sets</th>
+                            <th scope="col">Reps</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exercise in day_workout.workout %}
+                            <tr>
+                                <td>{{ exercise.Exercise }}</td>
+                                <td>{{ exercise.Sets }}</td>
+                                <td>{{ exercise.Reps }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+        {% else %}
+            <p class="alert alert-danger" role="alert">No workout split data available.</p>
+        {% endif %}
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
