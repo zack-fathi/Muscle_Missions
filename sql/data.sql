@@ -513,7 +513,7 @@ VALUES     (39,
             'front-hold',
             'Front Hold',
             'strength',
-            'bodyweight',
+            'barbell',
             3,
             1);
 
@@ -578,7 +578,7 @@ VALUES     (44,
             'front-raise',
             'Plate Front Raise',
             'strength',
-            'plate',
+            'barbell',
             3,
             2);
 
@@ -878,7 +878,7 @@ VALUES     (67,
             'Tricep Bench Dip',
             'strength',
             'bodyweight',
-            1,
+            0,
             4);
 
 INSERT INTO exercises
@@ -1547,7 +1547,7 @@ VALUES     (119,
 INSERT INTO exercises
 VALUES     (120,
             'legs',
-            'glutes',
+            'hamstrings',
             'back-extension',
             'compound',
             'good-morning',
@@ -1657,7 +1657,7 @@ VALUES     (128,
             'kettlebell-swing',
             'Kettlebell Swing',
             'strength',
-            'kettlebell',
+            'dumbbell',
             3,
             4);
 
@@ -1696,7 +1696,7 @@ VALUES     (131,
             'one-handed-row',
             'One-Handed Cable Row',
             'strength',
-            'cable',
+            'machine',
             3,
             3);
 
@@ -1709,7 +1709,7 @@ VALUES     (132,
             'one-handed-pull-up',
             'One-Handed Lat Pulldown',
             'strength',
-            'cable',
+            'machine',
             3,
             3);
 
@@ -1800,7 +1800,7 @@ VALUES     (139,
             'seal-row',
             'Seal Row',
             'strength',
-            'bench',
+            'dumbbell',
             3,
             3);
 
@@ -1865,7 +1865,7 @@ VALUES     (144,
             'pulldown',
             'Straight Arm Lat Pulldown',
             'strength',
-            'cable',
+            'machine',
             3,
             3);
 
@@ -1891,7 +1891,7 @@ VALUES     (146,
             't-bar-row',
             'T-Bar Row',
             'strength',
-            't-bar',
+            'barbell',
             3,
             4);
 
@@ -2003,7 +2003,7 @@ INSERT INTO exercises
 VALUES     (155,
             'legs',
             'glutes',
-            'thrust',
+            'bridge',
             'compound',
             'glute-bridge',
             'Glute Bridge',
@@ -2068,7 +2068,7 @@ INSERT INTO exercises
 VALUES     (160,
             'legs',
             'glutes',
-            'thrust',
+            'bridge',
             'compound',
             'one-legged-glute-brigde',
             'One-Legged Glute Bridge',
@@ -2138,7 +2138,7 @@ VALUES     (165,
             'crunch',
             'Cable Crunch',
             'strength',
-            'cable',
+            'machine',
             3,
             3);
 
@@ -2242,7 +2242,7 @@ VALUES     (173,
             'ab-wheel',
             'Kneeling Ab Wheel Roll-Out',
             'strength',
-            'ab wheel',
+            'barbell',
             3,
             4);
 
@@ -2701,3 +2701,653 @@ VALUES     (208,
             3,
             3);
 
+INSERT INTO exercises
+VALUES     (209,
+            'chest',
+            'chest',
+            'dip',
+            'compound',
+            'dip',
+            'Bench Dip',
+            'strength',
+            'bodyweight',
+            0,
+            4);
+
+INSERT INTO exercises
+VALUES     (210,
+            'triceps',
+            'triceps',
+            'dip',
+            'compound',
+            'dip',
+            'Tricep Bar Dip',
+            'strength',
+            'bodyweight',
+            1,
+            4);
+
+INSERT INTO exercises
+VALUES     (211,
+            'shoulder',
+            'shoulder',
+            'vertical press',
+            'compound',
+            'shoulder-press',
+            'Dumbbell Push Press',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (212,
+            'shoulder',
+            'shoulder',
+            'vertical press',
+            'compound',
+            'shoulder-press',
+            'Arnold Press',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (213,
+            'shoulder',
+            'shoulder',
+            'vertical press',
+            'compound',
+            'shoulder-press',
+            'Standing Dumbbell Shoulder Press',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (214,
+            'shoulder',
+            'anterior',
+            'vertical press',
+            'compound',
+            'pike-push-up',
+            'Pike push-up',
+            'strength',
+            'bodyweight',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (215,
+            'shoulder',
+            'anterior',
+            'vertical press',
+            'compound',
+            'shoulder-press',
+            'Landmine Press',
+            'strength',
+            'barbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (216,
+            'shoulder',
+            'anterior',
+            'vertical press',
+            'compound',
+            'shoulder-press',
+            'Hammer Press',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (217,
+            'shoulder',
+            'anterior',
+            'vertical press',
+            'compound',
+            'shoulder-press',
+            'Reverse-Grip Press',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (218,
+            'legs',
+            'calves',
+            'calf-raise',
+            'isolation',
+            'calf-raise',
+            'Seated Dumbbell Calf Raise',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+
+INSERT INTO exercises
+VALUES     (219,
+            'legs',
+            'calves',
+            'farmer-walk',
+            'compound',
+            'farmer-walk',
+            'Farmers Walk on Tip Toes',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (220,
+            'chest',
+            'lower-chest',
+            'press',
+            'compound',
+            'decline-bench',
+            'Dumbbell Decline Bench Press',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (221,
+            'chest',
+            'upper-chest',
+            'press',
+            'compound',
+            'reverse-grip-bench',
+            'Reverse-Grip Bench Press',
+            'strength',
+            'barbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (222,
+            'chest',
+            'upper-chest',
+            'press',
+            'compound',
+            'reverse-grip-bench',
+            'Dumbbell Reverse-Grip Bench Press',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (223,
+            'chest',
+            'upper-chest',
+            'fly',
+            'isolation',
+            'chest-fly',
+            'Dumbbell Incline Chest Fly',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (224,
+            'chest',
+            'upper-chest',
+            'fly',
+            'isolation',
+            'chest-fly',
+            'Dumbbell Chest Fly',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (225,
+            'chest',
+            'upper-chest',
+            'press',
+            'compound',
+            'squeeze-press',
+            'Incline Squeeze Press',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (226,
+            'chest',
+            'chest',
+            'press',
+            'compound',
+            'squeeze-press',
+            'Squeeze Press',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (227,
+            'chest',
+            'upper-chest',
+            'pullover',
+            'compound',
+            'pullover',
+            'Incline Dumbbell Pullover',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (228,
+            'chest',
+            'upper-chest',
+            'pullover',
+            'compound',
+            'pullover',
+            'Incline Barbell Pullover',
+            'strength',
+            'barbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (229,
+            'legs',
+            'glutes',
+            'bridge',
+            'compound',
+            'glute-bridge',
+            'Dumbbell Glute Bridge',
+            'strength',
+            'dumbbell',
+            3,
+            5);
+
+INSERT INTO exercises
+VALUES     (230,
+            'legs',
+            'glutes',
+            'bridge',
+            'compound',
+            'glute-bridge',
+            'Barbell Glute Bridge',
+            'strength',
+            'barbell',
+            3,
+            5);
+
+INSERT INTO exercises
+VALUES     (231,
+            'legs',
+            'glutes',
+            'squat',
+            'compound',
+            'sumo-squat',
+            'Sumo Squat',
+            'strength',
+            'bodyweight',
+            0,
+            2);
+
+INSERT INTO exercises
+VALUES     (232,
+            'legs',
+            'glutes',
+            'squat',
+            'compound',
+            'sumo-squat',
+            'Dumbbell Sumo Squat',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (233,
+            'legs',
+            'glutes',
+            'lunge',
+            'compound',
+            'curtsy-lunge',
+            'Dumbbell Curtsy Lunge',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (234,
+            'legs',
+            'glutes',
+            'donkey-kick',
+            'isolation',
+            'donkey-kick',
+            'Dumbbell Donkey Kicks',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (235,
+            'legs',
+            'glutes',
+            'thrust',
+            'compound',
+            'one-legged-hip-thrust',
+            'One-Legged Dumbbell Hip Thrust',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (236,
+            'legs',
+            'glutes',
+            'thrust',
+            'compound',
+            'hip-thrust',
+            'Dumbbell Hip Thrust',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (237,
+            'legs',
+            'glutes',
+            'lunge',
+            'compound',
+            'reverse-lunge',
+            'Dumbbell Reverse Lunge',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (238,
+            'legs',
+            'hamstrings',
+            'deadlift',
+            'compound',
+            'romanian-deadlift',
+            'Dumbbell Stiff-Legged Deadlift',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (239,
+            'legs',
+            'hamstrings',
+            'leg-curl',
+            'isolation',
+            'leg-curl',
+            'Dumbbell Lying Leg Curl',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (240,
+            'legs',
+            'hamstrings',
+            'back-extension',
+            'compound',
+            'good-morning',
+            'Dumbbell Good Morning',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (241,
+            'shoulder',
+            'lateral',
+            'row',
+            'compound',
+            'upright-row',
+            'Dumbbell Upright Row',
+            'strength',
+            'dumbbell',
+            1,
+            3);
+
+INSERT INTO exercises
+VALUES     (242,
+            'shoulder',
+            'lateral',
+            'around-the-world',
+            'compound',
+            'around-the-world',
+            'Dumbbell Standing Around-The-World',
+            'strength',
+            'dumbbell',
+            1,
+            3);
+
+INSERT INTO exercises
+VALUES     (243,
+            'shoulder',
+            'rear',
+            'y-raise',
+            'isolation',
+            'y-raise',
+            'Dumbbell Y-Raise',
+            'strength',
+            'dumbbell',
+            1,
+            3);
+
+INSERT INTO exercises
+VALUES     (244,
+            'shoulder',
+            'lateral',
+            'raise',
+            'isolation',
+            'lateral-raise',
+            'Scott Lateral Raise',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (245,
+            'shoulder',
+            'lateral',
+            'raise',
+            'isolation',
+            'lateral-raise',
+            'Incline Lateral Raise',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (246,
+            'shoulder',
+            'shoulder',
+            'upright-row',
+            'compound',
+            'upright-row',
+            'Armpit Row',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (247,
+            'shoulder',
+            'lateral',
+            'raise',
+            'isolation',
+            'lateral-raise',
+            'Lu Raises',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (248,
+            'shoulder',
+            'lateral',
+            'vertical press',
+            'isolation',
+            'w-press',
+            'W Press',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (249,
+            'shoulder',
+            'anterior',
+            'raise',
+            'isolation',
+            'front-hold',
+            'Dumbbell Front Hold',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (250,
+            'back',
+            'lats',
+            'row',
+            'compound',
+            'one-handed-row',
+            'Dumbbell Row To Hips',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (251,
+            'back',
+            'lats',
+            'row',
+            'compound',
+            'row',
+            'Bent-Over Dumbbell Row To Hips',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (252,
+            'back',
+            'lats',
+            'row',
+            'compound',
+            'one-handed-row',
+            'Kroc Row',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (253,
+            'back',
+            'lats',
+            'row',
+            'compound',
+            'row',
+            'Helms Row',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (254,
+            'back',
+            'lats',
+            'row',
+            'compound',
+            'row',
+            'Incline Dumbbell Row',
+            'strength',
+            'dumbbell',
+            3,
+            5);
+
+INSERT INTO exercises
+VALUES     (255,
+            'back',
+            'mid-back',
+            'row',
+            'compound',
+            'one-handed-row',
+            'Meadows Row',
+            'strength',
+            'barbell',
+            3,
+            5);
+
+INSERT INTO exercises
+VALUES     (256,
+            'back',
+            'mid-back',
+            'row',
+            'compound',
+            'one-handed-row',
+            'Dumbbell Dead-Stop Row',
+            'strength',
+            'dumbbell',
+            3,
+            5);
+
+INSERT INTO exercises
+VALUES     (257,
+            'back',
+            'mid-back',
+            'row',
+            'compound',
+            'one-handed-row',
+            'One Arm Long-Bar Row',
+            'strength',
+            'barbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (258,
+            'back',
+            'mid-back',
+            'row',
+            'compound',
+            'row',
+            'Bent-Over Row with Palms In',
+            'strength',
+            'dumbbell',
+            3,
+            3);

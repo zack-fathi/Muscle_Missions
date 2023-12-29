@@ -22,3 +22,5 @@ CREATE TABLE exercises (
     difficulty INTEGER,
     weight INTEGER
 );
+
+
