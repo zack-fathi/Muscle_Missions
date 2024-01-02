@@ -47,7 +47,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for exercise in day_workout.workout %}
+                        {% for exercise in day_workout.workout_data %}
                             <tr>
                                 <td>{{ exercise.Exercise }}</td>
                                 <td>{{ exercise.Sets }}</td>
@@ -57,6 +57,20 @@
                     </tbody>
                 </table>
             {% endfor %}
+            <div class="container mt-4 mb-4 center"> 
+                Not happy with your workout? Click <a href="#" onclick="location.reload();">here</a> to get a new one! Or click <a href="/workouts/split/">here</a>
+                to modify your preferences!
+            </div>
+            <!-- Save Workout Button -->
+            <div class="container mt-4">
+                <form action="/save_workout/" method="post">
+                    <input type="hidden" name="workout_data" value="{{ workout_json }}">
+                    <input type="hidden" name="operation" value="save_split"/>
+                    <input type="hidden" name="time" value="{{ time }}"/>
+                    <input type="hidden" name="difficulty" value="{{ difficulty }}"/>
+                    <button type="submit" class="btn btn-success">Save My Workout</button>
+                </form>
+            </div>
         {% else %}
             <p class="alert alert-danger" role="alert">No workout split data available.</p>
         {% endif %}

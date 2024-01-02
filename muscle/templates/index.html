@@ -65,6 +65,9 @@
                         <a class="nav-link active" aria-current="page" href="/">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/your_workout/">Your Workout</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" href="/accounts/edit/">Edit Account</a>
                     </li>
                 </ul>
@@ -85,6 +88,15 @@
             <a href="/workouts/day/" class="hero-btn">Start Now</a>
         </div>
     </div>
+
+        <!-- Saved Workout Message -->
+    {% if workout %}
+    <div class="container mt-4">
+        <div class="alert alert-success" role="alert">
+            Your workout has been saved!
+        </div>
+    </div>
+    {% endif %}
 
     <!-- Page Content -->
     <div class="container mt-5">

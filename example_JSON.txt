@@ -1,0 +1,142 @@
+{
+  "workout_split": [
+    {
+      "workout": [
+        {
+          "Exercise": "Barbell Glute Bridge",
+          "Parent Exercise": "hip-thrust",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Bench Press",
+          "Parent Exercise": "bench-press",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Weighted Pull-Up",
+          "Parent Exercise": "pull-up",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Deficit Deadlift",
+          "Parent Exercise": "deadlift",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Dumbbell Chest Press",
+          "Parent Exercise": "chest-press",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Barbell Row",
+          "Parent Exercise": "row",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Kneeling Ab Wheel Roll-Out",
+          "Parent Exercise": "ab-wheel",
+          "Reps": "10",
+          "Sets": "3"
+        }
+      ]
+    },
+    {
+      "workout": [
+        {
+          "Exercise": "Romanian Deadlift",
+          "Parent Exercise": "romanian-deadlift",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Bench Press",
+          "Parent Exercise": "bench-press",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Meadows Row",
+          "Parent Exercise": "one-handed-row",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Kettlebell Swing",
+          "Parent Exercise": "kettlebell-swing",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Dumbbell Chest Press",
+          "Parent Exercise": "chest-press",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Weighted Pull-Up",
+          "Parent Exercise": "pull-up",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Hanging Leg Raise",
+          "Parent Exercise": "leg-raise",
+          "Reps": "10",
+          "Sets": "3"
+        }
+      ]
+    },
+    {
+      "workout": [
+        {
+          "Exercise": "Dumbbell Glute Bridge",
+          "Parent Exercise": "hip-thrust",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Bench Press",
+          "Parent Exercise": "bench-press",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Meadows Row",
+          "Parent Exercise": "one-handed-row",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Single Leg Romanian Deadlift",
+          "Parent Exercise": "romanian-deadlift",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Incline Dumbbell Pullover",
+          "Parent Exercise": "pullover",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Weighted Pull-Up",
+          "Parent Exercise": "pull-up",
+          "Reps": "10",
+          "Sets": "3"
+        },
+        {
+          "Exercise": "Crunch",
+          "Parent Exercise": "crunch",
+          "Reps": "10",
+          "Sets": "3"
+        }
+      ]
+    }
+  ]
+}

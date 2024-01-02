@@ -42,7 +42,7 @@ VALUES     (3,
             'chest',
             'press',
             'compound',
-            'chest-press',
+            'bench-press',
             'Cable Chest Press',
             'strength',
             'machine',
@@ -107,7 +107,7 @@ VALUES     (8,
             'chest',
             'press',
             'compound',
-            'chest-press',
+            'bench-press',
             'Dumbbell Chest Press',
             'strength',
             'dumbbell',
@@ -120,7 +120,7 @@ VALUES     (9,
             'lower-chest',
             'press',
             'compound',
-            'decline-chest-press',
+            'decline-bench-press',
             'Dumbbell Decline Chest Press',
             'strength',
             'dumbbell',
@@ -688,7 +688,7 @@ VALUES     (52,
 
 INSERT INTO exercises
 VALUES     (53,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -701,7 +701,7 @@ VALUES     (53,
 
 INSERT INTO exercises
 VALUES     (54,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -714,7 +714,7 @@ VALUES     (54,
 
 INSERT INTO exercises
 VALUES     (55,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'compound',
@@ -727,7 +727,7 @@ VALUES     (55,
 
 INSERT INTO exercises
 VALUES     (56,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -740,7 +740,7 @@ VALUES     (56,
 
 INSERT INTO exercises
 VALUES     (57,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -753,7 +753,7 @@ VALUES     (57,
 
 INSERT INTO exercises
 VALUES     (58,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -766,7 +766,7 @@ VALUES     (58,
 
 INSERT INTO exercises
 VALUES     (59,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -779,7 +779,7 @@ VALUES     (59,
 
 INSERT INTO exercises
 VALUES     (60,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -792,7 +792,7 @@ VALUES     (60,
 
 INSERT INTO exercises
 VALUES     (61,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -805,7 +805,7 @@ VALUES     (61,
 
 INSERT INTO exercises
 VALUES     (62,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -818,7 +818,7 @@ VALUES     (62,
 
 INSERT INTO exercises
 VALUES     (63,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -831,7 +831,7 @@ VALUES     (63,
 
 INSERT INTO exercises
 VALUES     (64,
-            'biceps',
+            'arms',
             'biceps',
             'curl',
             'isolation',
@@ -844,7 +844,7 @@ VALUES     (64,
 
 INSERT INTO exercises
 VALUES     (65,
-            'triceps',
+            'arms',
             'triceps',
             'extension',
             'isolation',
@@ -857,7 +857,7 @@ VALUES     (65,
 
 INSERT INTO exercises
 VALUES     (66,
-            'triceps',
+            'arms',
             'triceps',
             'extension',
             'isolation',
@@ -870,7 +870,7 @@ VALUES     (66,
 
 INSERT INTO exercises
 VALUES     (67,
-            'triceps',
+            'arms',
             'triceps',
             'dip',
             'compound',
@@ -883,7 +883,7 @@ VALUES     (67,
 
 INSERT INTO exercises
 VALUES     (68,
-            'triceps',
+            'arms',
             'triceps',
             'push-up',
             'compound',
@@ -896,7 +896,7 @@ VALUES     (68,
 
 INSERT INTO exercises
 VALUES     (69,
-            'triceps',
+            'arms',
             'triceps',
             'extension',
             'isolation',
@@ -909,7 +909,7 @@ VALUES     (69,
 
 INSERT INTO exercises
 VALUES     (70,
-            'triceps',
+            'arms',
             'triceps',
             'extension',
             'isolation',
@@ -922,7 +922,7 @@ VALUES     (70,
 
 INSERT INTO exercises
 VALUES     (71,
-            'triceps',
+            'arms',
             'triceps',
             'extension',
             'isolation',
@@ -935,7 +935,7 @@ VALUES     (71,
 
 INSERT INTO exercises
 VALUES     (72,
-            'triceps',
+            'arms',
             'triceps',
             'extension',
             'isolation',
@@ -948,7 +948,7 @@ VALUES     (72,
 
 INSERT INTO exercises
 VALUES     (73,
-            'triceps',
+            'arms',
             'triceps',
             'extension',
             'isolation',
@@ -961,7 +961,7 @@ VALUES     (73,
 
 INSERT INTO exercises
 VALUES     (74,
-            'triceps',
+            'arms',
             'triceps',
             'extension',
             'isolation',
@@ -995,13 +995,13 @@ VALUES     (76,
             'Barbell Hack Squat',
             'strength',
             'barbell',
-            2,
-            2);
+            3,
+            3);
 
 INSERT INTO exercises
 VALUES     (77,
             'legs',
-            'legs',
+            'quads',
             'lunge',
             'compound',
             'lunge',
@@ -1014,7 +1014,7 @@ VALUES     (77,
 INSERT INTO exercises
 VALUES     (78,
             'legs',
-            'legs',
+            'quads',
             'lunge',
             'compound',
             'walking-lunge',
@@ -1040,7 +1040,7 @@ VALUES     (79,
 INSERT INTO exercises
 VALUES     (80,
             'legs',
-            'legs',
+            'quads',
             'lunge',
             'compound',
             'lunge',
@@ -1053,7 +1053,7 @@ VALUES     (80,
 INSERT INTO exercises
 VALUES     (81,
             'legs',
-            'legs',
+            'quads',
             'squat',
             'compound',
             'box-squat',
@@ -1066,7 +1066,7 @@ VALUES     (81,
 INSERT INTO exercises
 VALUES     (82,
             'legs',
-            'legs',
+            'glutes',
             'squat',
             'compound',
             'split-squat',
@@ -1092,7 +1092,7 @@ VALUES     (83,
 INSERT INTO exercises
 VALUES     (84,
             'legs',
-            'legs',
+            'quads',
             'lunge',
             'compound',
             'lunge',
@@ -1105,7 +1105,7 @@ VALUES     (84,
 INSERT INTO exercises
 VALUES     (85,
             'legs',
-            'legs',
+            'quads',
             'squat',
             'compound',
             'squat',
@@ -1196,7 +1196,7 @@ VALUES     (91,
 INSERT INTO exercises
 VALUES     (92,
             'legs',
-            'legs',
+            'quads',
             'squat',
             'compound',
             'squat',
@@ -1222,7 +1222,7 @@ VALUES     (93,
 INSERT INTO exercises
 VALUES     (94,
             'legs',
-            'legs',
+            'quads',
             'leg-press',
             'isolation',
             'leg-press',
@@ -1248,15 +1248,15 @@ VALUES     (95,
 INSERT INTO exercises
 VALUES     (96,
             'legs',
-            'legs',
+            'quads',
             'squat',
             'compound',
             'pause-squat',
             'Pause Squat',
             'strength',
             'barbell',
-            1,
-            2);
+            3,
+            3);
 
 INSERT INTO exercises
 VALUES     (97,
@@ -1326,7 +1326,7 @@ VALUES     (101,
 INSERT INTO exercises
 VALUES     (102,
             'legs',
-            'legs',
+            'quads',
             'squat',
             'compound',
             'squat',
@@ -1339,7 +1339,7 @@ VALUES     (102,
 INSERT INTO exercises
 VALUES     (103,
             'legs',
-            'legs',
+            'quads',
             'squat',
             'compound',
             'squat',
@@ -1352,7 +1352,7 @@ VALUES     (103,
 INSERT INTO exercises
 VALUES     (104,
             'legs',
-            'legs',
+            'quads',
             'step-up',
             'compound',
             'step-up',
@@ -1870,19 +1870,6 @@ VALUES     (144,
             3);
 
 INSERT INTO exercises
-VALUES     (145,
-            'legs',
-            'legs',
-            'deadlift',
-            'compound',
-            'deadlift',
-            'Sumo Deadlift',
-            'strength',
-            'barbell',
-            3,
-            4);
-
-INSERT INTO exercises
 VALUES     (146,
             'back',
             'mid-back',
@@ -1906,7 +1893,7 @@ VALUES     (147,
             'strength',
             'trap bar',
             3,
-            4);
+            5);
 
 INSERT INTO exercises
 VALUES     (148,
@@ -1919,7 +1906,7 @@ VALUES     (148,
             'strength',
             'trap bar',
             3,
-            4);
+            5);
 
 INSERT INTO exercises
 VALUES     (149,
@@ -1958,7 +1945,7 @@ VALUES     (151,
             'strength',
             'dumbbell',
             3,
-            4);
+            5);
 
 INSERT INTO exercises
 VALUES     (152,
@@ -2003,9 +1990,9 @@ INSERT INTO exercises
 VALUES     (155,
             'legs',
             'glutes',
-            'bridge',
+            'hip-thrust',
             'compound',
-            'glute-bridge',
+            'hip-thrust',
             'Glute Bridge',
             'strength',
             'bodyweight',
@@ -2068,9 +2055,9 @@ INSERT INTO exercises
 VALUES     (160,
             'legs',
             'glutes',
-            'bridge',
+            'hip-thrust',
             'compound',
-            'one-legged-glute-brigde',
+            'one-legged-hip-thrust',
             'One-Legged Glute Bridge',
             'strength',
             'bodyweight',
@@ -2716,7 +2703,7 @@ VALUES     (209,
 
 INSERT INTO exercises
 VALUES     (210,
-            'triceps',
+            'arms',
             'triceps',
             'dip',
             'compound',
@@ -2966,9 +2953,9 @@ INSERT INTO exercises
 VALUES     (229,
             'legs',
             'glutes',
-            'bridge',
+            'hip-thrust',
             'compound',
-            'glute-bridge',
+            'hip-thrust',
             'Dumbbell Glute Bridge',
             'strength',
             'dumbbell',
@@ -2979,9 +2966,9 @@ INSERT INTO exercises
 VALUES     (230,
             'legs',
             'glutes',
-            'bridge',
+            'hip-thrust',
             'compound',
-            'glute-bridge',
+            'hip-thrust',
             'Barbell Glute Bridge',
             'strength',
             'barbell',
@@ -3351,3 +3338,172 @@ VALUES     (258,
             'dumbbell',
             3,
             3);
+
+INSERT INTO exercises
+VALUES     (259,
+            'legs',
+            'quads',
+            'squat',
+            'compound',
+            'front-squat',
+            'Dumbbell Front Squat',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (260,
+            'legs',
+            'quads',
+            'squat',
+            'isolation',
+            'sissy-squat',
+            'Sissy Squat',
+            'strength',
+            'bodyweight',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (261,
+            'legs',
+            'quads',
+            'squat',
+            'compound',
+            'split-squat',
+            'Dumbbell Split Squat',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (262,
+            'arms',
+            'triceps',
+            'extension',
+            'isolation',
+            'skull-crusher',
+            'Tricep Skull-Crusher With Bar',
+            'strength',
+            'barbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (263,
+            'arms',
+            'triceps',
+            'extension',
+            'isolation',
+            'skull-crusher',
+            'Tricep Skull-Crusher With Dumbbells',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (264,
+            'arms',
+            'triceps',
+            'extension',
+            'isolation',
+            'skull-crusher',
+            'Incline Tricep Skull-Crusher With Bar',
+            'strength',
+            'barbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (265,
+            'arms',
+            'triceps',
+            'extension',
+            'isolation',
+            'skull-crusher',
+            'Incline Tricep Skull-Crusher With Dumbbells',
+            'strength',
+            'dumbbell',
+            3,
+            4);
+
+INSERT INTO exercises
+VALUES     (266,
+            'arms',
+            'triceps',
+            'press',
+            'isolation',
+            'tricep-press',
+            'JM Press',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (267,
+            'arms',
+            'triceps',
+            'press',
+            'isolation',
+            'tricep-press',
+            'Tate Press',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (268,
+            'back',
+            'upper-back',
+            'raise',
+            'compound',
+            'w-raise',
+            'W raise',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (269,
+            'back',
+            'upper-back',
+            'row',
+            'compound',
+            'row',
+            'Wrestlers Row',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (270,
+            'legs',
+            'quads',
+            'squat',
+            'compound',
+            'hack-squat',
+            'Dumbbell Hack Squat',
+            'strength',
+            'dumbbell',
+            3,
+            3);
+
+INSERT INTO exercises
+VALUES     (271,
+            'legs',
+            'quads',
+            'step-up',
+            'compound',
+            'step-up',
+            'Barbell Step Up',
+            'strength',
+            'barbell',
+            3,
+            4);

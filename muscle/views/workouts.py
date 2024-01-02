@@ -12,6 +12,7 @@ from .. import utils
 from muscle.api.daily_workout import generate_daily_workout
 from muscle.api.workout_split import generate_workout_split
 
+
 @muscle.app.route('/workouts/day/')
 def show_daily_workout():
     """Show the daily workout page."""
@@ -20,6 +21,7 @@ def show_daily_workout():
         return flask.redirect("/accounts/login/", 302)
 
     return flask.render_template("day.html")
+
 
 @muscle.app.route('/workouts/split/')
 def show_split():
@@ -30,7 +32,8 @@ def show_split():
 
     return flask.render_template("split.html")
 
-@muscle.app.route('/workouts/', methods = ['POST'])
+
+@muscle.app.route('/workouts/', methods=['POST'])
 def handle_workouts_submit():
     """Handle the form submission for creating a workout."""
 
@@ -45,10 +48,32 @@ def handle_workouts_submit():
         return daily_workout_help(connection, form)
     if operation == "split_generator":
         return split_help(connection, form)
-
-
-    return 'HELLO M8 AS YOU CAN SEE I AM NOT DONE WITH THIS YET M8'    
     
+    return None
+
+@muscle.app.route('/save_workout/', methods=['POST'])
+def save_workout():
+    "Save a users workout."
+    if not utils.check_logname_exists():
+        return flask.redirect("/accounts/login/", 302)
+    
+    workout_json = flask.request.form['workout_data']
+    workout_data = json.loads(workout_json)
+    connection = muscle.model.get_db()
+    operation = flask.request.form['operation']
+    difficulty = flask.request.form['difficulty']
+    time = flask.request.form['time']
+
+    if operation == "save_day":
+        save_single_workout(workout_data,time, difficulty)
+    elif operation == "save_split":
+        user_id = utils.get_user_id(connection)
+        save_workout_split(user_id, workout_data, time, difficulty)
+
+    # Redirecting to the index page after saving
+    # flask.flash("Your workout has been saved!", "success")
+    return flask.redirect("/", 302)
+
 def daily_workout_help(connection, form):
     """Help make the custom daily workout."""
 
@@ -56,53 +81,111 @@ def daily_workout_help(connection, form):
     muscle_split = form.get('muscle_split')
     equipment = form.getlist('equipment')
     limitations = form.getlist('limitations')
-    print("equipment = ", equipment)
     time = form['time']
-    difficulty = get_difficulty(connection)
-    
-    workout_data = generate_daily_workout(time, equipment, muscle_split, workout_type,difficulty,connection, limitations).json
-    # formatted_workout = json.dumps(workout_data, indent=2)
-    print(workout_data)
-    return flask.render_template("show_workout.html", workout_data = workout_data)
+    difficulty = utils.get_difficulty(connection)
+
+    workout_data = generate_daily_workout(
+        time, equipment, muscle_split, workout_type, difficulty, connection, limitations).json
+    workout_json = json.dumps(workout_data, indent=2)
+
+    return flask.render_template("show_workout.html", workout_data=workout_data, workout_json=workout_json, time=time, difficulty=difficulty)
+
 
 def split_help(connection, form):
     """Help make the custom workout split."""
 
     frequency = int(form.get('frequency'))
     workout_type = form.get('workout_type')
-    muscle_split = form.get('muscle_split')
     equipment = form.getlist('equipment')
     limitations = form.getlist('limitations')
     time = form['time']
-    difficulty = get_difficulty(connection)
+    difficulty = utils.get_difficulty(connection)
+
+    workout_data = generate_workout_split(
+        time, equipment, workout_type, difficulty, connection, limitations, frequency).json
     
-    workout_data = generate_workout_split(time, equipment, muscle_split, workout_type,difficulty,connection, limitations, frequency).json
-    # formatted_workout = json.dumps(workout_data, indent=2)
-    # print(workout_data)
-    return flask.render_template("show_workout_split.html", workout_data = workout_data)
-
-def generate_workout(type, group, split):
-    """Generate a custom workout for the user."""
-
-    # API call to fetch list of exercises 
-    querystring = {"time":"30","equipment":"dumbbells","muscle":"biceps","fitness_level":"beginner","fitness_goals":"strength"}
+    workout_json = json.dumps(workout_data, indent=2)
+    return flask.render_template("show_workout_split.html", workout_data=workout_data, workout_json=workout_json, time=time, difficulty=difficulty)
 
 
-    response = requests.get(muscle.config.WORKOUT_PLANNER_API_URL, headers=muscle.config.WORKOUT_PLANNER_HEADERS, params=querystring)
+def save_workout_split(user_id, workout_split_data, duration, difficulty):
+    """Save a workout split."""
+    connection = muscle.model.get_db()
 
-    return response.json()
-
-
-def get_difficulty(connection):
-    """Get a user's difficulty."""
-
-    logname = flask.request.cookies.get('username')
-
+    # insert into split table
     cur = connection.execute(
-        "SELECT workout_experience "
-        "FROM users "
-        "WHERE username == ?",
-        (logname,)
+        "INSERT INTO workout_splits (userID) VALUES (?) ",
+        (user_id,)
     )
 
-    return cur.fetchone()['workout_experience']
+    split_id = cur.lastrowid
+    print("SPLIT ID IS" ,split_id)
+
+    for workout_number, day_workout in enumerate(workout_split_data['workout_split'], start=1):
+
+        workout_id = insert_workout(
+            connection, user_id, day_workout['type'], workout_number, duration, difficulty,split_id
+        )
+        print("WORKOUT ID IS ", workout_id)
+
+        for order, exercise in enumerate(day_workout['workout_data'], start=1):
+            exercise_id = utils.get_exercise_id_by_name(
+                exercise['Exercise'])
+            if exercise_id:
+                insert_exercise(connection, workout_id, exercise_id, order)
+    
+    connection.commit()
+
+
+def save_single_workout(workout_data, time, difficulty):
+    """Save a single workout."""
+    connection = muscle.model.get_db()
+    user_id = utils.get_user_id(connection)
+    if not user_id:
+        raise ValueError("User ID not found")
+
+    # Assuming workout_data has structure similar to a single day in workout_split
+    workout_type = workout_data['type']
+    duration = time
+
+    # Insert workout details
+    cur = connection.execute(
+        "INSERT INTO workouts (userID, workoutType, duration, difficulty, workout_number) VALUES (?, ?, ?, ?,?)",
+        (user_id, workout_type, duration, difficulty, 1)
+    )
+    workout_id = cur.lastrowid
+
+    # Insert each exercise in the workout
+    for exercise_order, exercise in enumerate(workout_data['workout_data'], start=1):
+        exercise_name = exercise['Exercise']
+        # Assuming you have a way to find exerciseID by exercise name
+        exercise_id = utils.get_exercise_id_by_name(exercise_name)
+        if exercise_id is not None:
+            connection.execute(
+                "INSERT INTO workout_exercises (workoutID, exerciseID, orderInWorkout) VALUES (?, ?, ?)",
+                (workout_id, exercise_id, exercise_order)
+            )
+
+    connection.commit()  # Commit the transaction
+
+
+def insert_workout(connection, user_id, workout_type, workout_number, duration, difficulty, split_id):
+    """Insert into workouts table."""
+    
+    cur = connection.execute(
+        "INSERT INTO workouts (userID, workoutType, workout_number, duration, difficulty, splitID) VALUES (?, ?, ?, ?, ?, ?)",
+        (user_id, workout_type, workout_number, duration, difficulty, split_id)
+    )
+    workout_id = cur.lastrowid
+    return workout_id
+
+
+
+def insert_exercise(connection, workout_id, exercise_id, order_in_workout):
+    """Insert into workout_exercises table."""
+
+    connection.execute(
+        "INSERT INTO workout_exercises (workoutID, exerciseID, orderInWorkout) VALUES (?, ?, ?)",
+        (workout_id, exercise_id, order_in_workout)
+    )
+    connection.commit()
