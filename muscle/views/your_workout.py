@@ -27,12 +27,10 @@ def show_your_workout():
         "SELECT * FROM workouts WHERE userID = ? ORDER BY workoutID DESC LIMIT 1 ",
         (user_id,)
     ).fetchone()
-    print("RECENT WORKOUT IS, ", recent_workout)
 
     workout_data = {}
     if recent_workout:
         if recent_workout["splitID"]:
-            print("SPLIT ID IS ", recent_workout["splitID"])
             workout_data['workout_split'] = split_workout_viewer(connection, recent_workout['splitID'])
             return flask.render_template("saved_workout_split.html", workout_data=workout_data)
         else:
@@ -52,7 +50,7 @@ def split_workout_viewer(connection, split_id):
     combined_workout = []
     for workout in split_workouts:
         exercises = connection.execute(
-            "SELECT e.name FROM workout_exercises we JOIN exercises e ON we.exerciseID = e.exerciseID WHERE we.workoutID = ? ",
+            "SELECT e.name, we.sets, we.reps FROM workout_exercises we JOIN exercises e ON we.exerciseID = e.exerciseID WHERE we.workoutID = ? ",
             (workout["workoutID"],)
         ).fetchall()
         combined_workout.append(exercises)
@@ -62,7 +60,7 @@ def split_workout_viewer(connection, split_id):
 def single_workout_viewer(connection, workoutID):
     """Show the workout."""
     workout_exercises = connection.execute(
-        "SELECT e.name FROM workout_exercises we JOIN exercises e ON we.exerciseID = e.exerciseID WHERE we.workoutID = ?",
+        "SELECT e.name, we.sets, we.reps FROM workout_exercises we JOIN exercises e ON we.exerciseID = e.exerciseID WHERE we.workoutID = ?",
         (workoutID,)
     ).fetchall()
     return workout_exercises

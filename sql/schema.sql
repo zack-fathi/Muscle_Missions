@@ -40,6 +40,8 @@ CREATE TABLE workout_exercises (
     workoutID INTEGER NOT NULL,
     exerciseID INTEGER NOT NULL,
     orderInWorkout INTEGER NOT NULL,
+    sets INTEGER NOT NULL,
+    reps INTEGER NOT NULL,
     FOREIGN KEY (workoutID) REFERENCES workouts(workoutID) ON DELETE CASCADE,
     FOREIGN KEY (exerciseID) REFERENCES exercises(exerciseID)
 );

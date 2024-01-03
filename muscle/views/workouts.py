@@ -119,20 +119,20 @@ def save_workout_split(user_id, workout_split_data, duration, difficulty):
     )
 
     split_id = cur.lastrowid
-    print("SPLIT ID IS" ,split_id)
 
     for workout_number, day_workout in enumerate(workout_split_data['workout_split'], start=1):
 
         workout_id = insert_workout(
             connection, user_id, day_workout['type'], workout_number, duration, difficulty,split_id
         )
-        print("WORKOUT ID IS ", workout_id)
 
         for order, exercise in enumerate(day_workout['workout_data'], start=1):
             exercise_id = utils.get_exercise_id_by_name(
                 exercise['Exercise'])
+            sets = exercise['Sets']
+            reps = exercise['Reps']
             if exercise_id:
-                insert_exercise(connection, workout_id, exercise_id, order)
+                insert_exercise(connection, workout_id, exercise_id, order, sets, reps)
     
     connection.commit()
 
@@ -158,12 +158,14 @@ def save_single_workout(workout_data, time, difficulty):
     # Insert each exercise in the workout
     for exercise_order, exercise in enumerate(workout_data['workout_data'], start=1):
         exercise_name = exercise['Exercise']
+        sets = exercise['Sets']
+        reps = exercise['Reps']
         # Assuming you have a way to find exerciseID by exercise name
         exercise_id = utils.get_exercise_id_by_name(exercise_name)
         if exercise_id is not None:
             connection.execute(
-                "INSERT INTO workout_exercises (workoutID, exerciseID, orderInWorkout) VALUES (?, ?, ?)",
-                (workout_id, exercise_id, exercise_order)
+                "INSERT INTO workout_exercises (workoutID, exerciseID, orderInWorkout, sets, reps) VALUES (?, ?, ?, ?, ?)",
+                (workout_id, exercise_id, exercise_order, sets, reps)
             )
 
     connection.commit()  # Commit the transaction
@@ -181,11 +183,11 @@ def insert_workout(connection, user_id, workout_type, workout_number, duration, 
 
 
 
-def insert_exercise(connection, workout_id, exercise_id, order_in_workout):
+def insert_exercise(connection, workout_id, exercise_id, order_in_workout, sets, reps):
     """Insert into workout_exercises table."""
 
     connection.execute(
-        "INSERT INTO workout_exercises (workoutID, exerciseID, orderInWorkout) VALUES (?, ?, ?)",
-        (workout_id, exercise_id, order_in_workout)
+        "INSERT INTO workout_exercises (workoutID, exerciseID, orderInWorkout, sets, reps) VALUES (?, ?, ?, ?, ?)",
+        (workout_id, exercise_id, order_in_workout, sets, reps)
     )
     connection.commit()

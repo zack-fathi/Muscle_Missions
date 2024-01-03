@@ -3,37 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Workout Split - Muscle Missions</title>
+    <title>LiftBot - Muscle Missions</title>
     <link rel="icon" href="/../static/Muscle_Missions_Logo.png" type="image/png">
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #f4f4f4; /* Consistent with the index page */
+            background-color: #f4f4f4;
             color: #212529;
-            font-family: 'Roboto', sans-serif; /* Roboto font for consistency */
+            font-family: 'Roboto', sans-serif;
         }
-        .table {
-            border-collapse: collapse;
+        #chat-area {
+            border: 1px solid #dee2e6;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
         }
-        .table th, .table td {
-            border: 1px solid #dee2e6; /* Light gray border for table cells */
+        .message {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
         }
-        .thead-dark th {
-            background-color: #007bff; /* Primary color header */
+        .user-message {
+            background-color: #007bff;
             color: white;
+            text-align: right;
         }
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
+        .bot-message {
+            background-color: #f8f8f8;
+            text-align: left;
         }
-        h2, h3 {
-            text-align: center; /* Center align headings */
+        .input-group {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -76,37 +82,22 @@
       </nav>
   
     <div class="container mt-4">
-        <h2 class="mb-4">Here is your previously saved Muscle Missions Workout Split!</h2>
-        {% if workout_data.workout_split %}
-            {% for day in workout_data.workout_split %}
-                <h3 class="mt-4 mb-3">Day {{ loop.index }}</h3>
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Exercise</th>
-                            <th scope="col">Sets</th>
-                            <th scope="col">Reps</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for exercise in day %}
-                            <tr>
-                                <td>{{ exercise.name }}</td>
-                                <td>{{ exercise.sets }}</td>
-                                <td>{{ exercise.reps }}</td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% endfor %}
-        {% else %}
-            <p class="alert alert-danger" role="alert">No workout split data available.</p>
-        {% endif %}
+        <h2 class="text-center mb-4">Chat with LiftBot</h2>
+        <div id="chat-area">
+            <!-- Chat messages will go here -->
+        </div>
+
+        <div class="input-group">
+            <input type="text" id="user-input" class="form-control" placeholder="Ask me anything about fitness...">
+            <div class="input-group-append">
+                <button id="send-btn" class="btn btn-primary">Send</button>
+            </div>
+        </div>
     </div>
 
-    <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.9/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Add JavaScript for chat functionality -->
 </body>
 </html>
