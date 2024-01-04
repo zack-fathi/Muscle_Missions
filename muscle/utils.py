@@ -82,6 +82,50 @@ def get_difficulty(connection):
 
     return cur.fetchone()['workout_experience']
 
+def get_user_information():
+    """Get the user information."""
+    
+    user_info = {}
+    connection = muscle.model.get_db()
+    logname = flask.request.cookies.get('username')
+
+    cur = connection.execute(
+        "SELECT * FROM users "
+        "WHERE username = ? ",
+        (logname,)
+    ).fetchone()
+
+    if cur is None:
+        print("User not found")
+        return None
+
+    return cur
+
+def get_last_split_workout(connection, split_id):
+    """Show the workout split."""
+
+    split_workouts = connection.execute(
+        "SELECT * FROM workouts WHERE splitID = ? ",
+        (split_id,)
+    ).fetchall()
+
+    combined_workout = []
+    for workout in split_workouts:
+        exercises = connection.execute(
+            "SELECT e.name, we.sets, we.reps FROM workout_exercises we JOIN exercises e ON we.exerciseID = e.exerciseID WHERE we.workoutID = ? ",
+            (workout["workoutID"],)
+        ).fetchall()
+        combined_workout.append(exercises)
+
+    return combined_workout
+
+def get_last_single_workout(connection, workoutID):
+    """Show the workout."""
+    workout_exercises = connection.execute(
+        "SELECT e.name, we.sets, we.reps FROM workout_exercises we JOIN exercises e ON we.exerciseID = e.exerciseID WHERE we.workoutID = ?",
+        (workoutID,)
+    ).fetchall()
+    return workout_exercises
 
 workout_split_shortcuts = {
 
@@ -675,536 +719,16 @@ def get_dynamic_workout_order(time, workout_type):
                 ("shoulder", "rear", "isolation")
                 ]
 
-
-
-# this map is the layout of all the workout routines
-workout_structures = {
-    "full": {
-        "30": [("legs", random.choice(legs_muscles_list), "compound"), ("chest", "chest", "compound"),
-               ("back", random.choice(back_muscles_list), "compound")],
-
-        "45": [("legs", random.choice(legs_muscles_list), "compound"),
-               ("chest", "chest", "compound"),
-               ("back", random.choice(back_muscles_list), "compound"),
-               ("arms", "triceps", "isolation"),
-               ("abs", "abs", "isolation")],
-        "60": [("legs", random.choice(legs_muscles_list), "compound"),
-               ("chest", "chest", "compound"),
-               ("back", random.choice(back_muscles_list), "compound"),
-               ("shoulders", "shoulders", "compound"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("abs", "abs", "isolation")],
-
-        "75": [("legs", random.choice(legs_muscles_list), "compound"),
-               ("chest", "chest", "compound"),
-               ("back", random.choice(back_muscles_list), "compound"),
-               ("shoulders", "shoulders", "compound"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("legs", "calves", "isolation"),
-               ("abs", "abs", "isolation")],
-
-        "90": [("legs", random.choice(legs_muscles_list), "compound"),
-               ("chest", "chest", "compound"),
-               ("back", random.choice(back_muscles_list), "compound"),
-               ("legs", random.choice(legs_muscles_list), "compound"),
-               ("chest", random.choice(chest_muscles_list), "compound"),
-               ("back", random.choice(back_muscles_list), "compound"),
-               ("abs", "abs", "isolation")],
-
-        "105": [("legs", random.choice(legs_muscles_list), "compound"),
-                ("chest", "chest", "compound"),
-                ("back", random.choice(back_muscles_list), "compound"),
-                ("legs", random.choice(legs_muscles_list), "compound"),
-                ("chest", random.choice(chest_muscles_list), "compound"),
-                ("back", random.choice(back_muscles_list), "compound"),
-                ("shoulders", "shoulders", "compound"),
-                ("abs", "abs", "isolation")],
-
-        "120": [("legs", random.choice(legs_muscles_list), "compound"),
-                ("chest", "chest", "compound"),
-                ("back", random.choice(back_muscles_list), "compound"),
-                ("legs", random.choice(legs_muscles_list), "compound"),
-                ("chest", random.choice(chest_muscles_list), "compound"),
-                ("back", random.choice(back_muscles_list), "compound"),
-                ("shoulders", "shoulders", "compound"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("abs", "abs", "isolation")]
-    },
-
-    "push": {
-
-        "30": [("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("arms", "triceps", "isolation")],
-
-        "45": [("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", "chest", "isolation"),
-               ("arms", "triceps", "isolation")],
-
-        "60": [("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", "chest", "compound"),
-               ("shoulders", "shoulders", "compound"),
-               ("arms", "triceps", "isolation")],
-
-        "75": [("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", "chest", "compound"),
-               ("shoulders", "shoulders", "compound"),
-               ("shoulders", "lateral", "isolation"),
-               ("arms", "triceps", "isolation")],
-
-        "90": [("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", "chest", "compound"),
-               ("shoulders", "shoulders", "compound"),
-               ("shoulders", "lateral", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "triceps", "isolation")],
-
-        "105": [("chest", "chest", "compound"),
-                ("chest", "upper-chest", "compound"),
-                ("chest", "chest", "compound"),
-                ("chest", "upper-chest", "isolation"),
-                ("shoulders", "shoulders", "compound"),
-                ("shoulders", "lateral", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("arms", "triceps", "isolation")],
-
-        "120": [("chest", "chest", "compound"),
-                ("chest", "upper-chest", "compound"),
-                ("chest", "chest", "compound"),
-                ("chest", "upper-chest", "isolation"),
-                ("shoulders", "shoulders", "compound"),
-                ("shoulders", "lateral", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("abs", "abs", "isolation")]
-    },
-
-    "pull": {
-
-        "30": [("back", "mid-back", "compound"),
-               ("back", "lats", "compound"),
-               ("arms", "biceps", "isolation")],
-
-        "45": [("back", "mid-back", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lats", "compound"),
-               ("arms", "biceps", "isolation")],
-
-        "60": [("back", "mid-back", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lats", "compound"),
-               ("shoulders", "rear", "isolation"),
-               ("arms", "biceps", "isolation")],
-
-        "75": [("back", "mid-back", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lats", "compound"),
-               ("shoulders", "rear", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("abs", "abs", "isolation")],
-
-        "90": [("back", "mid-back", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lats", "compound"),
-               ("back", "lats", "isolation"),
-               ("shoulders", "rear", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "biceps", "isolation")],
-
-        "105": [("back", "mid-back", "compound"),
-                ("back", "upper-back", "compound"),
-                ("back", "lats", "compound"),
-                ("back", "upper-back", "isolation"),
-                ("shoulders", "rear", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("abs", "abs", "isolation")],
-
-        "120": [("back", "mid-back", "compound"),
-                ("back", "upper-back", "compound"),
-                ("back", "lats", "compound"),
-                ("back", "upper-back", "isolation"),
-                ("shoulders", "rear", "isolation"),
-                ("shoulders", "rear", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("abs", "abs", "isolation")]
-
-    },
-
-    "legs": {
-
-        "30": [("legs", "legs", "compound"),
-               ("legs", random.choice(legs_muscles_list), "compound"),
-               ("legs", random.choice(legs_muscles_list), "compound")],
-
-        "45": [("legs", "legs", "compound"),
-               ("legs", "quads", "compound"),
-               ("legs", "hamstrings", "compound"),
-               ("legs", "calves", "isolation")
-               ],
-
-        "60":  [("legs", "legs", "compound"),
-                ("legs", "glutes", "compound"),
-                ("legs", "quads", "compound"),
-                ("legs", "hamstrings", "compound"),
-                ("legs", "calves", "isolation")
-                ],
-
-        "75": [("legs", "legs", "compound"),
-               ("legs", random.choice(legs_muscles_list), "compound"),
-               ("legs", "glutes", "compound"),
-               ("legs", "quads", "compound"),
-               ("legs", "hamstrings", "isolation"),
-               ("legs", "calves", "isolation")
-               ],
-
-        "90": [("legs", "legs", "compound"),
-               ("legs", random.choice(legs_muscles_list), "compound"),
-               ("legs", "glutes", "compound"),
-               ("legs", "quads", "isolation"),
-               ("legs", "hamstrings", "isolation"),
-               ("legs", "calves", "isolation"),
-               ("abs", "abs", "isolation")
-               ],
-
-        "105": [("legs", "legs", "compound"),
-                ("legs", random.choice(legs_muscles_list), "compound"),
-                ("legs", "glutes", "compound"),
-                ("legs", random.choice(legs_muscles_list), "compound"),
-                ("legs", "quads", "isolation"),
-                ("legs", "hamstrings", "isolation"),
-                ("legs", "calves", "isolation"),
-                ("abs", "abs", "isolation")
-                ],
-
-        "120": [("legs", "legs", "compound"),
-                ("legs", random.choice(legs_muscles_list), "compound"),
-                ("legs", "glutes", "compound"),
-                ("legs", "quads", "compound"),
-                ("legs", "hamstrings", "compound"),
-                ("legs", random.choice(legs_muscles_list), "isolation"),
-                ("legs", random.choice(legs_muscles_list), "isolation"),
-                ("legs", "calves", "isolation"),
-                ("abs", "abs", "isolation")
-                ]
-
-    },
-
-    "upper": {
-
-        "30": [("chest", "chest", "compound"),
-               ("back", "mid-back", "compound"),
-               ("shoulders", "shoulders", "compound")],
-
-
-        "45": [("chest", "chest", "compound"),
-               ("back", "mid-back", "compound"),
-               ("shoulders", "shoulders", "compound"),
-               ("abs", "abs", "isolation")],
-
-        "60": [("chest", "chest", "compound"),
-               ("back", "mid-back", "compound"),
-               ("shoulders", "shoulders", "compound"),
-               ("chest", "chest", "compound"),
-               ("back", "lats", "compound"),
-               ("abs", "abs", "isolation")],
-
-        "75": [("chest", "chest", "compound"),
-               ("back", "mid-back", "compound"),
-               ("shoulders", "shoulders", "compound"),
-               ("chest", "chest", "compound"),
-               ("back", "lats", "compound"),
-               ("arms", "biceps", "compound"),
-               ("abs", "abs", "isolation")],
-
-        "90": [("chest", "chest", "compound"),
-               ("back", "mid-back", "compound"),
-               ("shoulders", "shoulders", "compound"),
-               ("chest", "chest", "compound"),
-               ("back", "lats", "compound"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("abs", "abs", "isolation")],
-
-        "105": [("chest", "chest", "compound"),
-                ("back", "mid-back", "compound"),
-                ("shoulders", "shoulders", "compound"),
-                ("chest", "chest", "compound"),
-                ("back", "lats", "compound"),
-                ("arms", "biceps", "isolaton"),
-                ("arms", "triceps", "isolation"),
-                ("shoulders", "rear", "isolation"),
-                ("abs", "abs", "isolation")],
-
-        "120": [("chest", "chest", "compound"),
-                ("back", "mid-back", "compound"),
-                ("shoulders", "shoulders", "compound"),
-                ("chest", "chest", "compound"),
-                ("back", "lats", "compound"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("shoulders", "rear", "isolation"),
-                ("abs", "abs", "isolation"),
-                ("abs", "abs", "isolation")
-                ]
-
-    },
-
-    "chest": {
-
-        "30": [("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", random.choice(chest_muscles_list), "compound")],
-
-        "45": [("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", random.choice(chest_muscles_list), "compound"),
-               ("chest", random.choice(chest_muscles_list), "isolation")],
-
-        "60": [("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", random.choice(chest_muscles_list), "isolation")],
-
-        "75": [("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", "lower-chest", "compound"),
-               ("chest", random.choice(chest_muscles_list), "isolation")],
-
-        "90": [("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", "chest", "compound"),
-               ("chest", "upper-chest", "compound"),
-               ("chest", "lower-chest", "compound"),
-               ("chest", "chest", "isolation"),
-               ("chest", random.choice(chest_muscles_list), "isolation")],
-
-        "105": [("chest", "chest", "compound"),
-                ("chest", "upper-chest", "compound"),
-                ("chest", "chest", "compound"),
-                ("chest", "upper-chest", "compound"),
-                ("chest", "lower-chest", "compound"),
-                ("chest", "chest", "isolation"),
-                ("chest", "upper-chest", "isolation"),
-                ("chest", random.choice(chest_muscles_list), "isolation")],
-
-        "120": [("chest", "chest", "compound"),
-                ("chest", "upper-chest", "compound"),
-                ("chest", "chest", "compound"),
-                ("chest", "upper-chest", "compound"),
-                ("chest", "lower-chest", "compound"),
-                ("chest", "chest", "isolation"),
-                ("chest", "upper-chest", "isolation"),
-                ("chest", "upper-chest", "isolation"),
-                ("chest", random.choice(chest_muscles_list), "isolation")]
-
-    },
-
-    "back": {
-
-        "30": [("back", "mid-back", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lats", "compound")],
-
-        "45": [("back", "mid-back", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lats", "compound"),
-               ("back", random.choice(back_muscles_list), "isolation")],
-
-
-        "60": [("back", "mid-back", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lats", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", random.choice(back_muscles_list), "isolation")],
-
-        "75": [("back", "mid-back", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lats", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lower-back", "isolation"),
-               ("back", random.choice(back_muscles_list), "isolation")],
-
-        "90": [("back", "mid-back", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lats", "compound"),
-               ("back", "mid-back", "compound"),
-               ("back", "upper-back", "compound"),
-               ("back", "lats", "compound"),
-               ("back", "lower-back", "isolation")],
-
-        "105": [("back", "mid-back", "compound"),
-                ("back", "upper-back", "compound"),
-                ("back", "lats", "compound"),
-                ("back", "mid-back", "compound"),
-                ("back", "upper-back", "compound"),
-                ("back", "lats", "compound"),
-                ("back", random.choice(back_muscles_list), "isolation"),
-                ("back", random.choice(back_muscles_list), "isolation")],
-
-        "120": [("back", "mid-back", "compound"),
-                ("back", "upper-back", "compound"),
-                ("back", "lats", "compound"),
-                ("back", "mid-back", "compound"),
-                ("back", "upper-back", "compound"),
-                ("back", "lats", "compound"),
-                ("back", "mid-back", "isolation"),
-                ("back", "upper-back", "isolation"),
-                ("back", "lats", "isolation")]
-
-    },
-
-    "arms": {
-
-        "30": [("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation")
-               ],
-
-        "45": [("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation")
-               ],
-
-        "60": [("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation")
-               ],
-
-        "75": [("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation")
-               ],
-
-        "90": [("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation"),
-               ("arms", "triceps", "isolation"),
-               ("arms", "biceps", "isolation")
-               ],
-
-        "105": [("arms", "triceps", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "triceps", "isolation")
-                ],
-
-        "120": [("arms", "triceps", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("arms", "biceps", "isolation"),
-                ("arms", "triceps", "isolation"),
-                ("arms", "biceps", "isolation")
-                ]
-
-    },
-
-    "shoulders": {
-
-        "30": [("shoulder", "shoulder", "compound"),
-               ("shoulder", "shoulder", "compound"),
-               ("shoulder", random.choice(
-                   shoulder_muscle_list), "isolation")
-               ],
-
-
-        "45": [("shoulder", "shoulder", "compound"),
-               ("shoulder", "shoulder", "compound"),
-               ("shoulder", random.choice(
-                   shoulder_muscle_list), "isolation"),
-               ("shoulder", "rear", "isolation")
-               ],
-
-
-        "60": [("shoulder", "shoulder", "compound"),
-               ("shoulder", "shoulder", "compound"),
-               ("shoulder", random.choice(
-                   shoulder_muscle_list), "compound"),
-               ("shoulder", random.choice(
-                   shoulder_muscle_list), "isolation"),
-               ("shoulder", "rear", "isolation")
-               ],
-
-        "75": [("shoulder", "shoulder", "compound"),
-               ("shoulder", "shoulder", "compound"),
-               ("shoulder", random.choice(
-                   shoulder_muscle_list), "compound"),
-               ("shoulder", random.choice(
-                   shoulder_muscle_list), "isolation"),
-               ("shoulder", "rear", "isolation"),
-               ("shoulder", "lateral", "isolation")
-               ],
-
-        "90": [("shoulder", "shoulder", "compound"),
-               ("shoulder", "shoulder", "compound"),
-               ("shoulder", random.choice(
-                   shoulder_muscle_list), "compound"),
-               ("shoulder", random.choice(
-                   shoulder_muscle_list), "compound"),
-               ("shoulder", "rear", "isolation"),
-               ("shoulder", "lateral", "isolation"),
-               ("shoulder", "rear", "isolation")
-               ],
-
-        "105": [("shoulder", "shoulder", "compound"),
-                ("shoulder", "shoulder", "compound"),
-                ("shoulder", random.choice(
-                    shoulder_muscle_list), "compound"),
-                ("shoulder", random.choice(
-                    shoulder_muscle_list), "compound"),
-                ("shoulder", "rear", "isolation"),
-                ("shoulder", "lateral", "isolation"),
-                ("shoulder", "anterior", "isolation"),
-                ("shoulder", "rear", "isolation")
-                ],
-
-        "120": [("shoulder", "shoulder", "compound"),
-                ("shoulder", "shoulder", "compound"),
-                ("shoulder", random.choice(
-                    shoulder_muscle_list), "compound"),
-                ("shoulder", random.choice(
-                    shoulder_muscle_list), "compound"),
-                ("shoulder", random.choice(
-                    shoulder_muscle_list), "compound"),
-                ("shoulder", "rear", "isolation"),
-                ("shoulder", "lateral", "isolation"),
-                ("shoulder", "anterior", "isolation"),
-                ("shoulder", "rear", "isolation")
-                ]
-
-    }
-
+activity_map = {
+
+    "na":"sedentary (0-2 hours per week of activity)",
+    "la":"lightly active (2-3 hours per week of activity)",
+    "ma":"moderately active (3-5 hours per week of activity)",
+    "va":"very active (5+ days per week of activity)"
+}
+
+workout_experience_map = {
+    0: "beginner (0-1 years experience)",
+    1: "intermediate (1-3 years experience)",
+    2: "advanced (3+ years experience)"
 }
