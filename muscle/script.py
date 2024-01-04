@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import muscle
+import secrets
+
 
 warmup_list = [
     ("Band External Shoulder Rotation", 1, "band"),
@@ -11,12 +13,3 @@ warmup_list = [
     ("Lateral Walk With Band", 0, "band"),
 ]
 
-connection = model.get_db()
-
-cur = connection.execute(
-    "SELECT name from exercises"
-)
-
-exercises = cur.fetchall()
-for exercise in exercises:
-    print(exercise)
