@@ -35,6 +35,8 @@ def show_liftbot():
         "lifter in the gym."
     )
 
+    helper_message = None
+    
     # Append previous workout details if available
     if prev_workout:
         kind_of_workout, user_workout = workout_info
@@ -54,7 +56,7 @@ def show_liftbot():
     flask.session['chat_history'] = [
         {"role": "system", "content": initial_message_content}]
 
-    return flask.render_template("liftbot.html")
+    return flask.render_template("liftbot.html",error=helper_message)
 
 
 def get_user_workout(user_id):

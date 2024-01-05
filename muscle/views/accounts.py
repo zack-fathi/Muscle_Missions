@@ -79,7 +79,7 @@ def login_help(connection, form):
 
     username = form['username']
     password = form['password']
-
+    print("USERNAME IS:", username)
     # hash and salt according to user password
     user = check_user_exists(connection, username, password)
     if not user:
@@ -241,7 +241,5 @@ def check_user_exists(connection, username, password):
         "WHERE username == ?",
         (username,)
     )
-    if cur.fetchone():
-        return cur.fetchone()
-    else:
-        return None
+    user = cur.fetchone()
+    return user
