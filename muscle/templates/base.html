@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Muscle Missions</title>
+    <link
+      rel="icon"
+      href= "/static/Muscle_Missions_Logo.png"
+      type="image/png"
+    />
+    <style>
+        body {
+          background-color: #f4f4f4;
+          color: #212529;
+          font-family: "Roboto", sans-serif;
+        }
+        .hero-section {
+          background: url("/static/hero_section.png") no-repeat center
+            center/cover;
+          color: #212529;
+          padding: 60px 0;
+          text-align: center;
+        }
+        .hero-section h1 {
+          font-size: 3rem;
+          margin-bottom: 20px;
+        }
+        .hero-section p {
+          font-size: 1.2rem;
+          margin-bottom: 30px;
+        }
+        .hero-btn {
+          background-color: #007bff;
+          color: white;
+          padding: 10px 25px;
+          border-radius: 5px;
+          text-transform: uppercase;
+          transition: background-color 0.3s;
+        }
+        .hero-btn:hover {
+          background-color: #0056b3;
+        }
+        .card {
+          background-color: #fff;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          transition: box-shadow 0.3s ease-in-out;
+        }
+  
+        .card:hover {
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+  
+        .card-body {
+          color: #212529;
+          padding: 15px;
+        }
+  
+        .card-title {
+          font-weight: 700;
+          color: #007bff; /* Or your primary brand color */
+        }
+  
+        .btn-primary {
+          background-color: #007bff;
+          border-color: #007bff;
+          transition: background-color 0.3s, border-color 0.3s;
+        }
+  
+        .btn-primary:hover {
+          background-color: #0056b3;
+          border-color: #0056b3;
+        }
+  
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .card {
+            margin-bottom: 20px;
+          }
+        }
+  
+        .navbar-brand {
+          font-weight: 700;
+        }
+      </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">Muscle Missions</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="/your_workout/"
+                  >Your Workout</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="/liftbot/"
+                  >LiftBot</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="/accounts/edit/">Edit Account</a>
+              </li>
+            </ul>
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="/accounts/logout/">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+  
+
+    <!-- Content Placeholder -->
+    {% block content %}{% endblock %}
+
+    <!-- Common Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js" integrity="sha512-2rNj2KJ+D8s1ceNasTIex6z4HWyOnEYLVC3FigGOmyQCZc2eBXKgOxQmo3oKLHyfcj53uz4QMsRCWNbLd32Q1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

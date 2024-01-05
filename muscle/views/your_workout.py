@@ -37,4 +37,5 @@ def show_your_workout():
             workout_data['exercises'] = utils.get_last_single_workout(connection, recent_workout['workoutID'])
             return flask.render_template("saved_daily_workout.html", workout_data=workout_data)
 
-    return workout_data
+    error = "Error. No previous workout saved."
+    return flask.render_template("saved_daily_workout.html", workout_data=workout_data)

@@ -82,10 +82,13 @@ def login_help(connection, form):
 
     # hash and salt according to user password
     user = check_user_exists(connection, username, password)
-    print("USER is ", user)
+    if not user:
+        error = "Username and/or password is incorrect. Please enter a valid username/password"
+        return flask.render_template("login.html", error=error)
+    
     password_db_string = get_hashed_password(password, user["password"])
 
-    if not user or password_db_string != user["password"]:
+    if password_db_string != user["password"]:
         error = "Username and/or password is incorrect. Please enter a valid username/password"
         return flask.render_template("login.html", error=error)
 
@@ -238,4 +241,7 @@ def check_user_exists(connection, username, password):
         "WHERE username == ?",
         (username,)
     )
-    return cur.fetchone()
+    if cur.fetchone():
+        return cur.fetchone()
+    else:
+        return None

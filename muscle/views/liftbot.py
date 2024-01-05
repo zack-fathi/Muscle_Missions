@@ -23,13 +23,36 @@ def show_liftbot():
         return flask.redirect("/accounts/login/", 302)
 
     user = utils.get_user_information()
-    kind_of_workout, user_workout = get_user_workout(user['userID'])
+    # Attempt to get the user's last workout
+    workout_info = get_user_workout(user['userID'])
+    prev_workout = workout_info is not None
 
-    formatted_workout = format_workout(user_workout, kind_of_workout)
+    # Initialize base message content
+    initial_message_content = (
+        f"The user's username is {user['username']} and they are a {user['age']} year old {user['gender']}. "
+        f"The user is {user['height']} inches tall and {user['weight']} pounds. "
+        f"They are {utils.activity_map[user['fitness_level']]} and are an {utils.workout_experience_map[user['workout_experience']]} "
+        "lifter in the gym."
+    )
 
-    initial_message_content = f"The user's username is {user['username']} and they are a {user['age']} year old {user['gender']}. The user is {user['height']} inches tall and {user['weight']} pounds. They are {utils.activity_map[user['fitness_level']]} and are an {utils.workout_experience_map[user['workout_experience']]} lifter in the gym. Their previous workout/workout split was: {formatted_workout}. Please offer specific tips for each exercise in the workout split, including customization options for different equipment availability. Additionally, provide motivation and recovery advice tailored to the user's profile."
-
-    flask.session['chat_history'] = [{"role": "system", "content": initial_message_content}]
+    # Append previous workout details if available
+    if prev_workout:
+        kind_of_workout, user_workout = workout_info
+        formatted_workout = format_workout_split(
+            user_workout) if kind_of_workout == "split" else format_single_workout(user_workout)
+        initial_message_content += (
+            f" Their previous workout/workout split was: {formatted_workout}. "
+            "Please offer specific tips for each exercise in the workout split, including customization options for different "
+            "equipment availability. Additionally, provide motivation and recovery advice tailored to the user's profile."
+        )
+    else:
+        helper_message = (
+            "It seems that you do not have a previous workout saved. You can use the LiftBot, "
+            "but keep in mind that it works best when it is able to use your workout information, "
+            "to be more specific to your needs."
+        )
+    flask.session['chat_history'] = [
+        {"role": "system", "content": initial_message_content}]
 
     return flask.render_template("liftbot.html")
 
@@ -53,7 +76,7 @@ def get_user_workout(user_id):
             connection, recent_workout["workoutID"])
         return ("single workout", workout)
 
-    return "There is no recent workout available"
+    return None
 
 
 def format_workout_split(workout_data):
@@ -80,7 +103,8 @@ def process_message():
         user_message = data['message']
 
         # Append the user message to the chat history
-        flask.session['chat_history'].append({"role": "user", "content": user_message})
+        flask.session['chat_history'].append(
+            {"role": "user", "content": user_message})
 
         # Send the updated chat history to OpenAI
         response = client.chat.completions.create(
@@ -90,14 +114,13 @@ def process_message():
 
         # Extract the response text
         liftbot_response = response.choices[0].message
-        print(liftbot_response)
         # Append the bot response to the chat history
-        flask.session['chat_history'].append({"role": "system", "content": liftbot_response})
+        flask.session['chat_history'].append(
+            {"role": "system", "content": liftbot_response.content})
 
         # Return a JSON serializable response
-        return flask.jsonify({'response': liftbot_response})
+        return flask.jsonify({'response': liftbot_response.content})
 
     except Exception as e:
         # If an error occurs, return the error message in a serializable format
         return flask.jsonify({'error': str(e)})
-

@@ -45,3 +45,10 @@ function displayMessage(text, sender){
 }
 
 document.getElementById('send-btn').addEventListener('click', sendMessage);
+
+document.getElementById('user-input').addEventListener('keypress', function(event) {
+    if (event.keyCode === 13) { 
+        sendMessage();
+        event.preventDefault();
+    }
+});
