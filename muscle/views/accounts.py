@@ -6,11 +6,16 @@ import hashlib
 import pathlib
 import flask
 import muscle
+import re
 from .. import utils
 
 @muscle.app.route('/accounts/login/')
 def show_login():
     """Show the login page for a user."""
+
+    if utils.check_logname_exists():
+        return flask.redirect("/",302)
+    
 
     return flask.render_template("login.html")
 
@@ -24,11 +29,14 @@ def complete_logout():
 def show_create():
     """Show the account creation page."""
 
-    return flask.send_from_directory("static/html", "create.html")
+    return flask.render_template("create.html")
 
 @muscle.app.route('/accounts/edit/')
 def show_edit():
     """Shows edit password."""
+
+    if not utils.check_logname_exists():
+        return flask.redirect("/accounts/login/", 302)
 
     return flask.render_template("edit.html")
 
@@ -36,9 +44,9 @@ def show_edit():
 def show_more_info():
     """Ask more questions to the user."""
 
-    if not utils.check_logname_exists():
-        return flask.redirect("/accounts/login/", 302)
-
+    background_check = utils.do_background_check()
+    if background_check:
+        return background_check
     
     logname = flask.request.cookies.get('username')
     context = {"logname": logname}
@@ -79,7 +87,7 @@ def login_help(connection, form):
 
     username = form['username']
     password = form['password']
-    print("USERNAME IS:", username)
+
     # hash and salt according to user password
     user = check_user_exists(connection, username, password)
     if not user:
@@ -118,6 +126,12 @@ def create_help(connection, form):
     if user:
         flask.abort(403)
 
+    password_regex = re.compile(r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}')
+
+    if not password_regex.match(password):
+        error = 'Password must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters'
+        return flask.render_template('create.html', error=error)
+
     hashed_password = hash_password(password)
     
     cur = connection.execute(
@@ -150,6 +164,12 @@ def edit_help(connection, form):
     if new_password != new_password2:
         error = "Passwords do not match."
         return flask.render_template("edit.html", error = error)
+    
+    password_regex = re.compile(r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}')
+
+    if not password_regex.match(new_password):
+        error = 'Password must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters'
+        return flask.render_template('edit.html', error=error)
 
     user = check_user_exists(connection,login_name, password)
     password_db_string = get_hashed_password(password, user['password'])

@@ -19,8 +19,16 @@ client = OpenAI()
 def show_liftbot():
     """Show the liftbot screen."""
 
+    background_check = utils.do_background_check()
+    if background_check:
+        return background_check
+
     if not utils.check_logname_exists():
         return flask.redirect("/accounts/login/", 302)
+    
+    # check if user hasn't inputted new information
+    if utils.check_user_settings()['age'] == -1:
+        return flask.redirect("/accounts/more_info/", 302)
 
     user = utils.get_user_information()
     # Attempt to get the user's last workout
@@ -36,7 +44,7 @@ def show_liftbot():
     )
 
     helper_message = None
-    
+
     # Append previous workout details if available
     if prev_workout:
         kind_of_workout, user_workout = workout_info

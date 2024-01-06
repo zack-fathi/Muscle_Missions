@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Change Password - Muscle Missions</title>
-    <link rel="icon" href="/../static/Muscle_Missions_Logo.png" type="image/png">
+    <link
+      rel="icon"
+      href="/../static/Muscle_Missions_Logo.png"
+      type="image/png"
+    />
     <style>
-        body {
-            background-color: #f4f4f4; /* Consistent with the index page */
-            color: #212529;
-            font-family: 'Roboto', sans-serif; /* Roboto font for consistency */
-        }
-        .card {
-            background-color: #fff; /* White background for the card */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border: none;
-        }
-        .card-header {
-            background-color: #007bff; /* Primary color header */
-            color: white;
-            text-align: center;
-        }
-        .btn-primary {
-            background-color: #007bff; /* Primary button color */
-            border: none;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3; /* Darker on hover */
-        }
-        .form-label {
-            color: #212529; /* Consistent text color for labels */
-        }
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-        }
+      body {
+        background-color: #f4f4f4; /* Consistent with the index page */
+        color: #212529;
+        font-family: "Roboto", sans-serif; /* Roboto font for consistency */
+      }
+      .card {
+        background-color: #fff; /* White background for the card */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: none;
+      }
+      .card-header {
+        background-color: #007bff; /* Primary color header */
+        color: white;
+        text-align: center;
+      }
+      .btn-primary {
+        background-color: #007bff; /* Primary button color */
+        border: none;
+      }
+      .btn-primary:hover {
+        background-color: #0056b3; /* Darker on hover */
+      }
+      .form-label {
+        color: #212529; /* Consistent text color for labels */
+      }
+      .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
@@ -80,38 +89,107 @@
     </nav>
 
     <div class="container mt-5">
-        {% if error %}
-            <div class="alert alert-danger" role="alert">
-                {{ error }}
-            </div>
-        {% endif %}
+      {% if error %}
+      <div class="alert alert-danger" role="alert">{{ error }}</div>
+      {% endif %}
 
-        <div class="card">
-            <div class="card-header">
-                <h2>Change Password</h2>
-            </div>
-            <div class="card-body">
-                <form action="/accounts/?target=" method="post" enctype="multipart/form-data">
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Current Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required/>
-                    </div>
-                    <div class="mb-3">
-                        <label for="new" class="form-label">New Password</label>
-                        <input type="password" class="form-control" id="new" name="new" required/>
-                    </div>
-                    <div class="mb-3">
-                        <label for="new2" class="form-label">Confirm New Password</label>
-                        <input type="password" class="form-control" id="new2" name="new2" required/>
-                    </div>
-                    <input type="hidden" name="operation" value="edit"/>
-                    <button type="submit" class="btn btn-primary">Change Password</button>
-                </form>
-            </div>
+      <div class="card">
+        <div class="card-header">
+          <h2>Change Password</h2>
         </div>
+        <div class="card-body">
+          <form
+            action="/accounts/?target="
+            method="post"
+            enctype="multipart/form-data"
+            id="editForm"
+          >
+            <div class="mb-3">
+              <label for="password" class="form-label">Current Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                name="password"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="new" class="form-label">New Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="new"
+                name="new"
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="new2" class="form-label">Confirm New Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="new2"
+                name="new2"
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Must match the password entered above"
+                required
+              />
+            </div>
+            <p class="form-text">
+              Your password must contain at least one number, one uppercase
+              letter, one lowercase letter, and be at least 8 characters long.
+            </p>
+            <input type="hidden" name="operation" value="edit" />
+            <button type="submit" class="btn btn-primary">
+              Change Password
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
+    <div
+      class="modal fade"
+      id="customAlertModal"
+      tabindex="-1"
+      aria-labelledby="customAlertModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div
+            class="modal-header"
+            style="background-color: #007bff; color: white"
+          >
+            <h5 class="modal-title" id="customAlertModalLabel">Alert</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p id="alertMessage">Your custom message goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="/../static/js/edit.js"></script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+  </body>
 </html>

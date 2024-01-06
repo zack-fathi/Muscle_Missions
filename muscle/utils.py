@@ -129,6 +129,34 @@ def get_last_single_workout(connection, workoutID):
     ).fetchall()
     return workout_exercises
 
+def check_user_settings():
+    """Sees if a user has filled out the additional data needed."""
+    connection = muscle.model.get_db()
+    logname = flask.request.cookies.get('username', None)
+
+    cur = connection.execute(
+        "SELECT age from users "
+        "WHERE username == ? ",
+        (logname,)
+    )
+    
+    return cur.fetchone()
+
+def do_background_check():
+    if 'redirected' in flask.session:
+        # Clear the session variable and proceed without redirecting
+        del flask.session['redirected']
+        return
+
+    if not check_logname_exists():
+        flask.session['redirected'] = True
+        return flask.redirect("/accounts/login/", 302)
+    
+    if check_user_settings()['age'] == -1:
+        flask.session['redirected'] = True
+        return flask.redirect("/accounts/more_info/", 302)
+
+
 workout_split_shortcuts = {
 
     "full": "Full Body",

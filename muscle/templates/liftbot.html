@@ -19,7 +19,10 @@
     />
     <style>
       body {
-        background-color: #f4f4f4;
+        background-image: url("/static/Interior1.png"); /* Consistent with the index page */
+        background-repeat: no-repeat;
+        background-position: center center; /* Center the image */
+        background-size: cover; /* Cover the entire viewport */
         color: #212529;
         font-family: "Roboto", sans-serif;
       }
@@ -28,7 +31,12 @@
         height: 400px;
         overflow-y: auto;
         margin-bottom: 20px;
+        background-color: rgba(230, 230, 230, 0.9); 
+        backdrop-filter: blur(
+          5px
+        ); /* Optional: This will give a blur effect to the background content */
       }
+
       .message {
         padding: 10px;
         margin: 10px;
@@ -47,6 +55,7 @@
       }
       .input-group {
         margin-bottom: 20px;
+        background-color: rgba(230, 230, 230, 0.9); 
       }
       .alert-danger {
         background-color: #f8d7da;
@@ -55,13 +64,8 @@
     </style>
   </head>
   <body>
-
-    {% extends 'base.html' %}
-    
-    {% block content %}
-
-    {% if error %}
-      <div class="alert alert-danger" role="alert">{{ error }}</div>
+    {% extends 'base.html' %} {% block content %} {% if error %}
+    <div class="alert alert-danger" role="alert">{{ error }}</div>
     {% endif %}
     <div class="container mt-4">
       <h2 class="text-center mb-4">Chat with LiftBot</h2>

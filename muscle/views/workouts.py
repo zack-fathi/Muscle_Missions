@@ -16,9 +16,17 @@ from muscle.api.workout_split import generate_workout_split
 @muscle.app.route('/workouts/day/')
 def show_daily_workout():
     """Show the daily workout page."""
+    
+    # if not utils.check_logname_exists():
+    #     return flask.redirect("/accounts/login/", 302)
+    
+    # # check if user hasn't inputted new information
+    # if utils.check_user_settings()['age'] == -1:
+    #     return flask.redirect("/accounts/more_info/", 302)
 
-    if not utils.check_logname_exists():
-        return flask.redirect("/accounts/login/", 302)
+    background_check = utils.do_background_check()
+    if background_check:
+        return background_check
 
     return flask.render_template("day.html")
 
@@ -26,9 +34,16 @@ def show_daily_workout():
 @muscle.app.route('/workouts/split/')
 def show_split():
     """Show the workout split page."""
-
-    if not utils.check_logname_exists():
-        return flask.redirect("/accounts/login/", 302)
+    # if not utils.check_logname_exists():
+    #     return flask.redirect("/accounts/login/", 302)
+    
+    # # check if user hasn't inputted new information
+    # if utils.check_user_settings()['age'] == -1:
+    #     return flask.redirect("/accounts/more_info/", 302)
+    
+    background_check = utils.do_background_check()
+    if background_check:
+        return background_check
 
     return flask.render_template("split.html")
 
@@ -37,8 +52,16 @@ def show_split():
 def handle_workouts_submit():
     """Handle the form submission for creating a workout."""
 
-    if not utils.check_logname_exists():
-        return flask.redirect("/accounts/login/", 302)
+    # if not utils.check_logname_exists():
+    #     return flask.redirect("/accounts/login/", 302)
+    
+    # # check if user hasn't inputted new information
+    # if utils.check_user_settings()['age'] == -1:
+    #     return flask.redirect("/accounts/more_info/", 302)
+
+    background_check = utils.do_background_check()
+    if background_check:
+        return background_check
 
     connection = muscle.model.get_db()
     form = flask.request.form
@@ -54,8 +77,15 @@ def handle_workouts_submit():
 @muscle.app.route('/save_workout/', methods=['POST'])
 def save_workout():
     "Save a users workout."
-    if not utils.check_logname_exists():
-        return flask.redirect("/accounts/login/", 302)
+    # if not utils.check_logname_exists():
+    #     return flask.redirect("/accounts/login/", 302)
+    
+    # # check if user hasn't inputted new information
+    # if utils.check_user_settings()['age'] == -1:
+    #     return flask.redirect("/accounts/more_info/", 302)
+    background_check = utils.do_background_check()
+    if background_check:
+        return background_check
     
     workout_json = flask.request.form['workout_data']
     workout_data = json.loads(workout_json)

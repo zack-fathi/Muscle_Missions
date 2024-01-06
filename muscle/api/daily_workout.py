@@ -3,16 +3,17 @@ import flask
 import muscle
 import json
 import random
-from ..utils import check_logname_exists, get_dynamic_workout_order
+from .. import utils
 from enum import Enum
 
 def generate_daily_workout(time, equipment, muscle_group, workout_type, difficulty, connection, limitations):
     """Generate a daily workout for the user."""
 
-    if not check_logname_exists():
-        return flask.abort(403)
+    background_check = utils.do_background_check()
+    if background_check:
+        return background_check
     
-    group_order = get_dynamic_workout_order(time,muscle_group)
+    group_order = utils.get_dynamic_workout_order(time,muscle_group)
     return flask.jsonify(generate_workout(group_order, equipment, workout_type, difficulty, connection, limitations,muscle_group))
 
 def generate_workout(group_order, equipment, workout_type, difficulty, connection, limitations, muscle_group):

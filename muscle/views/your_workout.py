@@ -21,6 +21,10 @@ def show_your_workout():
     if not utils.check_logname_exists():
         return flask.redirect("/accounts/login/", 302)
     
+    # check if user hasn't inputted new information
+    if utils.check_user_settings()['age'] == -1:
+        return flask.redirect("/accounts/more_info/", 302)
+    
     user_id = utils.get_user_id(connection)
 
     recent_workout = connection.execute(
