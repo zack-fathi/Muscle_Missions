@@ -29,6 +29,9 @@ def complete_logout():
 def show_create():
     """Show the account creation page."""
 
+    if utils.check_logname_exists():
+        return flask.redirect("/",302)
+
     return flask.render_template("create.html")
 
 @muscle.app.route('/accounts/edit/')
@@ -136,7 +139,8 @@ def create_help(connection, form):
     user = cur.fetchall()
 
     if user:
-        flask.abort(403)
+        error = "Username already exists. Please enter a new username."
+        return flask.render_template('create.html', error=error)
 
     password_regex = re.compile(r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}')
 

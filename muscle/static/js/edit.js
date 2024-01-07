@@ -1,7 +1,6 @@
 document.getElementById("editForm").addEventListener("submit", function (e) {
     // Prevent the default form submission behavior
     e.preventDefault();
-  
     // Perform your validation checks
     if (!validatePassword()) {
       // If validation fails, show an error message and stop the function
@@ -29,7 +28,7 @@ document.getElementById("editForm").addEventListener("submit", function (e) {
     var password = document.getElementById("password").value;
     var newPassword = document.getElementById("new").value;
 
-    return password = newPassword;
+    return password == newPassword;
 
   } //samePasswordAsBefore()
   
