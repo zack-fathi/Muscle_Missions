@@ -143,6 +143,7 @@ def check_user_settings():
     return cur.fetchone()
 
 def do_background_check():
+    """Background check which prevents users from accessing content they cannot."""
     if 'redirected' in flask.session:
         # Clear the session variable and proceed without redirecting
         del flask.session['redirected']

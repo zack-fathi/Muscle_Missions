@@ -23,13 +23,6 @@ def show_liftbot():
     if background_check:
         return background_check
 
-    if not utils.check_logname_exists():
-        return flask.redirect("/accounts/login/", 302)
-    
-    # check if user hasn't inputted new information
-    if utils.check_user_settings()['age'] == -1:
-        return flask.redirect("/accounts/more_info/", 302)
-
     user = utils.get_user_information()
     # Attempt to get the user's last workout
     workout_info = get_user_workout(user['userID'])

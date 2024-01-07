@@ -2,12 +2,15 @@ function sendMessage() {
     
     const userInput = document.getElementById('user-input')
     const message = userInput.value.trim();
-    console.log("Hello")
+    const spinner = document.getElementById("#spinner");
+    console.log(spinner.style.display);
 
     if (message){
 
+        spinner.style.display = 'block';
+        console.log(spinner.style.display);
+
         // display and clear message
-        console.log(message)
         displayMessage(message, 'user');
         userInput.value = '';
 
@@ -22,9 +25,11 @@ function sendMessage() {
         .then(response => response.json())
         .then(data => {
             displayMessage(data.response, 'bot');
+            spinner.style.display = 'none';
 
         })
         .catch(error => console.error('Error:', error));
+        spinner.style.display = 'none';
 
     }
 

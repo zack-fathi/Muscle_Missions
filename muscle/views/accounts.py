@@ -51,6 +51,18 @@ def show_more_info():
     logname = flask.request.cookies.get('username')
     context = {"logname": logname}
     return flask.render_template("more_info.html", **context)
+
+@muscle.app.route('/accounts/edit_more_info/')
+def show_edit_more_info():
+    """Edit more questions to the user."""
+
+    background_check = utils.do_background_check()
+    if background_check:
+        return background_check
+    
+    logname = flask.request.cookies.get('username')
+    context = {"logname": logname}
+    return flask.render_template("edit_more_info.html", **context)
     
 
 @muscle.app.route('/accounts/auth/')
@@ -78,8 +90,8 @@ def handle_submit():
         return edit_help(connection, form)
     if operation == "more":
         return more_help(connection, form)
-    if operation == "delete":
-        return 'delete'
+    if operation == "edit_more":
+        return edit_more_help(connection,form)
     return None
     
 def login_help(connection, form):
@@ -187,6 +199,30 @@ def edit_help(connection, form):
 
 def more_help(connection, form):
     """Adds new data to the existing user."""
+    
+    if not utils.check_logname_exists():
+        return flask.redirect("/accounts/login/", 302)
+    
+    age = form['age']
+    height = form['height']
+    weight = form['weight']
+    activity_level = form['activity_level']
+    experience = form['experience']
+    gender = form['gender']
+    logname = flask.request.cookies.get('username')
+
+    cur = connection.execute(
+        "UPDATE users "
+        "SET age = ?, height = ?, weight= ?, fitness_level = ?, workout_experience = ?, gender = ? "
+        "WHERE username = ? ",
+        (age, height, weight, activity_level, experience, gender, logname)
+    )
+    connection.commit()
+
+    return flask.redirect("/", 302)
+
+def edit_more_help(connection,form):
+    """Edit users information form."""
     
     if not utils.check_logname_exists():
         return flask.redirect("/accounts/login/", 302)

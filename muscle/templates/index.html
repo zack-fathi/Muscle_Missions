@@ -3,86 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="icon"
-      href= "/static/Muscle_Missions_Logo.png"
-      type="image/png"
-    />
+    <link rel="icon" href="/static/Muscle_Missions_Logo.png" type="image/png" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>Welcome to Muscle Missions!</title>
     <style>
-              body {
-          background-color: #f4f4f4;
-          color: #212529;
-          font-family: "Roboto", sans-serif;
-        }
-        .hero-section {
-          background: url("/static/hero_section.png") no-repeat center
-            center/cover;
-          color: #212529;
-          padding: 60px 0;
-          text-align: center;
-        }
-        .hero-section h1 {
-          font-size: 3rem;
-          margin-bottom: 20px;
-        }
-        .hero-section p {
-          font-size: 1.2rem;
-          margin-bottom: 30px;
-        }
-        .hero-btn {
-          background-color: #007bff;
-          color: white;
-          padding: 10px 25px;
-          border-radius: 5px;
-          text-transform: uppercase;
-          transition: background-color 0.3s;
-        }
-        .hero-btn:hover {
-          background-color: #0056b3;
-        }
-        .card {
-          background-color: #fff;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-          transition: box-shadow 0.3s ease-in-out;
-        }
-  
-        .card:hover {
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-  
-        .card-body {
-          color: #212529;
-          padding: 15px;
-        }
-  
-        .card-title {
-          font-weight: 700;
-          color: #007bff; /* Or your primary brand color */
-        }
-  
-        .btn-primary {
-          background-color: #007bff;
-          border-color: #007bff;
-          transition: background-color 0.3s, border-color 0.3s;
-        }
-  
-        .btn-primary:hover {
-          background-color: #0056b3;
-          border-color: #0056b3;
-        }
-  
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-          .card {
-            margin-bottom: 20px;
-          }
-        }
+      .hero-section {
+        background: url("/static/hero_section.png") no-repeat center
+          center/cover;
+        color: #212529;
+        padding: 60px 0;
+        text-align: center;
+      }
+      .hero-section h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+      }
+      .hero-section p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+      }
+      .hero-btn {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 25px;
+        border-radius: 5px;
+        text-transform: uppercase;
+        transition: background-color 0.3s;
+      }
+      .hero-btn:hover {
+        background-color: #0056b3;
+      }
+      .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        transition: background-color 0.3s, border-color 0.3s;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+      }
     </style>
   </head>
-  <body>
-    {% extends 'base.html' %}
-    
-    {% block content %}
+  <body class="index-body">
+    {% extends 'base.html' %} {% block content %}
     <!-- Hero Section -->
     <div class="hero-section">
       <div class="container">
@@ -106,24 +70,32 @@
       <h2 class="text-center mb-4">Choose Your Path</h2>
       <div class="row">
         <div class="col-md-4">
-          <div class="card text-center mb-4">
-            <img src="/../static/Single_Workout.png" class="card-img-top" alt="Chat with LiftBot">
-            <div class="card-body">
-              <h5 class="card-title">Daily Custom Workout</h5>
+          <div class="card text-center index-card">
+            <img
+              src="{{ url_for('static', filename='Single_Workout.png') }}"
+              class="card-img-top"
+              alt="Single Workout"
+            />
+            <div class="card-body index-card-body">
+              <h5 class="card-title index-card-title">Daily Custom Workout</h5>
               <p class="card-text">
                 Tailored exercises to fit your daily schedule.
               </p>
-              <a href="/workouts/day/" class="btn btn-primary"
-                >Create Workout</a
-              >
+              <a href="/workouts/day/" class="btn btn-primary">
+                Create Workout
+              </a>
             </div>
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card text-center mb-4">
-            <img src="/../static/Workout_Split_Plan.png" class="card-img-top" alt="Chat with LiftBot">
-            <div class="card-body">
-              <h5 class="card-title">Workout Split Plan</h5>
+          <div class="card text-center index-card">
+            <img
+              src="{{ url_for('static', filename='Workout_Split_Plan.png') }}"
+              class="card-img-top"
+              alt="Workout Split Plan"
+            />
+            <div class="card-body index-card-body">
+              <h5 class="card-title index-card-title">Workout Split Plan</h5>
               <p class="card-text">
                 Get a structured workout plan for your week.
               </p>
@@ -132,10 +104,14 @@
           </div>
         </div>
         <div class="col-md-4">
-          <div class="card text-center mb-4">
-            <img src="/../static/LiftBot.png" class="card-img-top" alt="Chat with LiftBot">
-            <div class="card-body">
-              <h5 class="card-title">Chat with LiftBot</h5>
+          <div class="card text-center index-card">
+            <img
+              src="{{ url_for('static', filename='LiftBot.png') }}"
+              class="card-img-top"
+              alt="Chat with LiftBot"
+            />
+            <div class="card-body index-card-body">
+              <h5 class="card-title index-card-title">Chat with LiftBot</h5>
               <p class="card-text">Need advice? Talk to our virtual trainer.</p>
               <a href="/liftbot/" class="btn btn-primary">Start Chatting</a>
             </div>
@@ -144,8 +120,5 @@
       </div>
     </div>
     {% endblock %}
-    <!-- Optional Footer -->
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

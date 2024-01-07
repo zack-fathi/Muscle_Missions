@@ -9,17 +9,10 @@
       href="/../static/Muscle_Missions_Logo.png"
       type="image/png"
     />
-    <link
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+
     <style>
       body {
-        background-image: url("/static/Interior1.png"); /* Consistent with the index page */
+        background-image: url("/static/White_Gray_Background.jpg"); /* Consistent with the index page */
         background-repeat: no-repeat;
         background-position: center center; /* Center the image */
         background-size: cover; /* Cover the entire viewport */
@@ -27,14 +20,10 @@
         font-family: "Roboto", sans-serif;
       }
       #chat-area {
-        border: 1px solid #dee2e6;
+        border: 1px transparent;
         height: 400px;
         overflow-y: auto;
         margin-bottom: 20px;
-        background-color: rgba(230, 230, 230, 0.9); 
-        backdrop-filter: blur(
-          5px
-        ); /* Optional: This will give a blur effect to the background content */
       }
 
       .message {
@@ -71,6 +60,13 @@
       <h2 class="text-center mb-4">Chat with LiftBot</h2>
       <div id="chat-area">
         <!-- Chat messages will go here -->
+
+        <!-- Spinner -->
+        <!-- TODO: FIX THE SPINNER -->
+        <div id="#spinner" style="display: none !important;">
+          <img src="{{ url_for('static', filename='spinner.gif') }}" alt="Loading..." />
+      </div>
+
       </div>
 
       <div class="input-group">

@@ -18,12 +18,9 @@ def show_your_workout():
 
     connection = muscle.model.get_db()
 
-    if not utils.check_logname_exists():
-        return flask.redirect("/accounts/login/", 302)
-    
-    # check if user hasn't inputted new information
-    if utils.check_user_settings()['age'] == -1:
-        return flask.redirect("/accounts/more_info/", 302)
+    background_check = utils.do_background_check()
+    if background_check:
+        return background_check
     
     user_id = utils.get_user_id(connection)
 

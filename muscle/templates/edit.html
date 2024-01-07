@@ -19,9 +19,9 @@
     />
     <style>
       body {
-        background-color: #f4f4f4; /* Consistent with the index page */
-        color: #212529;
-        font-family: "Roboto", sans-serif; /* Roboto font for consistency */
+        background-image: url("/static/White_Gray_Background.jpg"); /* Consistent with the index page */
+        color: #212529 !important;
+        font-family: "Roboto", sans-serif !important; /* Roboto font for consistency */
       }
       .card {
         background-color: #fff; /* White background for the card */
@@ -29,9 +29,9 @@
         border: none;
       }
       .card-header {
-        background-color: #007bff; /* Primary color header */
-        color: white;
-        text-align: center;
+        background-color: #007bff !important; /* Primary color header */
+        color: white !important;
+        text-align: center !important;
       }
       .btn-primary {
         background-color: #007bff; /* Primary button color */
@@ -50,43 +50,9 @@
     </style>
   </head>
   <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/">Muscle Missions</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                aria-current="page"
-                href="/your_workout/"
-                >Your Workout</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="/accounts/edit/">Edit Account</a>
-            </li>
-          </ul>
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href="/accounts/logout/">Logout</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
+
+    {% extends 'base.html' %}
+    {% block content%}
 
     <div class="container mt-5">
       {% if error %}
@@ -186,7 +152,15 @@
         </div>
       </div>
     </div>
-    
+
+    <div class="text-center">
+        Need to change your user information? Click
+        <a href="/accounts/edit_more_info/" class="link-primary">here!</a>
+      </div>
+    </div>
+
+    {% endblock %}
+
     <script src="/../static/js/edit.js"></script>
 
     <!-- Bootstrap JS -->

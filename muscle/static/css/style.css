@@ -1,0 +1,67 @@
+/* index.html */
+.index-body {
+  background-image: #f4f4f4;
+  color: #212529;
+  font-family: "Roboto", sans-serif;
+}
+
+.index-card {
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+.index-card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.index-card-body {
+  color: #212529;
+  padding: 15px;
+}
+
+.index-card-title {
+  font-weight: 700;
+  color: #007bff; /* Or your primary brand color */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .index-card {
+    margin-bottom: 20px;
+  }
+}
+
+/* day.html */
+day-body {
+    background-image: url("/static/hero_section.png");
+    color: #212529;
+    font-family: "Roboto", sans-serif;
+  }
+  .day-card {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+    border: none !important;
+    backdrop-filter: blur(5px) !important;
+  }
+
+  .day-card-body {
+    padding: 20px;
+  }
+  .day-btn-primary {
+    background-color: #007bff; /* Primary button color */
+    border: none;
+  }
+  .day-btn-primary:hover {
+    background-color: #0056b3; /* Darker on hover */
+  }
+  .form-label {
+    color: #212529; /* Consistent text color for labels */
+  }
+  .form-check-label {
+    margin-left: 5px; /* Spacing for checkbox labels */
+  }
+  .day-container-fluid h2 {
+    text-align: center; /* Center align header */
+    margin-bottom: 20px; /* Spacing below header */
+  }

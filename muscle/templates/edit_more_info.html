@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Information</title>
+    <link rel="icon" href="/../static/Muscle_Missions_Logo.png" type="image/png">
+    <style>
+        body {
+          background-image: url("/static/Create2_Image.jpg"); /* Consistent with the index page */
+          color: #212529 !important;
+          font-family: "Roboto", sans-serif !important; /* Roboto font for consistency */
+        }
+        .card {
+          background-color: #fff; /* White background for the card */
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          border: none;
+        }
+        .card-header {
+          background-color: #007bff !important; /* Primary color header */
+          color: white !important;
+          text-align: center !important;
+        }
+        .btn-primary {
+          background-color: #007bff; /* Primary button color */
+          border: none;
+        }
+        .btn-primary:hover {
+          background-color: #0056b3; /* Darker on hover */
+        }
+        .form-label {
+          color: #212529; /* Consistent text color for labels */
+        }
+        .alert-danger {
+          background-color: #f8d7da;
+          color: #721c24;
+        }
+      </style>
+</head>
+<body>
+
+    {% extends 'base.html' %}
+    {% block content %}
+
+    <div class="container-fluid mt-5">
+        <h2 class="text-center" style="color: white;" > 
+        Edit Your Information
+        </h2>
+    </div>
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h2>User Information Form</h2>
+            </div>
+            <div class="card-body">
+                <form action="/accounts/?target=" method="post">
+                    <div class="mb-3">
+                        <label for="age" class="form-label">Age:</label>
+                        <input type="number" class="form-control" id="age" name="age" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="height" class="form-label">Height (in inches):</label>
+                        <input type="number" class="form-control" id="height" name="height" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="weight" class="form-label">Weight (in pounds):</label>
+                        <input type="number" class="form-control" id="weight" name="weight" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="activity-level" class="form-label">Activity Level:</label>
+                        <select class="form-select" id="activity-level" name="activity_level" required>
+                            <option value="na">Sedentary (up to 2 hours a week)</option>
+                            <option value="la">Lightly Active (2-3 hours a week)</option>
+                            <option value="ma">Moderately Active (3-5 hours a week)</option>
+                            <option value="va">Very Active (5+ hours a week)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="experience" class="form-label">How experienced are you in the gym?</label>
+                        <select class="form-select" id="experience" name="experience" required>
+                            <option value="0">Beginner (0-1 years experience)</option>
+                            <option value="1">Intermediate (1-3 years experience)</option>
+                            <option value="2">Advanced (3+ years experience)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Gender:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="male" name="gender" value="male" required>
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="female" name="gender" value="female" required>
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="other" name="gender" value="other" required>
+                            <label class="form-check-label" for="other">Other</label>
+                        </div>
+                    </div>
+                    <input type="hidden" name="operation" value="edit_more"/>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

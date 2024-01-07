@@ -229,3 +229,9 @@
         font-weight: 700;
       }
     </style>
+
+        <div class="text-center">
+        Need to change your user information? Click
+        <a href="/accounts/create/" class="link-primary">here!</a>
+      </div>
+    </div>
