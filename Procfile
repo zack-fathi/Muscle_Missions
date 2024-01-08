@@ -1,1 +1,1 @@
-web: gunicorn muscle.app:app
+web: gunicorn muscle:app
