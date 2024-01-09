@@ -5,6 +5,7 @@ from .config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
+print("Database Path:", Config.DATABASE_FILENAME)
 
 
 # Import other views
