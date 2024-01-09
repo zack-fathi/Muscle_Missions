@@ -18,10 +18,9 @@ Welcome to Muscle Missions, a dynamic Web App designed to revitalize your fitnes
 - **Other Technologies:** Jinja2 for HTML templates, RESTful API design
 
 ## Project Link
-[Live Project / GitHub Repository / Demo Video](#)
+[www.musclemissions.live](www.musclemissions.live)
 
 ## Screenshots/Demos
-*Insert screenshots or links to demo videos here*
 
 ## Backend Design
 Flask, a lightweight Python framework, is at the heart of Muscle Missions' backend, providing agility and speed. The user data is securely managed in SQLite3 database, chosen for its efficiency and simplicity.
@@ -44,11 +43,8 @@ Continued expansion is planned, including adding more exercises, refining the se
 ## Lessons Learned
 Creating Muscle Missions was a journey of passion, combining my love for fitness with technology. The project honed my skills in SQL query construction, algorithm development, and deepened my understanding of efficient database design.
 
-## Contribution
-If you're interested in contributing to Muscle Missions, please see our contribution guidelines here.
-
 ## Contact
-For more information or collaboration opportunities, feel free to contact me at [Your Email/Contact Link].
+For more information or collaboration opportunities, feel free to contact me at zfathi@umich.edu.
 
 ## Acknowledgments
-Special thanks to [Mention any specific inspirations, helpful resources, or contributors].
+Special thanks to [strengthlog](strengthlog.com) for much of the workouts in my exercise database, and [Unsplash](unsplash.com) and OpenAI's DALL-E for images.
