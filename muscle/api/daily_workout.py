@@ -6,22 +6,24 @@ import random
 from .. import utils
 from enum import Enum
 
+
 def generate_daily_workout(time, equipment, muscle_group, workout_type, difficulty, connection, limitations):
     """Generate a daily workout for the user."""
 
     background_check = utils.do_background_check()
     if background_check:
         return background_check
-    
-    group_order = utils.get_dynamic_workout_order(time,muscle_group)
-    return flask.jsonify(generate_workout(group_order, equipment, workout_type, difficulty, connection, limitations,muscle_group))
+
+    group_order = utils.get_dynamic_workout_order(time, muscle_group)
+    return flask.jsonify(generate_workout(group_order, equipment, workout_type, difficulty, connection, limitations, muscle_group))
+
 
 def generate_workout(group_order, equipment, workout_type, difficulty, connection, limitations, muscle_group):
     """Generate workout based on time and group order."""
 
     workout_plan = []
     selected_exercises = set()  # Set to keep track of selected exercises
-    weight = 5  # This is the weight OF an exercise, NOT weight FOR an exercise 
+    weight = 5  # This is the weight OF an exercise, NOT weight FOR an exercise
     count = 0
 
     for muscle_to_hit in group_order:
@@ -31,7 +33,7 @@ def generate_workout(group_order, equipment, workout_type, difficulty, connectio
             workout_plan.append(exercise)
             # Add the selected exercise to the set
             selected_exercises.add(exercise["Parent Exercise"])
-        
+
         count = count + 1
         if count % 3 == 0 and count != 0:
             weight = weight - 1
@@ -42,13 +44,13 @@ def generate_workout(group_order, equipment, workout_type, difficulty, connectio
     return workout
 
 
-def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_type, workout_experience, is_compound, connection, selected_exercises,limitations, weight):
+def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_type, workout_experience, is_compound, connection, selected_exercises, limitations, weight):
     """Return one exercise chosen, ensuring no repetitions."""
 
     workouts_to_pick_from = []
 
     sql_query = """
-    SELECT name, parent_exercise FROM exercises
+    SELECT name, parent_exercise, movement_type FROM exercises
     WHERE muscle_group == ? 
     AND type == ? 
     AND weight >= ? 
@@ -75,7 +77,8 @@ def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_t
         sql_query += f" AND parent_exercise NOT IN ({placeholders})"
 
     # Construct the query parameters
-    query_params = [muscle_to_hit, workout_type, weight, workout_experience, is_compound] + equipment_list
+    query_params = [muscle_to_hit, workout_type, weight,
+                    workout_experience, is_compound] + equipment_list
     if muscle_subgroup != "all":
         query_params.append(muscle_subgroup)
     query_params += limitations + list(selected_exercises)
@@ -86,11 +89,14 @@ def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_t
 
     if query_result:
         for result in query_result:
-            workouts_to_pick_from.append({"Exercise": result['name'],
-                                            "Sets": "3",
-                                            "Reps": "10",
-                                            "Parent Exercise": result['parent_exercise']})
-
+            reps = (workout_experience * 30) + \
+                30 if result['movement_type'] == "plank" else "10"
+            workouts_to_pick_from.append({
+                "Exercise": result['name'],
+                "Sets": "3",
+                "Reps": reps,
+                "Parent Exercise": result['parent_exercise']
+            })
 
     if workouts_to_pick_from:
         return random.choice(workouts_to_pick_from)

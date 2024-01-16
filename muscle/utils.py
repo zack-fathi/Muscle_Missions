@@ -12,7 +12,6 @@ back_muscles_list = ["mid-back", "upper-back", "lats"]
 shoulder_muscle_list = ["shoulders", "lateral", "anterior", "rear"]
 
 
-
 def clear_cookie():
     """Clear a cookie if removed from database."""
     flask.session.clear()
@@ -762,4 +761,11 @@ workout_experience_map = {
     0: "beginner (0-1 years experience)",
     1: "intermediate (1-3 years experience)",
     2: "advanced (3+ years experience)"
+}
+
+plank_map = {
+
+    0: 30,
+    1: 60,
+    2: 90
 }
