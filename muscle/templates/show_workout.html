@@ -62,12 +62,12 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <div class="container mt-4 mb-4 center"> 
+            <div class="mt-4 mb-4 center"> 
                 Not happy with your workout? Click <a href="#" onclick="location.reload();">here</a> to get a new one! Or click <a href="/workouts/day/">here</a>
                 to modify your preferences!
             </div>
             <!-- Save Workout Button -->
-            <div class="container mt-4">
+            <div class="text-center">
                 <form action="/save_workout/" method="post">
                     <input type="hidden" name="workout_data" value="{{ workout_json }}">
                     <input type="hidden" name="operation" value="save_day"/>
