@@ -23,7 +23,7 @@ def generate_workout(group_order, equipment, workout_type, difficulty, connectio
 
     workout_plan = []
     selected_exercises = set()  # Set to keep track of selected exercises
-    weight = 5  # This is the weight OF an exercise, NOT weight FOR an exercise
+    weight = 4  # This is the weight OF an exercise, NOT weight FOR an exercise
     count = 0
 
     for muscle_to_hit in group_order:

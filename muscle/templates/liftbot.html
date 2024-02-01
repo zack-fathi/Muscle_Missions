@@ -44,7 +44,7 @@
       }
       .input-group {
         margin-bottom: 20px;
-        background-color: rgba(230, 230, 230, 0.9); 
+        background-color: rgba(230, 230, 230, 0.9);
       }
       .alert-danger {
         background-color: #f8d7da;
@@ -60,13 +60,6 @@
       <h2 class="text-center mb-4">Chat with LiftBot</h2>
       <div id="chat-area">
         <!-- Chat messages will go here -->
-
-        <!-- Spinner -->
-        <!-- TODO: FIX THE SPINNER -->
-        <div id="#spinner" style="display: none !important;">
-          <img src="{{ url_for('static', filename='spinner.gif') }}" alt="Loading..." />
-      </div>
-
       </div>
 
       <div class="input-group">
@@ -81,8 +74,12 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+      // global variable for spinner
+      var spinnerURL = "{{ url_for('static', filename='spinner.gif') }}";
+    </script>
+
     <script src="/../static/js/liftbot.js"></script>
     {% endblock %}
-
   </body>
 </html>

@@ -2,17 +2,16 @@ function sendMessage() {
     
     const userInput = document.getElementById('user-input')
     const message = userInput.value.trim();
-    const spinner = document.getElementById("#spinner");
-    console.log(spinner.style.display);
 
     if (message){
-
-        spinner.style.display = 'block';
-        console.log(spinner.style.display);
 
         // display and clear message
         displayMessage(message, 'user');
         userInput.value = '';
+
+        const spinner = createSpinner();
+        const chatArea = document.getElementById('chat-area');
+        chatArea.appendChild(spinner);
 
         fetch('/process_message/', {
             method: 'POST',
@@ -28,8 +27,10 @@ function sendMessage() {
             spinner.style.display = 'none';
 
         })
-        .catch(error => console.error('Error:', error));
-        spinner.style.display = 'none';
+        .catch(error => {
+            console.error('Error:', error);
+            spinner.style.display = 'none';
+        });
 
     }
 
@@ -57,3 +58,15 @@ document.getElementById('user-input').addEventListener('keypress', function(even
         event.preventDefault();
     }
 });
+
+function createSpinner() {
+    const spinnerDiv = document.createElement('div');
+    spinnerDiv.id = 'spinner';
+    const spinnerImg = document.createElement('img');
+    spinnerImg.src = spinnerURL;
+    spinnerImg.alt = 'Loading...';
+
+    spinnerImg.className = 'spinner-image';
+    spinnerDiv.appendChild(spinnerImg);
+    return spinnerDiv;
+}
