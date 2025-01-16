@@ -18,7 +18,7 @@ Welcome to Muscle Missions, a dynamic Web App designed to revitalize your fitnes
 - **Other Technologies:** Jinja2 for HTML templates, RESTful API design
 
 ## Project Link
-[www.musclemissions.fit](www.musclemissions.fit)
+[Muscle Missions](https://www.musclemissions.fit)
 
 ## Screenshots/Demos
 
