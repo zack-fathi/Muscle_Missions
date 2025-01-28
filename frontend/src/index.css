@@ -28,3 +28,9 @@ code {
 .alert {
   border-radius: 10px;
 }
+
+:root {
+  --bs-primary: #3FB9DB;
+  --bs-secondary: #9EB2B6;
+}
+
