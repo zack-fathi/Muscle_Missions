@@ -9,7 +9,7 @@ function CustomNavbar() {
         <Navbar.Toggle aria-controls="navbarNav" />
         <Navbar.Collapse id="navbarNav">
           <Nav className="me-auto">
-            <Nav.Link href="/your_workout/">Your Workout</Nav.Link>
+            <Nav.Link href="/saved_workouts/">Your Workout</Nav.Link>
             <Nav.Link href="/liftbot/">LiftBot</Nav.Link>
             <Nav.Link href="/accounts/edit/">Edit Account</Nav.Link>
           </Nav>

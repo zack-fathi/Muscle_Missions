@@ -1,0 +1,43 @@
+/* Background & Typography */
+.index-body {
+    background-color: #f4f4f4;
+    color: #212529;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  /* Page Title */
+  .index-title {
+    font-weight: 700;
+    color: #343a40; /* Dark gray */
+  }
+  
+  /* Custom Card Styling */
+  .index-card {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+    border-radius: 10px;
+  }
+  
+  .index-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Card Content */
+  .index-card-body {
+    padding: 15px;
+    color: #212529;
+  }
+  
+  .index-card-title {
+    font-weight: 700;
+    color: #007bff; /* Primary brand color */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .index-card {
+      margin-bottom: 20px;
+    }
+  }
+  

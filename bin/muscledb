@@ -2,34 +2,30 @@
 
 set -Eeuo pipefail
 
-# Resolve the full path to the script directory
-SCRIPT_DIR=$(realpath $(dirname "$0"))
+# Get the absolute path of the script directory
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 DB_DIR="${SCRIPT_DIR}/../var"
 DB_FILE="${DB_DIR}/muscle.sqlite3"
 SCHEMA_SCRIPT="${SCRIPT_DIR}/../sql/schema.sql"
 SQL_SCRIPT="${SCRIPT_DIR}/../sql/data.sql"
 
-# Function to create the database
 create_db() {
     if [ -f "${DB_FILE}" ]; then
         echo "Error: database already exists"
         exit 1
     fi
-
     echo "Creating database ..."
     mkdir -p "${DB_DIR}"
     sqlite3 "${DB_FILE}" < "${SCHEMA_SCRIPT}"
     sqlite3 "${DB_FILE}" < "${SQL_SCRIPT}"
 }
 
-# Function to destroy the database
 destroy_db() {
     echo "Destroying database ..."
     rm -f "${DB_FILE}"
 }
 
-# Function to reset the database
 reset_db() {
     echo "Resetting database ..."
     rm -f "${DB_FILE}"
@@ -37,7 +33,6 @@ reset_db() {
     sqlite3 "${DB_FILE}" < "${SQL_SCRIPT}"
 }
 
-# Main script logic
 case "$1" in
     create)
         create_db

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, InputGroup, FormControl, Button } from "react-bootstrap";
 import Layout from "../components/Layout";
-import "./LiftBot.css"; // Import external CSS
+import "../styles/LiftBot.css"; // Import external CSS
 
 function LiftBot() {
   const [messages, setMessages] = useState([]);

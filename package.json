@@ -1,6 +1,9 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.3",
-    "react-bootstrap": "^2.10.8"
+    "react": "^19.0.0",
+    "react-bootstrap": "^2.10.8",
+    "react-dom": "^19.0.0",
+    "react-scripts": "^5.0.1"
   }
 }
