@@ -1,26 +1,35 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import "../styles/WorkoutTable.css"; // Ensure correct import
 
-function WorkoutTable({ exercises, title }) {
+function WorkoutTable({ title, exercises }) {
   return (
-    <div className="mb-4">
-      {title && <h3 className="text-center mb-3">{title}</h3>}
-      <Table bordered hover>
-        <thead className="thead-dark">
+    <div className="workout-table-container">
+      {title && <h3 className="workout-day-title">{title}</h3>} {/* ✅ Centered */}
+      <Table bordered className="workout-table">
+        <thead>
           <tr>
-            <th>Exercise</th>
-            <th>Sets</th>
-            <th>Reps</th>
+            <th scope="col">Exercise</th>
+            <th scope="col">Sets</th>
+            <th scope="col">Reps</th>
           </tr>
         </thead>
         <tbody>
-          {exercises.map((exercise, index) => (
-            <tr key={index}>
-              <td>{exercise.name}</td>
-              <td>{exercise.sets}</td>
-              <td>{exercise.reps}</td>
+          {exercises.length > 0 ? (
+            exercises.map((exercise, index) => (
+              <tr key={index}>
+                <td>{exercise.name}</td>
+                <td>{exercise.sets}</td>
+                <td>{exercise.reps}</td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="3" className="text-center text-danger">
+                No workout data available.
+              </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </Table>
     </div>

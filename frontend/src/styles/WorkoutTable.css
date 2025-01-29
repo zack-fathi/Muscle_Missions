@@ -1,0 +1,36 @@
+/* Table Styling */
+.workout-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* ✅ Table Header - Bootstrap Dark */
+  .workout-table thead th {
+    background-color: #343a40 !important; /* Dark gray */
+    color: white !important;
+    text-align: center;
+  }
+  
+  /* ✅ Table Borders */
+  .workout-table th,
+  .workout-table td {
+    border: 1px solid #dee2e6 !important; /* Light gray border */
+    padding: 10px;
+    text-align: center;
+  }
+  
+  /* ✅ Centered Day Headings */
+  .workout-day-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center !important; /* Centers Day X */
+  }
+  
+  /* No Data Styling */
+  .text-danger {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  

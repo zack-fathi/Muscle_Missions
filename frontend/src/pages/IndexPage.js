@@ -4,26 +4,32 @@ import CustomCard from "../components/Card";
 import { Container, Row, Col, Alert } from "react-bootstrap";
 import Layout from "../components/Layout"; // Use Layout wrapper
 
+// Import images correctly from /src/assets
+import SingleWorkoutImage from "../assets/Single_Workout.png";
+import WorkoutSplitImage from "../assets/Workout_Split_Plan.png";
+import LiftBotImage from "../assets/LiftBot.png";
+import HeroImage from "../assets/hero_section.png";
+
 function IndexPage() {
   const workout = true;
 
   const cards = [
     {
-      image: "/images/Single_Workout.png",
+      image:SingleWorkoutImage,
       title: "Daily Custom Workout",
       text: "Tailored exercises to fit your daily schedule.",
       link: "/workouts/day/",
       buttonText: "Create Workout",
     },
     {
-      image: "/images/Workout_Split_Plan.png",
+      image: WorkoutSplitImage,
       title: "Workout Split Plan",
       text: "Get a structured workout plan for your week.",
       link: "/workouts/split/",
       buttonText: "Get Plan",
     },
     {
-      image: "/images/LiftBot.png",
+      image: LiftBotImage,
       title: "Chat with LiftBot",
       text: "Need advice? Talk to our virtual trainer.",
       link: "/liftbot/",
@@ -38,7 +44,7 @@ function IndexPage() {
         subtitle="Your personal fitness journey starts here"
         buttonText="Start Now"
         link="/workouts/day/"
-        image="/images/hero_section.png"
+        image={HeroImage}
       />
 
       {workout && (

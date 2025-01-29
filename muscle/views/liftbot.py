@@ -10,10 +10,11 @@ import muscle
 import requests
 import json
 from .. import utils
+from dotenv import load_dotenv
 
+load_dotenv()
 
 client = OpenAI()
-
 
 @muscle.app.route("/liftbot/")
 def show_liftbot():
