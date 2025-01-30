@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Import for navigation
+import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Layout from "../../components/Layout";
 import WorkoutForm from "../../components/WorkoutForm";
 
 function GenerateWorkouts({ title, showDaysPerWeek }) {
-  const navigate = useNavigate(); // ✅ Initialize React Router navigation
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     frequency: "",
@@ -34,7 +34,6 @@ function GenerateWorkouts({ title, showDaysPerWeek }) {
     e.preventDefault();
     console.log(`${title} Form Submitted:`, formData);
 
-    // ✅ Navigate to ViewGeneratedWorkouts & pass form data
     navigate("/generated-workout", { state: { formData } });
   };
 
@@ -58,25 +57,29 @@ function GenerateWorkouts({ title, showDaysPerWeek }) {
           },
         ]
       : []),
-    {
-      type: "select",
-      label: "What kind of muscle group would you like to hit?",
-      name: "muscleSplit",
-      value: formData.muscleSplit,
-      placeholder: "Select muscle group",
-      options: [
-        { value: "full", label: "Full-body" },
-        { value: "upper", label: "Upper-body" },
-        { value: "legs", label: "Lower-body" },
-        { value: "push", label: "Push" },
-        { value: "pull", label: "Pull" },
-        { value: "arms", label: "Arms" },
-        { value: "chest", label: "Chest" },
-        { value: "back", label: "Back" },
-        { value: "shoulders", label: "Shoulders" },
-      ],
-      required: true,
-    },
+    ...(!showDaysPerWeek
+      ? [
+          {
+            type: "select",
+            label: "What kind of muscle group would you like to hit?",
+            name: "muscleSplit",
+            value: formData.muscleSplit,
+            placeholder: "Select muscle group",
+            options: [
+              { value: "full", label: "Full-body" },
+              { value: "upper", label: "Upper-body" },
+              { value: "legs", label: "Lower-body" },
+              { value: "push", label: "Push" },
+              { value: "pull", label: "Pull" },
+              { value: "arms", label: "Arms" },
+              { value: "chest", label: "Chest" },
+              { value: "back", label: "Back" },
+              { value: "shoulders", label: "Shoulders" },
+            ],
+            required: true,
+          },
+        ]
+      : []),
     {
       type: "checkbox",
       label: "What kind of equipment do you have access to or want to use?",
@@ -126,7 +129,7 @@ function GenerateWorkouts({ title, showDaysPerWeek }) {
           title={title}
           fields={fields}
           onChange={handleChange}
-          onSubmit={handleSubmit} // ✅ Navigate on submit
+          onSubmit={handleSubmit}
         />
       </Container>
     </Layout>
