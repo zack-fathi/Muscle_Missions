@@ -169,7 +169,6 @@ workout_split_shortcuts = {
     "arms": "Arms"
 }
 
-
 workout_split_order = [
     ("full", "full"),
     ("full","full","full"),

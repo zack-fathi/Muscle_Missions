@@ -2,9 +2,14 @@
 
 set -Eeuo pipefail
 
-FILE=var/muscle.sqlite3
+# Set PYTHONPATH to backend so Flask can find muscle
+export PYTHONPATH=$(pwd)/backend
+export FLASK_APP=muscle
+
+FILE=backend/var/muscle.sqlite3
 if [ -f "$FILE" ]; then
-    flask --app muscle --debug run --host 0.0.0.0 --port 800
+    cd backend  # Move into the backend directory before running Flask
+    flask run --host 0.0.0.0 --port 8000
 else
     echo "Can't find database $FILE"
     echo "Try: ./bin/muscledb create"
