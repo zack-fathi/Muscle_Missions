@@ -1,7 +1,7 @@
 """Workout API Routes."""
 
 from flask import Blueprint, request, jsonify
-from muscle.api.services import register_services
+from workout_server.api.services import register_services
 
 # Register services dynamically
 services = register_services()
@@ -20,3 +20,6 @@ def generate_split():
     """Generate a multi-day workout split."""
     form_data = request.get_json()
     return services["workouts"]["generate_workout_plan"](form_data, is_split=True)
+
+__all__ = ["workouts_bp"]
+

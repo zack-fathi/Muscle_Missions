@@ -1,7 +1,7 @@
 """Database API for Muscle Missions."""
 import sqlite3
 import flask
-from muscle.config import Config
+from config import Config
 
 def dict_factory(cursor, row):
     """Convert database row objects to a dictionary keyed on column name."""
