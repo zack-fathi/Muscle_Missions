@@ -3,8 +3,8 @@
 import json
 import random
 from flask import jsonify
-from muscle.model import get_db
-from muscle.utils import get_dynamic_workout_order
+from model import get_db
+from utils import get_dynamic_workout_order
 
 def generate_workout_plan(data, is_split=False):
     """Generate a daily workout or a workout split based on input parameters."""
@@ -12,7 +12,6 @@ def generate_workout_plan(data, is_split=False):
     # Extract fields from frontend form
     time = data["time"]
     equipment = data.get("equipment", [])
-    muscle_split = data["muscleSplit"]  # ✅ Updated to match React form
     difficulty = data["difficulty"]
     limitations = data.get("limitations", [])
 
@@ -33,6 +32,7 @@ def generate_workout_plan(data, is_split=False):
 
     else:
         # Daily workout generation
+        muscle_split = data["muscleSplit"]
         group_order = get_dynamic_workout_order(time, muscle_split)
 
         # Ensure group_order is not None

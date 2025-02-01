@@ -2,7 +2,6 @@
 
 import flask
 import random
-import muscle
 from enum import Enum
 
 
