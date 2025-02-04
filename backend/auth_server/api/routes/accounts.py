@@ -40,3 +40,9 @@ def logout():
     resp = make_response(jsonify({"message": "Logout successful"}), 200)
     resp.set_cookie('username', '', expires=0)  # Remove the session cookie
     return resp
+
+@accounts_bp.route('/difficulty/', methods=['GET'])
+def get_user_difficulty():
+    """Fetch the difficulty level for the authenticated user."""
+    return services["auth"]["get_difficulty"]()
+

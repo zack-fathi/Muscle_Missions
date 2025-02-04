@@ -13,8 +13,9 @@ fi
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 
 # Define paths relative to the project root
-DB_DIR="$($REALPATH "${SCRIPT_DIR}/../var")"
+DB_DIR="$($REALPATH "${SCRIPT_DIR}/../backend/var")"
 DB_FILE="${DB_DIR}/muscle.sqlite3"
+echo "DB_FILE: ${DB_FILE}"
 SCHEMA_SCRIPT="$($REALPATH "${SCRIPT_DIR}/../backend/sql/schema.sql")"
 SQL_SCRIPT="$($REALPATH "${SCRIPT_DIR}/../backend/sql/data.sql")"
 

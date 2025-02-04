@@ -1,5 +1,5 @@
 """Initialize Authentication Services."""
-from .auth_service import login_user, create_user, edit_user_password, update_user_info, authenticate_user
+from .auth_service import login_user, create_user, edit_user_password, update_user_info, authenticate_user, get_difficulty
 
 def register_services():
     """Dynamically register services for authentication."""
@@ -10,5 +10,6 @@ def register_services():
             "edit_user_password": edit_user_password,
             "update_user_info": update_user_info,
             "authenticate_user": authenticate_user,
+            "get_difficulty": get_difficulty,
         }
     }

@@ -129,3 +129,23 @@ def check_user_exists(connection, username):
 def validate_password(password):
     """Validates password strength."""
     return bool(re.match(r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}', password))
+
+def get_difficulty():
+    """Get a user's difficulty level and return a Flask response."""
+    
+    logname = request.cookies.get('username')
+    if not logname:
+        return jsonify({"difficulty": 0, "message": "No user logged in"}), 200  # Default to 0 if no user
+
+    connection = get_db()
+    cur = connection.execute(
+        "SELECT workout_experience FROM users WHERE username = ?",
+        (logname,)
+    )
+
+    result = cur.fetchone()
+    
+    if not result:
+        return jsonify({"difficulty": 0, "message": "User not found"}), 200  # Default to 0 if user not in DB
+
+    return jsonify({"difficulty": result["workout_experience"], "message": "User difficulty retrieved"}), 200

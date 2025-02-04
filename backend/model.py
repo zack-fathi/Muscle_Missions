@@ -3,6 +3,8 @@ import sqlite3
 import flask
 from config import Config
 
+print(Config.DATABASE_FILENAME)
+
 def dict_factory(cursor, row):
     """Convert database row objects to a dictionary keyed on column name."""
     return {col[0]: row[idx] for idx, col in enumerate(cursor.description)}

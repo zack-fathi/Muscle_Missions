@@ -21,28 +21,34 @@ function GenerateWorkouts({ title, showDaysPerWeek }) {
   useEffect(() => {
     const fetchUserDifficulty = async () => {
       try {
-        const response = await fetch("http://localhost:5001/api/accounts/auth/", {
-          method: "GET",
-          credentials: "include", // Ensure cookies are sent
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "http://localhost:5002/api/accounts/difficulty/",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (response.ok) {
           const userData = await response.json();
           setFormData((prevData) => ({
             ...prevData,
-            difficulty: userData.difficulty || 0, // Use user's difficulty or default to 0
+            difficulty: userData.difficulty, // Always sets difficulty (defaults to 0 if no user)
           }));
+
+          console.log("✅ User difficulty:", userData.difficulty);
         }
       } catch (error) {
-        console.error("Failed to fetch user difficulty:", error);
+        console.error("❌ Failed to fetch user difficulty:", error);
       }
     };
 
     fetchUserDifficulty();
-  }, []);
+}, []);
+
 
   // Handle form changes
   const handleChange = (e) => {
@@ -69,34 +75,40 @@ function GenerateWorkouts({ title, showDaysPerWeek }) {
       : "http://localhost:5001/api/workouts/day/";
 
     try {
-        const response = await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData),
-        });
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-        if (!response.ok) throw new Error("Workout generation failed");
+      if (!response.ok) throw new Error("Workout generation failed");
 
-        const data = await response.json();
-        console.log("✅ API Response:", data);
+      const data = await response.json();
+      console.log("✅ API Response:", data);
 
-        const normalizedData = Array.isArray(data) ? data : [data];
-        console.log("📤 Sending Data to Next Page:", { formData, generatedWorkouts: normalizedData });
+      // ✅ Fix: Extract workout_split if present
+      const normalizedData =
+        data.workout_split || (Array.isArray(data) ? data : [data]);
+      console.log("📤 Sending Data to Next Page:", {
+        formData,
+        generatedWorkouts: normalizedData,
+      });
 
-        // ✅ Save data to sessionStorage before navigating
-        sessionStorage.setItem("formData", JSON.stringify(formData));
-        sessionStorage.setItem("generatedWorkouts", JSON.stringify(normalizedData));
+      // ✅ Save data to sessionStorage before navigating
+      sessionStorage.setItem("formData", JSON.stringify(formData));
+      sessionStorage.setItem(
+        "generatedWorkouts",
+        JSON.stringify(normalizedData)
+      );
 
-        navigate("/generated-workout/", {
-            replace: true,
-            state: { formData, generatedWorkouts: normalizedData }
-        });
-
+      navigate("/generated-workout/", {
+        replace: true,
+        state: { formData, generatedWorkouts: normalizedData },
+      });
     } catch (error) {
-        console.error("❌ Error fetching workout:", error);
+      console.error("❌ Error fetching workout:", error);
     }
-};
-
+  };
 
   // Define form fields
   const fields = [

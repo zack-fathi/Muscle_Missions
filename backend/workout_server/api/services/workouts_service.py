@@ -4,7 +4,7 @@ import json
 import random
 from flask import jsonify
 from model import get_db
-from utils import get_dynamic_workout_order
+from utils import get_dynamic_workout_order, get_user_id
 
 def generate_workout_plan(data, is_split=False):
     """Generate a daily workout or a workout split based on input parameters."""
@@ -124,6 +124,44 @@ def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_e
             })
 
     return random.choice(workouts_to_pick_from) if workouts_to_pick_from else None
+
+def save_workout(data):
+    """Save the last generated workout to the database."""
+    
+    if "workouts" not in data:
+        return jsonify({"error": "Invalid request. Missing workouts data"}), 400
+
+    connection = get_db()
+    user_id = get_user_id(connection)
+
+    # Convert workout data to a JSON string
+    workout_json = json.dumps(data["workouts"])
+
+    connection.execute(
+        "INSERT INTO saved_workouts (userID, workout_data) VALUES (?, ?)",
+        (user_id, workout_json)
+    )
+    connection.commit()
+
+    return jsonify({"message": "Workout saved successfully!"}), 201
+
+def get_last_saved_workout():
+    """Retrieve the last saved workout from the database."""
+
+    connection = get_db()
+    user_id = get_user_id(connection) 
+    cur = connection.execute(
+        "SELECT workout_data FROM saved_workouts WHERE userID = ? ORDER BY id DESC LIMIT 1",
+        (user_id,)
+    )
+    workout = cur.fetchone()
+
+    if workout:
+        return jsonify(json.loads(workout["workout_data"]))
+    else:
+        return jsonify({"error": "No saved workouts found."}), 404
+
+
 
 workout_split_order = [
     ("full", "full"),
