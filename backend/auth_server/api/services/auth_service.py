@@ -26,7 +26,8 @@ def login_user(data):
         return jsonify({"error": "Invalid username or password"}), 401
 
     resp = make_response(jsonify({"message": "Login successful"}), 200)
-    resp.set_cookie('username', username)
+    resp.set_cookie('username', username, httponly=True, samesite='Lax')
+
     return resp
 
 def create_user(data):
@@ -102,9 +103,17 @@ def update_user_info(data):
 
 def authenticate_user():
     """Checks if user is logged in."""
-    if not check_logname_exists():
+    
+    print("All Cookies:", request.cookies)
+
+    username = request.cookies.get("username")
+    if not username:
+        print("No username cookie found!")
         return jsonify({"logged_in": False, "message": "No user logged in"}), 200
-    return jsonify({"logged_in": True, "message": "User is authenticated"}), 200
+
+    print(f"Authenticated user: {username}")
+    return jsonify({"logged_in": True, "message": "User is authenticated"}), 200  #  FIXED!
+
 
 def hash_password(password):
     """Hashes password using SHA-512 with a salt."""

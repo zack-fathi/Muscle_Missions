@@ -15,11 +15,15 @@ import UserInformationForm from "./pages/forms/UserInformationForm";
 import GenerateWorkouts from "./pages/workouts/GenerateWorkouts";
 import SavedWorkouts from "./pages/workouts/SavedWorkouts";
 import ViewGeneratedWorkouts from "./pages/workouts/ViewGeneratedWorkouts";
-import MuscleMissionsLogo from "./assets/Muscle_Missions_Logo.png";
 import useAuth from "./hooks/useAuth";
 
 function App() {
-  const isAuthenticated = useAuth();
+  const { authenticated, loading } = useAuth();
+
+  // Prevent incorrect redirects while auth is still loading
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Router>
@@ -46,30 +50,22 @@ function App() {
         />
         <Route
           path="/accounts/login/"
-          element={isAuthenticated ? <Navigate to="/" /> : <Login />}
+          element={authenticated ? <Navigate to="/" /> : <Login />}
         />
         <Route
           path="/accounts/create/"
-          element={isAuthenticated ? <Navigate to="/" /> : <CreateAccount />}
+          element={authenticated ? <Navigate to="/" /> : <CreateAccount />}
         />
         <Route
           path="/accounts/edit/"
           element={
-            isAuthenticated ? (
-              <ChangePassword />
-            ) : (
-              <Navigate to="/accounts/login/" />
-            )
+            authenticated ? <ChangePassword /> : <Navigate to="/accounts/login/" />
           }
         />
         <Route
           path="/accounts/edit_more_info/"
           element={
-            isAuthenticated ? (
-              <UserInformationForm />
-            ) : (
-              <Navigate to="/accounts/login/" />
-            )
+            authenticated ? <UserInformationForm /> : <Navigate to="/accounts/login/" />
           }
         />
         <Route path="/accounts/logout/" element={<Logout />} />

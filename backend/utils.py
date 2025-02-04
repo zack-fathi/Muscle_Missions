@@ -23,23 +23,27 @@ def clear_cookie():
 
 def check_logname_exists():
     """Check if logname exists."""
-
     connection = model.get_db()
     logname = flask.request.cookies.get('username', None)
+    print(f"Cookie username: {logname}")  # Debugging
 
     if not logname:
+        print("No username found in cookies.")
         return False
 
     cur = connection.execute(
-        "SELECT username from users "
-        "WHERE username == ? ",
-        (logname,)
+        "SELECT username from users WHERE username == ? ", (logname,)
     )
+    result = cur.fetchone()
+    print(f"DB Query Result: {result}")  # Debugging
 
-    if not cur.fetchone:
+    if not result:
+        print("Username not found in database.")
         return False
 
+    print("User exists!")
     return True
+
 
 def get_exercise_id_by_name(exercise_name):
     """Get exercise ID."""
