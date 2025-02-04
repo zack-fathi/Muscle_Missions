@@ -3,6 +3,7 @@
 import flask
 import random
 from enum import Enum
+import model
 
 
 legs_muscles_list = ["legs", "glutes", "hamstrings", "quads"]
@@ -23,7 +24,7 @@ def clear_cookie():
 def check_logname_exists():
     """Check if logname exists."""
 
-    connection = muscle.model.get_db()
+    connection = model.get_db()
     logname = flask.request.cookies.get('username', None)
 
     if not logname:
@@ -42,7 +43,7 @@ def check_logname_exists():
 
 def get_exercise_id_by_name(exercise_name):
     """Get exercise ID."""
-    connection = muscle.model.get_db()
+    connection = model.get_db()
     cur = connection.execute(
         "SELECT exerciseID FROM exercises WHERE name = ?",
         (exercise_name,)
@@ -86,7 +87,7 @@ def get_user_information():
     """Get the user information."""
     
     user_info = {}
-    connection = muscle.model.get_db()
+    connection = model.get_db()
     logname = flask.request.cookies.get('username')
 
     cur = connection.execute(
@@ -129,7 +130,7 @@ def get_last_single_workout(connection, workoutID):
 
 def check_user_settings():
     """Sees if a user has filled out the additional data needed."""
-    connection = muscle.model.get_db()
+    connection = model.get_db()
     logname = flask.request.cookies.get('username', None)
 
     cur = connection.execute(
@@ -747,19 +748,7 @@ def get_dynamic_workout_order(time, workout_type):
                 ("shoulder", "rear", "isolation")
                 ]
 
-activity_map = {
 
-    "na":"sedentary (0-2 hours per week of activity)",
-    "la":"lightly active (2-3 hours per week of activity)",
-    "ma":"moderately active (3-5 hours per week of activity)",
-    "va":"very active (5+ days per week of activity)"
-}
-
-workout_experience_map = {
-    0: "beginner (0-1 years experience)",
-    1: "intermediate (1-3 years experience)",
-    2: "advanced (3+ years experience)"
-}
 
 plank_map = {
 
