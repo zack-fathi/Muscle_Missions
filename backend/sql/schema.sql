@@ -54,3 +54,8 @@ CREATE TABLE workout_splits (
     FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS saved_workouts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER,
+    workout_data TEXT
+);

@@ -68,21 +68,6 @@ def get_user_id(connection):
     else:
         return None
 
-
-def get_difficulty(connection):
-    """Get a user's difficulty."""
-
-    logname = flask.request.cookies.get('username')
-
-    cur = connection.execute(
-        "SELECT workout_experience "
-        "FROM users "
-        "WHERE username == ?",
-        (logname,)
-    )
-
-    return cur.fetchone()['workout_experience']
-
 def get_user_information():
     """Get the user information."""
     

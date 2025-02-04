@@ -9,28 +9,22 @@ function SavedWorkouts() {
   const [isSplit, setIsSplit] = useState(false);
 
   useEffect(() => {
-    const fetchWorkoutData = async () => {
-      // Simulated API response
-      const data = {
-        workout_split: [
-          [
-            { name: "Bench Press", sets: 4, reps: 10 },
-            { name: "Pull-Ups", sets: 3, reps: 8 },
-          ],
-          [
-            { name: "Deadlifts", sets: 3, reps: 6 },
-            { name: "Squats", sets: 4, reps: 12 },
-          ],
-        ],
-      };
-
-      setWorkoutData(data);
-      setIsSplit(!!data.workout_split && data.workout_split.length > 0);
+    const fetchLastSavedWorkout = async () => {
+      try {
+        const response = await fetch("http://localhost:5001/api/workouts/last_saved/");
+        if (response.ok) {
+          const data = await response.json();
+          setWorkoutData(data);
+          setIsSplit(data.workout_split && data.workout_split.length > 0);
+        }
+      } catch (error) {
+        console.error("❌ Error fetching last saved workout:", error);
+      }
     };
-
-    fetchWorkoutData();
+  
+    fetchLastSavedWorkout();
   }, []);
-
+  
   return (
     <Layout>
       <Container className="mt-4">

@@ -21,5 +21,16 @@ def generate_split():
     form_data = request.get_json()
     return services["workouts"]["generate_workout_plan"](form_data, is_split=True)
 
+@workouts_bp.route('/save/', methods=['POST'])
+def save():
+    """Save a workout."""
+    form_data = request.get_json()
+    return services["workouts"]["save_workout"](form_data)
+
+@workouts_bp.route('/last_saved/', methods=['GET'])
+def get_last_saved():
+    """Retrieve the last saved workout from the database."""
+    return services["workouts"]["get_last_saved_workout"]()
+
 __all__ = ["workouts_bp"]
 
