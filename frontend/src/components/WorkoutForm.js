@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Button, Card } from "react-bootstrap";
 
-function WorkoutForm({ title, fields, onChange, onSubmit }) {
+function WorkoutForm({ title, fields, onChange, onSubmit, isSubmitting }) {
   return (
     <Card>
       <Card.Body>
@@ -60,8 +60,13 @@ function WorkoutForm({ title, fields, onChange, onSubmit }) {
               );
             }
           })}
-          <Button type="submit" variant="primary" className="w-100">
-            Submit
+          <Button
+            type="submit"
+            variant="primary"
+            className="w-100"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
           </Button>
         </Form>
       </Card.Body>

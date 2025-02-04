@@ -1,113 +1,156 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Container, Button, Alert, Spinner } from "react-bootstrap";
 import Layout from "../../components/Layout";
 import WorkoutTable from "../../components/WorkoutTable";
 
 function ViewGeneratedWorkouts() {
-  const location = useLocation();
-  const formData = location.state?.formData || {}; // Get submitted workout preferences
+    const navigate = useNavigate();
+    const location = useLocation();
 
-  // Determine if this is a multi-day split
-  const isSplit = formData.frequency && parseInt(formData.frequency) > 1;
+    // Restore state from sessionStorage if missing
+    const savedWorkouts = JSON.parse(sessionStorage.getItem("generatedWorkouts") || "[]");
+    const savedFormData = JSON.parse(sessionStorage.getItem("formData") || "{}");
 
-  // State to store generated workouts
-  const [generatedWorkouts, setGeneratedWorkouts] = useState([]);
-  const [loading, setLoading] = useState(false); // Loading state
+    const formData = location.state?.formData || savedFormData;
+    const [generatedWorkouts, setGeneratedWorkouts] = useState(
+        location.state?.generatedWorkouts || savedWorkouts
+    );
+    const [loading, setLoading] = useState(false); // Loading state
 
-  // Function to call API to generate workouts
-  const fetchWorkouts = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch("https://your-api.com/generate-workout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData), // Send user preferences
-      });
+    console.log("📥 Received Data from Previous Page:", { formData, generatedWorkouts });
 
-      const data = await response.json();
-      setGeneratedWorkouts(data.workouts || []); // Update workouts from API
-    } catch (error) {
-      console.error("Error fetching workouts:", error);
-    }
-    setLoading(false);
-  };
+    // Check if it's a multi-day split
+    const isSplit = formData.frequency && parseInt(formData.frequency) > 1;
 
-  // Load workouts on first render
-  React.useEffect(() => {
-    fetchWorkouts();
-  }, []);
+    // Function to fetch workouts if missing
+    const fetchWorkouts = async () => {
+        if (generatedWorkouts.length > 0) return; // Skip fetching if data exists
 
-  // Reload workouts when user clicks "Generate New Workout"
-  const handleReloadWorkout = () => {
-    fetchWorkouts();
-  };
+        setLoading(true);
+        try {
+            const endpoint = isSplit
+                ? "https://your-api.com/api/workouts/split/"
+                : "https://your-api.com/api/workouts/day/";
 
-  // Save Workout Handler (Modify to send to backend)
-  const handleSaveWorkout = async () => {
-    try {
-      const response = await fetch("https://your-api.com/save-workout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ workouts: generatedWorkouts }),
-      });
+            const response = await fetch(endpoint, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
 
-      if (response.ok) {
-        alert("Workout saved successfully!"); // Replace with UI feedback
-      } else {
-        alert("Failed to save workout.");
-      }
-    } catch (error) {
-      console.error("Error saving workout:", error);
-    }
-  };
+            const data = await response.json();
+            const normalizedData = Array.isArray(data) ? data : [data];
 
-  return (
-    <Layout>
-      <Container className="mt-4">
-        <h2 className="text-center mb-4">
-          {isSplit ? "Here is your Multi-Day Workout Split!" : "Here is your Generated Workout!"}
-        </h2>
+            console.log("✅ Fetched Workouts:", normalizedData);
+            setGeneratedWorkouts(normalizedData);
+            sessionStorage.setItem("generatedWorkouts", JSON.stringify(normalizedData));
+        } catch (error) {
+            console.error("❌ Error fetching workouts:", error);
+        }
+        setLoading(false);
+    };
 
-        {loading ? (
-          <div className="text-center">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
-          </div>
-        ) : generatedWorkouts.length > 0 ? (
-          isSplit ? (
-            generatedWorkouts.map((dayWorkout, index) => (
-              <div key={index} className="mb-4">
-                <h3 className="text-center">Day {index + 1}</h3>
-                <WorkoutTable exercises={dayWorkout} />
-              </div>
-            ))
-          ) : (
-            <WorkoutTable exercises={generatedWorkouts} />
-          )
-        ) : (
-          <Alert variant="danger" className="text-center">
-            No workout data available.
-          </Alert>
-        )}
+    // Load workouts if missing
+    useEffect(() => {
+        if (generatedWorkouts.length === 0) {
+            console.warn("⚠️ No workout data found, fetching new data.");
+            fetchWorkouts();
+        }
+    }, []);
 
-        {/* Buttons Section */}
-        <div className="text-center mt-4">
-          <Button variant="primary" className="me-3" onClick={handleReloadWorkout} disabled={loading}>
-            🔄 Generate New Workout
-          </Button>
-          <Button variant="success" onClick={handleSaveWorkout} disabled={loading}>
-            💾 Save My Workout
-          </Button>
-        </div>
-      </Container>
-    </Layout>
-  );
+    // Reload workouts when user clicks "Generate New Workout"
+    const handleReloadWorkout = () => {
+        sessionStorage.removeItem("generatedWorkouts"); // Clear cache
+        fetchWorkouts();
+    };
+
+    // Save Workout Handler
+    const handleSaveWorkout = async () => {
+        try {
+            const response = await fetch("https://your-api.com/api/workouts/save/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ workouts: generatedWorkouts }),
+            });
+
+            if (response.ok) {
+                alert("✅ Workout saved successfully!"); 
+            } else {
+                alert("❌ Failed to save workout.");
+            }
+        } catch (error) {
+            console.error("❌ Error saving workout:", error);
+        }
+    };
+
+    return (
+        <Layout>
+            <Container className="mt-4">
+                <h2 className="text-center mb-4">
+                    {isSplit ? "Here is your Multi-Day Workout Split!" : "Here is your Generated Workout!"}
+                </h2>
+
+                {loading ? (
+                    <div className="text-center">
+                        <Spinner animation="border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </Spinner>
+                    </div>
+                ) : generatedWorkouts.length > 0 ? (
+                    isSplit ? (
+                        generatedWorkouts.map((dayWorkout, index) => {
+                            // ✅ Handle undefined `type` values properly
+                            const workoutType = dayWorkout.type 
+                                ? dayWorkout.type.charAt(0).toUpperCase() + dayWorkout.type.slice(1)
+                                : `Workout ${index + 1}`;
+
+                            return (
+                                <div key={index} className="mb-4">
+                                    <h3 className="text-center">
+                                        Day {index + 1} - {workoutType}
+                                    </h3>
+                                    <WorkoutTable 
+                                        exercises={dayWorkout.workout_data?.map(exercise => ({
+                                            name: exercise.Exercise,
+                                            sets: exercise.Sets,
+                                            reps: exercise.Reps
+                                        })) || []} 
+                                    />
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <WorkoutTable 
+                            exercises={generatedWorkouts[0]?.workout_data?.map(exercise => ({
+                                name: exercise.Exercise,
+                                sets: exercise.Sets,
+                                reps: exercise.Reps
+                            })) || []} 
+                        />
+                    )
+                ) : (
+                    <Alert variant="danger" className="text-center">
+                        No workout data available.
+                    </Alert>
+                )}
+
+                {/* Buttons Section */}
+                <div className="text-center mt-4">
+                    <Button variant="primary" className="me-3" onClick={handleReloadWorkout} disabled={loading}>
+                        🔄 Generate New Workout
+                    </Button>
+                    <Button variant="success" onClick={handleSaveWorkout} disabled={loading}>
+                        💾 Save My Workout
+                    </Button>
+                </div>
+            </Container>
+        </Layout>
+    );
 }
 
 export default ViewGeneratedWorkouts;

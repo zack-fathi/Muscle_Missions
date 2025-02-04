@@ -9,6 +9,8 @@ from utils import get_dynamic_workout_order
 def generate_workout_plan(data, is_split=False):
     """Generate a daily workout or a workout split based on input parameters."""
 
+    print("data: ", data)
+
     # Extract fields from frontend form
     time = data["time"]
     equipment = data.get("equipment", [])
@@ -28,6 +30,8 @@ def generate_workout_plan(data, is_split=False):
             daily_workout = generate_workout(group_order, equipment, difficulty, connection, limitations, muscle_group)
             workout_plan.append(daily_workout)
 
+        print("Workout split", workout_plan)
+
         return jsonify({"workout_split": workout_plan})
 
     else:
@@ -41,6 +45,7 @@ def generate_workout_plan(data, is_split=False):
 
         workout_plan = generate_workout(group_order, equipment, difficulty, connection, limitations, muscle_split)
 
+        print("Workout plan", workout_plan)
         return jsonify(workout_plan)
 
 def generate_workout(group_order, equipment, difficulty, connection, limitations, muscle_group):

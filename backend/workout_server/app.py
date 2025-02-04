@@ -13,8 +13,7 @@ from workout_server.api.routes import workouts_bp
 
 # Initialize Flask App
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
-
+CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000", "http://localhost:5002"]}}, supports_credentials=True)
 # Register API Routes
 app.register_blueprint(workouts_bp)
 

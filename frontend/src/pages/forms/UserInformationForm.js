@@ -68,12 +68,31 @@ function UserInformationForm({ logoSrc }) {
     },
   ];
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("User Information Form Submitted.");
-    // Add your backend integration logic here
+  
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+  
+    try {
+      const response = await fetch("http://localhost:5002/api/accounts/edit_more_info/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(data),
+      });
+  
+      const result = await response.json();
+      if (response.ok) {
+        alert("User information updated successfully!");
+      } else {
+        alert(result.error);
+      }
+    } catch (error) {
+      console.error("Error updating user info:", error);
+    }
   };
-
+  
   return (
     <Layout>
       <div className="bg-light min-vh-100 d-flex align-items-center">

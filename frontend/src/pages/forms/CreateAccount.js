@@ -42,11 +42,39 @@ function CreateAccount({ logoSrc }) {
     },
   ];
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Account creation form submitted.");
+    
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+  
+    if (data.password !== data["confirm-password"]) {
+      alert("Passwords do not match.");
+      return;
+    }
+  
+    try {
+      const response = await fetch("http://localhost:5002/api/accounts/create/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: data.username,
+          password: data.password
+        }),
+      });
+  
+      const result = await response.json();
+      if (response.ok) {
+        alert("Account created successfully!");
+        window.location.href = "/accounts/login/";
+      } else {
+        alert(result.error);
+      }
+    } catch (error) {
+      console.error("Error creating account:", error);
+    }
   };
-
+  
   return (
     <div className="bg-light min-vh-100 d-flex align-items-center">
       <Container>

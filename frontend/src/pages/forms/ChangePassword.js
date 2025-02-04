@@ -36,12 +36,40 @@ function ChangePassword({ logoSrc }) {
     },
   ];
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Change Password form submitted.");
-    // Add your backend integration logic here
+  
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+  
+    if (data.new !== data.new2) {
+      alert("New passwords do not match.");
+      return;
+    }
+  
+    try {
+      const response = await fetch("http://localhost:5002/api/accounts/edit_password/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          password: data.password,
+          new_password: data.new,
+        }),
+      });
+  
+      const result = await response.json();
+      if (response.ok) {
+        alert("Password changed successfully!");
+        window.location.href = "/accounts/login/";
+      } else {
+        alert(result.error);
+      }
+    } catch (error) {
+      console.error("Password change error:", error);
+    }
   };
-
+  
   return (
     <Layout>
       <div className="bg-light min-vh-100 d-flex align-items-center">

@@ -22,11 +22,39 @@ function Login({ logoSrc }) {
     },
   ];
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Login form submitted.");
+  
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
+  
+    try {
+      const response = await fetch("http://localhost:5002/api/accounts/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // Ensures cookies are stored
+        body: JSON.stringify(data),
+      });
+    
+      let result;
+      try {
+        result = await response.json();
+      } catch {
+        result = { error: "An unexpected error occurred" }; // Fallback for non-JSON errors
+      }
+    
+      if (response.ok) {
+        alert("Login successful!");
+        window.location.href = "/";
+      } else {
+        alert(result.error || "Login failed. Please try again.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Network error. Please check your connection and try again.");
+    }    
   };
-
+  
   return (
     <div className="bg-light min-vh-100 d-flex align-items-center">
       <Container>
