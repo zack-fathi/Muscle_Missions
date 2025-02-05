@@ -57,6 +57,7 @@ function CreateAccount({ logoSrc }) {
       const response = await fetch("http://localhost:5002/api/accounts/create/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           username: data.username,
           password: data.password
@@ -66,7 +67,7 @@ function CreateAccount({ logoSrc }) {
       const result = await response.json();
       if (response.ok) {
         alert("Account created successfully!");
-        window.location.href = "/accounts/login/";
+        window.location.href = "/";
       } else {
         alert(result.error);
       }

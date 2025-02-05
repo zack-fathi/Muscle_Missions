@@ -1,30 +1,75 @@
 import React, { useState, useEffect } from "react";
-import { Container, Alert } from "react-bootstrap";
+import { Container, Alert, Spinner } from "react-bootstrap";
 import WorkoutTable from "../../components/WorkoutTable";
 import Layout from "../../components/Layout";
-import "../../styles/WorkoutTable.css"; // ✅ Import styling
+import "../../styles/WorkoutTable.css";
 
 function SavedWorkouts() {
   const [workoutData, setWorkoutData] = useState(null);
   const [isSplit, setIsSplit] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const fetchLastSavedWorkout = async () => {
+    async function doCheck() {
       try {
-        const response = await fetch("http://localhost:5001/api/workouts/last_saved/");
-        if (response.ok) {
-          const data = await response.json();
-          setWorkoutData(data);
-          setIsSplit(data.workout_split && data.workout_split.length > 0);
+        const res = await fetch("http://localhost:5002/api/accounts/auth/", {
+          credentials: "include",
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setIsLoggedIn(data.logged_in);
+          if (data.logged_in) {
+            // fetch last saved workout
+            fetchLastSavedWorkout();
+          } else {
+            setLoading(false);
+          }
+        } else {
+          setIsLoggedIn(false);
+          setLoading(false);
         }
       } catch (error) {
-        console.error("❌ Error fetching last saved workout:", error);
+        setIsLoggedIn(false);
+        setLoading(false);
       }
-    };
+    }
   
-    fetchLastSavedWorkout();
+    doCheck();
   }, []);
   
+  const fetchLastSavedWorkout = async () => {
+    try {
+      const response = await fetch("http://localhost:5001/api/workouts/last_saved/", {
+        method: "GET",
+        credentials: "include", // send cookies
+      });
+
+      if (!response.ok) {
+        console.error(`❌ API Error: ${response.status} - ${response.statusText}`);
+        return;
+      }
+
+      const data = await response.json();
+      console.log("✅ Raw Workout Data:", data);
+
+      // Expecting shape: { days: [ { type, workout_data }, { ... } ] }
+      if (data.days && Array.isArray(data.days)) {
+        setWorkoutData(data);
+        setIsSplit(data.days.length > 1);
+      } else {
+        // If the shape doesn't match, set no data
+        setWorkoutData(null);
+      }
+
+    } catch (error) {
+      console.error("❌ Error fetching last saved workout:", error);
+      setWorkoutData(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Layout>
       <Container className="mt-4">
@@ -34,25 +79,41 @@ function SavedWorkouts() {
             : "Here is your previously saved Muscle Missions Workout!"}
         </h2>
 
-        {workoutData ? (
-          isSplit ? (
-            workoutData.workout_split.map((day, index) => (
-              <WorkoutTable
-                key={index}
-                title={`Day ${index + 1}`} // ✅ This will now be centered
-                exercises={day}
-              />
-            ))
-          ) : workoutData.exercises && workoutData.exercises.length > 0 ? (
-            <WorkoutTable exercises={workoutData.exercises} />
+        {loading ? (
+          <div className="text-center">
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        ) : isLoggedIn ? (
+          workoutData && workoutData.days ? (
+            workoutData.days.map((day, index) => {
+              // Capitalize the first letter of day.type
+              const displayType = day.type
+                ? day.type.charAt(0).toUpperCase() + day.type.slice(1)
+                : "Workout";
+
+              return (
+                <WorkoutTable
+                  key={index}
+                  title={
+                    workoutData.days.length > 1
+                      ? `Day ${index + 1} — ${displayType}`
+                      : displayType
+                  }
+                  exercises={day.workout_data}
+                />
+              );
+            })
           ) : (
             <Alert variant="danger" className="text-center">
               No workout data available.
             </Alert>
           )
         ) : (
-          <Alert variant="info" className="text-center">
-            Loading workout data...
+          // If user is NOT logged in, show your message
+          <Alert variant="danger" className="text-center">
+            You must be logged in to see your last saved workout.
           </Alert>
         )}
       </Container>

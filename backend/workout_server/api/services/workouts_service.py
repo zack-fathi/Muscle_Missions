@@ -32,7 +32,7 @@ def generate_workout_plan(data, is_split=False):
 
         print("Workout split", workout_plan)
 
-        return jsonify({"workout_split": workout_plan})
+        return jsonify({"days": workout_plan})
 
     else:
         # Daily workout generation
@@ -46,7 +46,7 @@ def generate_workout_plan(data, is_split=False):
         workout_plan = generate_workout(group_order, equipment, difficulty, connection, limitations, muscle_split)
 
         print("Workout plan", workout_plan)
-        return jsonify(workout_plan)
+        return jsonify({"days": [workout_plan]})
 
 def generate_workout(group_order, equipment, difficulty, connection, limitations, muscle_group):
     """Generate a workout based on provided parameters."""
@@ -133,9 +133,11 @@ def save_workout(data):
 
     connection = get_db()
     user_id = get_user_id(connection)
+    print(user_id)
 
     # Convert workout data to a JSON string
     workout_json = json.dumps(data["workouts"])
+    print(workout_json)
 
     connection.execute(
         "INSERT INTO saved_workouts (userID, workout_data) VALUES (?, ?)",

@@ -61,7 +61,10 @@ def get_exercise_id_by_name(exercise_name):
 
 def get_user_id(connection):
     """Get a user ID."""
+    print("All Received Cookies:", flask.request.cookies)  # Debugging
+
     logname = flask.request.cookies.get('username')
+    print("Logname is: ", logname)
     cur = connection.execute(
         "SELECT userID FROM users WHERE username = ?",
         (logname,)
