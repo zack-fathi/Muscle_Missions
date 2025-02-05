@@ -26,7 +26,7 @@ def login_user(data):
         return jsonify({"error": "Invalid username or password"}), 401
 
     resp = make_response(jsonify({"message": "Login successful"}), 200)
-    resp.set_cookie('username', username, httponly=True, samesite='Lax')
+    resp.set_cookie('username', username, httponly=True, samesite='None', secure=True)
 
     return resp
 
@@ -47,7 +47,8 @@ def create_user(data):
     try:
         connection.execute("INSERT INTO users (username, password, age) VALUES (?, ?, ?)", (username, hashed_password, -1))
         connection.commit()
-        return jsonify({"message": "Account created successfully"}), 201
+
+        return login_user({"username": username, "password": password }), 201
     except Exception:
         return jsonify({"error": "Username already exists"}), 400
 

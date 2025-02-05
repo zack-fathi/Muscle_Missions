@@ -16,6 +16,7 @@ import GenerateWorkouts from "./pages/workouts/GenerateWorkouts";
 import SavedWorkouts from "./pages/workouts/SavedWorkouts";
 import ViewGeneratedWorkouts from "./pages/workouts/ViewGeneratedWorkouts";
 import useAuth from "./hooks/useAuth";
+import MuscleMissionsLogo from "./assets/Muscle_Missions_Logo.png";
 
 function App() {
   const { authenticated, loading } = useAuth();
@@ -50,22 +51,22 @@ function App() {
         />
         <Route
           path="/accounts/login/"
-          element={authenticated ? <Navigate to="/" /> : <Login />}
+          element={authenticated ? <Navigate to="/" /> : <Login logoSrc={MuscleMissionsLogo} />}
         />
         <Route
           path="/accounts/create/"
-          element={authenticated ? <Navigate to="/" /> : <CreateAccount />}
+          element={authenticated ? <Navigate to="/" /> : <CreateAccount logoSrc={MuscleMissionsLogo} />}
         />
         <Route
           path="/accounts/edit/"
           element={
-            authenticated ? <ChangePassword /> : <Navigate to="/accounts/login/" />
+            authenticated ? <ChangePassword logoSrc={MuscleMissionsLogo} /> : <Navigate to="/accounts/login/" />
           }
         />
         <Route
           path="/accounts/edit_more_info/"
           element={
-            authenticated ? <UserInformationForm /> : <Navigate to="/accounts/login/" />
+            authenticated ? <UserInformationForm logoSrc={MuscleMissionsLogo}/> : <Navigate to="/accounts/login/" />
           }
         />
         <Route path="/accounts/logout/" element={<Logout />} />

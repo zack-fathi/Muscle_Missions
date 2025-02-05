@@ -36,7 +36,7 @@ function GenerateWorkouts({ title, showDaysPerWeek }) {
           const userData = await response.json();
           setFormData((prevData) => ({
             ...prevData,
-            difficulty: userData.difficulty, // Always sets difficulty (defaults to 0 if no user)
+            difficulty: userData.difficulty,
           }));
 
           console.log("✅ User difficulty:", userData.difficulty);
@@ -47,8 +47,7 @@ function GenerateWorkouts({ title, showDaysPerWeek }) {
     };
 
     fetchUserDifficulty();
-}, []);
-
+  }, []);
 
   // Handle form changes
   const handleChange = (e) => {
@@ -66,48 +65,18 @@ function GenerateWorkouts({ title, showDaysPerWeek }) {
     }
   };
 
-  // Handle form submission
+  // Handle form submission: just pass formData forward
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const endpoint = showDaysPerWeek
-      ? "http://localhost:5001/api/workouts/split/"
-      : "http://localhost:5001/api/workouts/day/";
+    // Put formData in session storage if you like
+    sessionStorage.setItem("formData", JSON.stringify(formData));
 
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (!response.ok) throw new Error("Workout generation failed");
-
-      const data = await response.json();
-      console.log("✅ API Response:", data);
-
-      // ✅ Fix: Extract workout_split if present
-      const normalizedData =
-        data.workout_split || (Array.isArray(data) ? data : [data]);
-      console.log("📤 Sending Data to Next Page:", {
-        formData,
-        generatedWorkouts: normalizedData,
-      });
-
-      // ✅ Save data to sessionStorage before navigating
-      sessionStorage.setItem("formData", JSON.stringify(formData));
-      sessionStorage.setItem(
-        "generatedWorkouts",
-        JSON.stringify(normalizedData)
-      );
-
-      navigate("/generated-workout/", {
-        replace: true,
-        state: { formData, generatedWorkouts: normalizedData },
-      });
-    } catch (error) {
-      console.error("❌ Error fetching workout:", error);
-    }
+    // Navigate to /generated-workout with the form data
+    navigate("/generated-workout/", {
+      replace: true,
+      state: { formData },
+    });
   };
 
   // Define form fields

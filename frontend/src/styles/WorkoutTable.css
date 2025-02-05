@@ -5,14 +5,14 @@
     margin-bottom: 20px;
   }
   
-  /* ✅ Table Header - Bootstrap Dark */
+  /* Table Header - Bootstrap Dark */
   .workout-table thead th {
     background-color: #343a40 !important; /* Dark gray */
     color: white !important;
     text-align: center;
   }
   
-  /* ✅ Table Borders */
+  /* Table Borders */
   .workout-table th,
   .workout-table td {
     border: 1px solid #dee2e6 !important; /* Light gray border */
@@ -20,7 +20,7 @@
     text-align: center;
   }
   
-  /* ✅ Centered Day Headings */
+  /* Centered Day Headings */
   .workout-day-title {
     font-size: 1.5rem;
     font-weight: bold;

@@ -1,7 +1,7 @@
 import React from "react";
 import HeroSection from "../components/HeroSection";
 import CustomCard from "../components/Card";
-import { Container, Row, Col, Alert } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import Layout from "../components/Layout"; // Use Layout wrapper
 
 // Import images correctly from /src/assets
@@ -11,7 +11,6 @@ import LiftBotImage from "../assets/LiftBot.png";
 import HeroImage from "../assets/hero_section.png";
 
 function IndexPage() {
-  const workout = true;
 
   const cards = [
     {
@@ -46,12 +45,6 @@ function IndexPage() {
         link="/workouts/day/"
         image={HeroImage}
       />
-
-      {workout && (
-        <Container className="mt-4">
-          <Alert variant="success">Your workout has been saved!</Alert>
-        </Container>
-      )}
 
       <Container className="mt-5">
         <h2 className="text-center mb-4" style={{ fontWeight: "700" }}>

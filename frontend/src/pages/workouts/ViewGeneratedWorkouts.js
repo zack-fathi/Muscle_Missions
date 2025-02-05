@@ -1,109 +1,110 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { Container, Button, Alert, Spinner } from "react-bootstrap";
 import Layout from "../../components/Layout";
 import WorkoutTable from "../../components/WorkoutTable";
 
 function ViewGeneratedWorkouts() {
-  const navigate = useNavigate();
   const location = useLocation();
 
-  // Restore state from sessionStorage if missing
-  const savedWorkouts = JSON.parse(
-    sessionStorage.getItem("generatedWorkouts") || "[]"
-  );
-  const savedFormData = JSON.parse(sessionStorage.getItem("formData") || "{}");
+  // Grab formData from state or fallback to sessionStorage
+  const storedFormData = JSON.parse(sessionStorage.getItem("formData") || "{}");
+  const formData = location.state?.formData || storedFormData;
 
-  const formData = location.state?.formData || savedFormData;
+  const [workoutDays, setWorkoutDays] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Extract workout_split if present in sessionStorage
-  let initialGeneratedWorkouts =
-    location.state?.generatedWorkouts || savedWorkouts;
-  if (initialGeneratedWorkouts.workout_split) {
-    initialGeneratedWorkouts = initialGeneratedWorkouts.workout_split;
-  }
+  // Keep track of login status
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const [generatedWorkouts, setGeneratedWorkouts] = useState(
-    initialGeneratedWorkouts
-  );
+  // Decide if it's a split
+  const isSplit = formData.frequency !== "";
 
-  const [loading, setLoading] = useState(false); // Loading state
+  // On mount: fetch the workout & check login status
+  useEffect(() => {
+    if (formData && Object.keys(formData).length > 0) {
+      fetchWorkouts();
+    } else {
+      console.warn("⚠️ No form data found. Can't fetch workout.");
+    }
 
-  console.log("📥 Received Data from Previous Page:", {
-    formData,
-    generatedWorkouts,
-  });
+    // Check login status
+    checkLoginStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // Check if it's a multi-day split
-  const isSplit = Array.isArray(generatedWorkouts) && generatedWorkouts.length > 1;
-
-  // Function to fetch workouts if missing
   const fetchWorkouts = async () => {
-    if (!generatedWorkouts || generatedWorkouts.length === 0) return; // Skip fetching if data exists
-
     setLoading(true);
     try {
       const endpoint = isSplit
-        ? "https://your-api.com/api/workouts/split/"
-        : "https://your-api.com/api/workouts/day/";
+        ? "http://localhost:5001/api/workouts/split/"
+        : "http://localhost:5001/api/workouts/day/";
 
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
-      const normalizedData = Array.isArray(data) ? data : [data];
+      if (!response.ok) {
+        throw new Error("Workout generation failed");
+      }
 
-      console.log("✅ Fetched Workouts:", normalizedData);
-      setGeneratedWorkouts(normalizedData);
-      sessionStorage.setItem(
-        "generatedWorkouts",
-        JSON.stringify(normalizedData)
-      );
+      const data = await response.json();
+      const newDays = data.days || [];
+
+      setWorkoutDays(newDays);
+      sessionStorage.setItem("generatedWorkouts", JSON.stringify(data));
+
+      console.log("✅ New Workout Data:", data);
     } catch (error) {
-      console.error("❌ Error fetching workouts:", error);
+      console.error("❌ Error fetching workout:", error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  // Load workouts if missing
-  useEffect(() => {
-    if (generatedWorkouts.length === 0) {
-      console.warn("⚠️ No workout data found, fetching new data.");
-      fetchWorkouts();
+  const checkLoginStatus = async () => {
+    try {
+      const res = await fetch("http://localhost:5002/api/accounts/auth/", {
+        credentials: "include", // if you need cookies
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setIsLoggedIn(data.logged_in); // or whatever field your backend returns
+      } else {
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      console.error("❌ Error checking login status:", error);
+      setIsLoggedIn(false);
     }
-  }, []);
+  };
 
-  // Reload workouts when user clicks "Generate New Workout"
-  const handleReloadWorkout = () => {
-    sessionStorage.removeItem("generatedWorkouts"); // Clear cache
+  // "Regenerate" means a fresh fetch
+  const handleRegenerate = () => {
     fetchWorkouts();
   };
 
-  // Save Workout Handler
   const handleSaveWorkout = async () => {
     try {
+      const payload = { workouts: { days: workoutDays } };
       const response = await fetch("http://localhost:5001/api/workouts/save/", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ workouts: generatedWorkouts }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(payload),
       });
 
       if (response.ok) {
-        alert("✅ Workout saved successfully!");
+        alert("✅ Workout saved!");
       } else {
         alert("❌ Failed to save workout.");
       }
     } catch (error) {
       console.error("❌ Error saving workout:", error);
     }
-};
+  };
 
   return (
     <Layout>
@@ -116,71 +117,54 @@ function ViewGeneratedWorkouts() {
 
         {loading ? (
           <div className="text-center">
-            <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner>
+            <Spinner animation="border" role="status" />
           </div>
-        ) : generatedWorkouts.length > 0 ? (
-          isSplit ? (
-            generatedWorkouts.map((dayWorkout, index) => {
-                if (!dayWorkout || !dayWorkout.workout_data) {
-                    console.error(`❌ Invalid workout data for day ${index + 1}:`, dayWorkout);
-                    return null; // Prevents crashing
-                }
-            
-                const workoutType = dayWorkout.type 
-                    ? dayWorkout.type.charAt(0).toUpperCase() + dayWorkout.type.slice(1)
-                    : `Workout ${index + 1}`;
-            
-                return (
-                    <div key={index} className="mb-4">
-                        <h3 className="text-center">
-                            Day {index + 1} - {workoutType}
-                        </h3>
-                        <WorkoutTable 
-                            exercises={dayWorkout.workout_data.map(exercise => ({
-                                name: exercise.Exercise,
-                                sets: exercise.Sets,
-                                reps: exercise.Reps
-                            }))} 
-                        />
-                    </div>
-                );
-            })
-          ) : (
-            <WorkoutTable
-              exercises={
-                generatedWorkouts[0]?.workout_data?.map((exercise) => ({
-                  name: exercise.Exercise,
-                  sets: exercise.Sets,
-                  reps: exercise.Reps,
-                })) || []
-              }
-            />
-          )
+        ) : workoutDays.length > 0 ? (
+          workoutDays.map((day, index) => {
+            const displayType = day.type
+              ? day.type.charAt(0).toUpperCase() + day.type.slice(1)
+              : "";
+            return (
+              <div key={index} className="mb-4">
+                <h3 className="text-center">
+                  {workoutDays.length > 1 ? `Day ${index + 1} - ` : ""}
+                  {displayType}
+                </h3>
+                <WorkoutTable exercises={day.workout_data} />
+              </div>
+            );
+          })
         ) : (
           <Alert variant="danger" className="text-center">
             No workout data available.
           </Alert>
         )}
 
-        {/* Buttons Section */}
+        {/* Buttons: Regenerate + Save */}
         <div className="text-center mt-4">
           <Button
             variant="primary"
             className="me-3"
-            onClick={handleReloadWorkout}
+            onClick={handleRegenerate}
             disabled={loading}
           >
-            🔄 Generate New Workout
+            🔄 Regenerate Workout
           </Button>
+
           <Button
             variant="success"
             onClick={handleSaveWorkout}
-            disabled={loading}
+            disabled={loading || !isLoggedIn} 
+            // <- Disable if loading or user not logged in
           >
-            💾 Save My Workout
+            💾 Save Workout
           </Button>
+
+          {!isLoggedIn && (
+            <Alert variant="warning" className="text-center mt-3">
+              You must be logged in to save your workout.
+            </Alert>
+          )}
         </div>
       </Container>
     </Layout>

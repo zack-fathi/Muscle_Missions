@@ -5,7 +5,7 @@ import "../styles/WorkoutTable.css"; // Ensure correct import
 function WorkoutTable({ title, exercises }) {
   return (
     <div className="workout-table-container">
-      {title && <h3 className="workout-day-title">{title}</h3>} {/* ✅ Centered */}
+      {title && <h3 className="workout-day-title">{title}</h3>} {/* Centered */}
       <Table bordered className="workout-table">
         <thead>
           <tr>
@@ -18,9 +18,9 @@ function WorkoutTable({ title, exercises }) {
           {exercises.length > 0 ? (
             exercises.map((exercise, index) => (
               <tr key={index}>
-                <td>{exercise.name}</td>
-                <td>{exercise.sets}</td>
-                <td>{exercise.reps}</td>
+                <td>{exercise.Exercise}</td>
+                <td>{exercise.Sets}</td>
+                <td>{exercise.Reps}</td>
               </tr>
             ))
           ) : (

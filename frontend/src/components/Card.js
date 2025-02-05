@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
-import "../styles/IndexPage.css"; // ✅ Ensure styles are loaded
+import "../styles/IndexPage.css"; // Ensure styles are loaded
 
 function CustomCard({ image, title, text, link, buttonText, className }) {
   return (
