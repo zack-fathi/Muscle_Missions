@@ -4,20 +4,24 @@ from flask import jsonify, session
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
+import os
 from model import get_db
 from utils import (
     do_background_check,
     get_user_information,
     get_last_split_workout,
-    get_last_single_workout
+    get_last_single_workout,
+    get_last_saved_workout
 )
 
 load_dotenv()
 
-client = OpenAI()
+api_key = os.getenv("OPENAI_API_KEY")
+
+client = OpenAI(api_key=api_key)
 
 
-def show_liftbot():
+def init_liftbot():
     """Retrieve LiftBot screen data."""
     background_check = do_background_check()
     if background_check:
@@ -27,32 +31,36 @@ def show_liftbot():
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    workout_info = get_user_workout(user["userID"])
+    # Extract JSON data correctly
+    workout_response = get_last_saved_workout()
+
+    if isinstance(workout_response, tuple):  # Handle (data, status_code)
+        workout_response = workout_response[0]
+
+    if isinstance(workout_response, dict):  # Ensure it's a dictionary
+        workout_info = workout_response
+    else:
+        workout_info = None  # Default to None if invalid
+
     prev_workout = workout_info is not None
 
     initial_message_content = {
         "username": user["username"],
-        "age": user["age"],
-        "gender": user["gender"],
-        "height": user["height"],
-        "weight": user["weight"],
-        "fitness_level": activity_map[user["fitness_level"]],
         "workout_experience": workout_experience_map[user["workout_experience"]],
     }
 
-    if prev_workout:
-        kind_of_workout, user_workout = workout_info
-        formatted_workout = (
-            format_workout_split(user_workout) if kind_of_workout == "split" else format_single_workout(user_workout)
-        )
-        initial_message_content["previous_workout"] = formatted_workout
-    else:
-        initial_message_content["message"] = (
-            "It seems you do not have a saved workout. LiftBot works best with workout history."
-        )
+    # Store workout in session but do not send it in the response
+    session["workout_info"] = workout_response if prev_workout else {}
+    session.modified = True
 
-    session["chat_history"] = [{"role": "system", "content": json.dumps(initial_message_content)}]
+    initial_message_content["message"] = "Hello! How can I assist with your fitness journey today?"
 
+    # Initialize chat history properly
+    if "chat_history" not in session:
+        session["chat_history"] = []
+
+    session["chat_history"].append({"role": "system", "content": json.dumps(initial_message_content)})
+    session.modified = True  
     return jsonify(initial_message_content)
 
 
@@ -95,10 +103,25 @@ def process_message(data):
     """Process a message from the user and return a chatbot response."""
     try:
         user_message = data.get("message", "").strip()
+        print(user_message)
         if not user_message:
             return jsonify({"error": "Message cannot be empty"}), 400
 
+        # Retrieve stored workout data from session
+        workout_info = session.get("workout_info", {})
+        print("Response from session:", workout_info)
+
+        # Ensure chat history is initialized
+        if "chat_history" not in session:
+            session["chat_history"] = []
+
+        # Append user message
         session["chat_history"].append({"role": "user", "content": user_message})
+        session.modified = True  
+
+        # if workout data exists, add it to chat history context
+        if workout_info:
+            session["chat_history"].append({"role": "system", "content": json.dumps({"workout_info": workout_info})})
 
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
@@ -107,11 +130,13 @@ def process_message(data):
 
         liftbot_response = response.choices[0].message.content
         session["chat_history"].append({"role": "system", "content": liftbot_response})
+        session.modified = True  
 
         return jsonify({"response": liftbot_response})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 activity_map = {

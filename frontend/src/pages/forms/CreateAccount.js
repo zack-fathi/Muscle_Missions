@@ -40,6 +40,18 @@ function CreateAccount({ logoSrc }) {
       title: "Must match the password entered above.",
       required: true,
     },
+    {
+      id: "experience",
+      label: "How experienced are you in the gym?",
+      type: "select",
+      name: "experience",
+      options: [
+        { value: "0", label: "Beginner (0-1 years experience)" },
+        { value: "1", label: "Intermediate (1-3 years experience)" },
+        { value: "2", label: "Advanced (3+ years experience)" },
+      ],
+      required: true,
+    },
   ];
 
   const handleSubmit = async (event) => {

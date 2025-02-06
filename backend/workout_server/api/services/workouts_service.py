@@ -4,7 +4,7 @@ import json
 import random
 from flask import jsonify
 from model import get_db
-from utils import get_dynamic_workout_order, get_user_id
+from utils import get_dynamic_workout_order, get_user_id, get_last_saved_workout
 
 def generate_workout_plan(data, is_split=False):
     """Generate a daily workout or a workout split based on input parameters."""
@@ -30,7 +30,7 @@ def generate_workout_plan(data, is_split=False):
             daily_workout = generate_workout(group_order, equipment, difficulty, connection, limitations, muscle_group)
             workout_plan.append(daily_workout)
 
-        print("Workout split", workout_plan)
+        print({"days": workout_plan})
 
         return jsonify({"days": workout_plan})
 
@@ -45,7 +45,7 @@ def generate_workout_plan(data, is_split=False):
 
         workout_plan = generate_workout(group_order, equipment, difficulty, connection, limitations, muscle_split)
 
-        print("Workout plan", workout_plan)
+        print({"days": [workout_plan]})
         return jsonify({"days": [workout_plan]})
 
 def generate_workout(group_order, equipment, difficulty, connection, limitations, muscle_group):
@@ -147,21 +147,10 @@ def save_workout(data):
 
     return jsonify({"message": "Workout saved successfully!"}), 201
 
-def get_last_saved_workout():
+def get_last_workout():
     """Retrieve the last saved workout from the database."""
 
-    connection = get_db()
-    user_id = get_user_id(connection) 
-    cur = connection.execute(
-        "SELECT workout_data FROM saved_workouts WHERE userID = ? ORDER BY id DESC LIMIT 1",
-        (user_id,)
-    )
-    workout = cur.fetchone()
-
-    if workout:
-        return jsonify(json.loads(workout["workout_data"]))
-    else:
-        return jsonify({"error": "No saved workouts found."}), 404
+    return get_last_saved_workout()
 
 
 

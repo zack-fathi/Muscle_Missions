@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 
 function CustomNavbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     // Check if the user is authenticated
     fetch("http://localhost:5002/api/accounts/auth/", { credentials: "include" })
-      .then((response) => response.json()) // Parse JSON response
+      .then((response) => response.json())
       .then((data) => {
-        setIsAuthenticated(data.logged_in); // Set state based on `logged_in` field
+        setIsAuthenticated(data.logged_in);
+        // Make sure your backend includes a 'username' field in the response.
+        // Adjust the following line accordingly if the field is named differently.
+        setUsername(data.username || "");
       })
-      .catch(() => setIsAuthenticated(false)); // Handle fetch errors
+      .catch(() => {
+        setIsAuthenticated(false);
+        setUsername("");
+      });
   }, []);
 
   const handleLogout = async (event) => {
-    event.preventDefault(); // Prevent default link behavior
+    event.preventDefault();
 
     try {
       const response = await fetch("http://localhost:5002/api/accounts/logout/", {
@@ -25,11 +32,11 @@ function CustomNavbar() {
 
       if (response.ok) {
         alert("Logout successful!");
-
         setTimeout(() => {
-          setIsAuthenticated(false); // Update state to reflect logout
-          window.location.href = "/"; // Redirect to index page
-        }, 500); // 500ms delay to show alert
+          setIsAuthenticated(false);
+          setUsername("");
+          window.location.href = "/";
+        }, 500);
       } else {
         alert("Logout failed.");
       }
@@ -51,9 +58,11 @@ function CustomNavbar() {
           </Nav>
           <Nav className="ms-auto">
             {isAuthenticated ? (
-              <Nav.Link href="#" onClick={handleLogout}>
-                Logout
-              </Nav.Link>
+              <NavDropdown title={username} id="user-dropdown">
+                <NavDropdown.Item href="/accounts/profile/">My Profile</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+              </NavDropdown>
             ) : (
               <>
                 <Nav.Link href="/accounts/login/">Login</Nav.Link>

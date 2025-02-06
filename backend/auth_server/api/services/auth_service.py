@@ -34,6 +34,7 @@ def create_user(data):
     """Handles account creation."""
     username = data.get('username')
     password = data.get('password')
+    workout_experience = data.get('experience')
 
     if not username or not password:
         return jsonify({"error": "Missing required fields"}), 400
@@ -45,7 +46,7 @@ def create_user(data):
     connection = get_db()
 
     try:
-        connection.execute("INSERT INTO users (username, password, age) VALUES (?, ?, ?)", (username, hashed_password, -1))
+        connection.execute("INSERT INTO users (username, password, workout_experience) VALUES (?, ?, ?)", (username, hashed_password, workout_experience))
         connection.commit()
 
         return login_user({"username": username, "password": password }), 201
@@ -113,7 +114,7 @@ def authenticate_user():
         return jsonify({"logged_in": False, "message": "No user logged in"}), 200
 
     print(f"Authenticated user: {username}")
-    return jsonify({"logged_in": True, "message": "User is authenticated"}), 200  #  FIXED!
+    return jsonify({"logged_in": True, "username": username, "message": "User is authenticated"}), 200  #  FIXED!
 
 
 def hash_password(password):
@@ -159,3 +160,27 @@ def get_difficulty():
         return jsonify({"difficulty": 0, "message": "User not found"}), 200  # Default to 0 if user not in DB
 
     return jsonify({"difficulty": result["workout_experience"], "message": "User difficulty retrieved"}), 200
+
+def get_profile():
+    """Fetches the user's profile information."""
+    username = request.cookies.get("username")
+
+    if not username:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    connection = get_db()
+    cur = connection.execute(
+        "SELECT username, fullname, workout_experience FROM users WHERE username = ?",
+        (username,),
+    )
+    user = cur.fetchone()
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    return jsonify({
+        "username": user["username"],
+        "fullname": user["fullname"],
+        "experience": user["workout_experience"],
+    }), 200
+
