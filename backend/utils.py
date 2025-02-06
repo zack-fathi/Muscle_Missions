@@ -2,6 +2,7 @@
 
 import flask
 import random
+import json
 from enum import Enum
 import model
 
@@ -119,6 +120,22 @@ def get_last_single_workout(connection, workoutID):
         (workoutID,)
     ).fetchall()
     return workout_exercises
+
+def get_last_saved_workout():
+    """Retrieve the last saved workout from the database."""
+
+    connection = model.get_db()
+    user_id = get_user_id(connection)
+    cur = connection.execute(
+        "SELECT workout_data FROM saved_workouts WHERE userID = ? ORDER BY id DESC LIMIT 1",
+        (user_id,)
+    )
+    workout = cur.fetchone()
+
+    if workout:
+        return flask.jsonify(json.loads(workout["workout_data"]))
+    else:
+        return flask.jsonify({"error": "No saved workouts found."}), 404
 
 def check_user_settings():
     """Sees if a user has filled out the additional data needed."""

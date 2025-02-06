@@ -97,14 +97,6 @@ function ChangePassword({ logoSrc }) {
                   />
                 </Card.Body>
               </Card>
-              <div className="text-center mt-3">
-                <p>
-                  Need to change your user information? Click{" "}
-                  <a href="/accounts/edit_more_info/" className="link-primary">
-                    here!
-                  </a>
-                </p>
-              </div>
             </Col>
           </Row>
         </Container>

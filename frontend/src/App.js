@@ -11,12 +11,12 @@ import Login from "./pages/forms/Login";
 import Logout from "./pages/forms/Logout";
 import CreateAccount from "./pages/forms/CreateAccount";
 import ChangePassword from "./pages/forms/ChangePassword";
-import UserInformationForm from "./pages/forms/UserInformationForm";
 import GenerateWorkouts from "./pages/workouts/GenerateWorkouts";
 import SavedWorkouts from "./pages/workouts/SavedWorkouts";
 import ViewGeneratedWorkouts from "./pages/workouts/ViewGeneratedWorkouts";
 import useAuth from "./hooks/useAuth";
 import MuscleMissionsLogo from "./assets/Muscle_Missions_Logo.png";
+import MyProfile from "./pages/forms/MyProfile";
 
 function App() {
   const { authenticated, loading } = useAuth();
@@ -64,9 +64,15 @@ function App() {
           }
         />
         <Route
-          path="/accounts/edit_more_info/"
+          path="/accounts/profile/"
           element={
-            authenticated ? <UserInformationForm logoSrc={MuscleMissionsLogo}/> : <Navigate to="/accounts/login/" />
+            authenticated ? <MyProfile logoSrc={MuscleMissionsLogo} /> : <Navigate to="/accounts/login/" />
+          }
+        />
+        <Route
+          path="/accounts/edit_password/"
+          element={
+            authenticated ? <ChangePassword logoSrc={MuscleMissionsLogo} /> : <Navigate to="/accounts/login/" />
           }
         />
         <Route path="/accounts/logout/" element={<Logout />} />
