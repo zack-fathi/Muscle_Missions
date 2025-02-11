@@ -54,7 +54,6 @@ function CustomNavbar() {
           <Nav className="me-auto">
             <Nav.Link href="/saved_workouts/">Your Workout</Nav.Link>
             <Nav.Link href="/liftbot/">LiftBot</Nav.Link>
-            {isAuthenticated && <Nav.Link href="/accounts/edit/">Edit Account</Nav.Link>}
           </Nav>
           <Nav className="ms-auto">
             {isAuthenticated ? (

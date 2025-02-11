@@ -5,7 +5,6 @@ import hashlib
 import re
 from flask import jsonify, request, make_response
 from model import get_db
-from utils import check_logname_exists
 
 def login_user(data):
     """Handles user login."""
@@ -32,9 +31,11 @@ def login_user(data):
 
 def create_user(data):
     """Handles account creation."""
+    fullname = data.get('fullname')
     username = data.get('username')
     password = data.get('password')
-    workout_experience = data.get('experience')
+    workout_experience = data.get('workout_experience')
+    print(fullname, username, password, workout_experience)
 
     if not username or not password:
         return jsonify({"error": "Missing required fields"}), 400
@@ -46,11 +47,12 @@ def create_user(data):
     connection = get_db()
 
     try:
-        connection.execute("INSERT INTO users (username, password, workout_experience) VALUES (?, ?, ?)", (username, hashed_password, workout_experience))
+        connection.execute("INSERT INTO users (fullname, username, password, workout_experience) VALUES (?, ?, ?, ?)", (fullname, username, hashed_password, workout_experience))
         connection.commit()
 
         return login_user({"username": username, "password": password }), 201
-    except Exception:
+    except Exception as e:
+        print(e)
         return jsonify({"error": "Username already exists"}), 400
 
 def edit_user_password(data):
@@ -170,17 +172,67 @@ def get_profile():
 
     connection = get_db()
     cur = connection.execute(
-        "SELECT username, fullname, workout_experience FROM users WHERE username = ?",
-        (username,),
+        "SELECT * FROM users WHERE username = ?", (username,)
     )
     user = cur.fetchone()
 
     if not user:
         return jsonify({"error": "User not found"}), 404
 
+    # Return all fields except password
     return jsonify({
+        "userID": user["userID"],
         "username": user["username"],
         "fullname": user["fullname"],
-        "experience": user["workout_experience"],
+        "age": user["age"],
+        "height": user["height"],
+        "weight": user["weight"],
+        "fitness_level": user["fitness_level"],
+        "workout_experience": user["workout_experience"],
+        "gender": user["gender"]
     }), 200
 
+def update_profile(data):
+    """Updates the current user's profile information."""
+    username = request.cookies.get("username")
+    if not username:
+        return jsonify({"error": "Unauthorized"}), 401
+
+    # Parse the incoming JSON
+    fullname = data.get("fullname")
+    age = data.get("age")
+    height = data.get("height")
+    weight = data.get("weight")
+    fitness_level = data.get("fitness_level")
+    workout_experience = data.get("workout_experience")
+    gender = data.get("gender")
+
+    # Fetch existing user to ensure they exist
+    conn = get_db()
+    user = conn.execute(
+        "SELECT * FROM users WHERE username = ?",
+        (username,)
+    ).fetchone()
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    # Perform the UPDATE
+    conn.execute(
+        """
+        UPDATE users
+        SET
+            fullname = COALESCE(?, fullname),
+            age = COALESCE(?, age),
+            height = COALESCE(?, height),
+            weight = COALESCE(?, weight),
+            fitness_level = COALESCE(?, fitness_level),
+            workout_experience = COALESCE(?, workout_experience),
+            gender = COALESCE(?, gender)
+        WHERE username = ?
+        """,
+        (fullname, age, height, weight, fitness_level, workout_experience, gender, username)
+    )
+    conn.commit()
+
+    return jsonify({"success": True, "message": "Profile updated successfully"}), 200

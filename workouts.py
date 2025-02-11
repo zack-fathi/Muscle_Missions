@@ -16,13 +16,6 @@ from muscle.api.workout_split import generate_workout_split
 @muscle.app.route('/workouts/day/')
 def show_daily_workout():
     """Show the daily workout page."""
-    
-    # if not utils.check_logname_exists():
-    #     return flask.redirect("/accounts/login/", 302)
-    
-    # # check if user hasn't inputted new information
-    # if utils.check_user_settings()['age'] == -1:
-    #     return flask.redirect("/accounts/more_info/", 302)
 
     background_check = utils.do_background_check()
     if background_check:

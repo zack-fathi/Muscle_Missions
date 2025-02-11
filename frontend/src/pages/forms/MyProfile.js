@@ -1,101 +1,107 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import FormComponent from "../../components/FormComponent";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  Form,
+  Button,
+  FormControl,
+  FormLabel,
+  FormGroup,
+} from "react-bootstrap";
 import Layout from "../../components/Layout";
 
 function MyProfile({ logoSrc }) {
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [formValues, setFormValues] = useState({ fullname: "", username: "", experience: "0" });
 
+  // We'll track all relevant user info from the DB:
+  const [formValues, setFormValues] = useState({
+    fullname: "",
+    age: "",
+    height: "",
+    weight: "",
+    fitness_level: "",
+    workout_experience: "0",
+  });
+
+  // Fetch user data once on mount
   useEffect(() => {
-    fetch("http://localhost:5002/api/accounts/profile/", { credentials: "include" })
+    fetch("http://localhost:5002/api/accounts/profile/", {
+      credentials: "include",
+    })
       .then((response) => response.json())
       .then((data) => {
         setUserData(data);
+
+        // Pre-fill form fields with data from DB
         setFormValues({
           fullname: data.fullname || "",
-          username: data.username || "",
-          experience: data.experience !== undefined ? data.experience.toString() : "0",
+          age: data.age !== undefined ? data.age.toString() : "",
+          height: data.height !== undefined ? data.height.toString() : "",
+          weight: data.weight !== undefined ? data.weight.toString() : "",
+          fitness_level: data.fitness_level || "",
+          workout_experience:
+            data.workout_experience !== undefined
+              ? data.workout_experience.toString()
+              : "0",
         });
       })
       .catch((error) => console.error("Error fetching user data:", error));
   }, []);
 
-  const handleChange = (event) => {
-    setFormValues({ ...formValues, [event.target.name]: event.target.value });
+  // Update local form values (doesn't automatically save to DB)
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
   };
 
+  // When user clicks "Save Changes"
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
-      const response = await fetch("http://localhost:5002/api/accounts/edit/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(formValues),
-      });
+      const response = await fetch(
+        "http://localhost:5002/api/accounts/profile/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(formValues),
+        }
+      );
 
       const result = await response.json();
       if (response.ok) {
         alert("Profile updated successfully!");
         setIsEditing(false);
-        setUserData(formValues);
+        // Also update userData so the read-only version is in sync
+        setUserData((prev) => ({
+          ...prev,
+          ...formValues,
+          // Convert numeric strings back to numbers if needed
+          age: Number(formValues.age) || null,
+          height: Number(formValues.height) || null,
+          weight: Number(formValues.weight) || null,
+          workout_experience: Number(formValues.workout_experience),
+        }));
       } else {
-        alert(result.error);
+        alert(result.error || "Something went wrong.");
       }
     } catch (error) {
       console.error("Error updating profile:", error);
     }
   };
 
+  // Show a simple loading message if we haven't fetched userData yet
   if (!userData) return <div>Loading...</div>;
-
-  const fields = [
-    {
-      id: "fullname",
-      label: "Name",
-      type: "text",
-      placeholder: "Enter your full name",
-      name: "fullname",
-      required: true,
-      value: formValues.fullname,
-      onChange: handleChange,
-      disabled: !isEditing,
-    },
-    {
-      id: "username",
-      label: "Username",
-      type: "text",
-      name: "username",
-      required: true,
-      value: formValues.username,
-      disabled: true,
-    },
-    {
-      id: "experience",
-      label: "How experienced are you in the gym?",
-      type: "select",
-      name: "experience",
-      options: [
-        { value: "0", label: "Beginner (0-1 years experience)" },
-        { value: "1", label: "Intermediate (1-3 years experience)" },
-        { value: "2", label: "Advanced (3+ years experience)" },
-      ],
-      required: true,
-      value: formValues.experience,
-      onChange: handleChange,
-      disabled: !isEditing,
-    },
-  ];
 
   return (
     <Layout>
       <div className="bg-light min-vh-100 d-flex align-items-center">
         <Container>
           <Row className="justify-content-center">
-            <Col sm={4}>
+            <Col sm={6}>
               <div className="text-center">
                 {logoSrc && (
                   <img
@@ -108,24 +114,115 @@ function MyProfile({ logoSrc }) {
               </div>
               <Card>
                 <Card.Body>
-                  {!isEditing ? (
-                    <>
-                      <p><strong>Name:</strong> {userData.fullname}</p>
-                      <p><strong>Experience:</strong> {fields[2].options.find(opt => opt.value === formValues.experience)?.label}</p>
-                      <Button onClick={() => setIsEditing(true)} className="btn btn-primary w-100">Edit</Button>
-                    </>
-                  ) : (
-                    <FormComponent
-                      title="Edit Profile"
-                      fields={fields}
-                      onSubmit={handleSubmit}
-                      submitButtonText="Save Changes"
-                    />
-                  )}
+                  <Form onSubmit={handleSubmit}>
+                    <h3 className="mb-3 text-center">My Profile</h3>
+
+                    <p className="text-muted text-center">
+                      Please note that any information that was not required for
+                      signup is not required here. However, providing it can help LiftBot create a more
+                      personalized experience for you.
+                    </p>
+
+                    <FormGroup className="mb-3">
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl
+                        type="text"
+                        name="fullname"
+                        value={formValues.fullname}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                      />
+                    </FormGroup>
+
+                    <FormGroup className="mb-3">
+                      <FormLabel>Age</FormLabel>
+                      <FormControl
+                        type="number"
+                        name="age"
+                        value={formValues.age}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                      />
+                    </FormGroup>
+
+                    <FormGroup className="mb-3">
+                      <FormLabel>Height (cm)</FormLabel>
+                      <FormControl
+                        type="number"
+                        name="height"
+                        value={formValues.height}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                      />
+                    </FormGroup>
+
+                    <FormGroup className="mb-3">
+                      <FormLabel>Weight (kg)</FormLabel>
+                      <FormControl
+                        type="number"
+                        name="weight"
+                        value={formValues.weight}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                      />
+                    </FormGroup>
+
+                    <FormGroup className="mb-3">
+                      <FormLabel>Fitness Level</FormLabel>
+                      <FormControl
+                        type="text"
+                        name="fitness_level"
+                        value={formValues.fitness_level}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                      />
+                    </FormGroup>
+
+                    <FormGroup className="mb-3">
+                      <FormLabel>Gym Experience</FormLabel>
+                      <Form.Select
+                        name="workout_experience"
+                        value={formValues.workout_experience}
+                        onChange={handleChange}
+                        disabled={!isEditing}
+                      >
+                        <option value="0">Beginner (0-1 years)</option>
+                        <option value="1">Intermediate (1-3 years)</option>
+                        <option value="2">Advanced (3+ years)</option>
+                      </Form.Select>
+                    </FormGroup>
+
+                    {/* Button to toggle edit mode */}
+                    {!isEditing ? (
+                      <Button
+                        variant="primary"
+                        className="w-100"
+                        onClick={() => setIsEditing(true)}
+                      >
+                        Edit Profile
+                      </Button>
+                    ) : (
+                      <div className="d-flex justify-content-between">
+                        <Button
+                          variant="secondary"
+                          onClick={() => setIsEditing(false)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button variant="primary" type="submit">
+                          Save Changes
+                        </Button>
+                      </div>
+                    )}
+                  </Form>
                 </Card.Body>
               </Card>
+
               <div className="mt-3 text-center">
-                <a href="/accounts/edit_password/" className="btn btn-outline-primary btn-sm">
+                <a
+                  href="/accounts/edit_password/"
+                  className="btn btn-outline-primary btn-sm"
+                >
                   Change Password
                 </a>
               </div>
