@@ -16,6 +16,13 @@ function MyProfile({ logoSrc }) {
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
+  const activity_map = {
+    na: "Sedentary (0-2 hours per week of activity)",
+    la: "Lightly active (2-3 hours per week of activity)",
+    ma: "Moderately active (3-5 hours per week of activity)",
+    va: "Very active (5+ days per week of activity)",
+  };
+
   // We'll track all relevant user info from the DB:
   const [formValues, setFormValues] = useState({
     fullname: "",
@@ -41,7 +48,7 @@ function MyProfile({ logoSrc }) {
           age: data.age !== undefined ? data.age.toString() : "",
           height: data.height !== undefined ? data.height.toString() : "",
           weight: data.weight !== undefined ? data.weight.toString() : "",
-          fitness_level: data.fitness_level || "",
+          fitness_level: activity_map[data.fitness_level] || "",
           workout_experience:
             data.workout_experience !== undefined
               ? data.workout_experience.toString()
@@ -119,8 +126,9 @@ function MyProfile({ logoSrc }) {
 
                     <p className="text-muted text-center">
                       Please note that any information that was not required for
-                      signup is not required here. However, providing it can help LiftBot create a more
-                      personalized experience for you.
+                      signup is not required here. However, providing it can
+                      help LiftBot create a more personalized experience for
+                      you.
                     </p>
 
                     <FormGroup className="mb-3">
@@ -169,13 +177,18 @@ function MyProfile({ logoSrc }) {
 
                     <FormGroup className="mb-3">
                       <FormLabel>Fitness Level</FormLabel>
-                      <FormControl
-                        type="text"
+                      <Form.Select
                         name="fitness_level"
                         value={formValues.fitness_level}
                         onChange={handleChange}
                         disabled={!isEditing}
-                      />
+                      >
+                        {Object.entries(activity_map).map(([key, label]) => (
+                          <option key={key} value={key}>
+                            {label}
+                          </option>
+                        ))}
+                      </Form.Select>
                     </FormGroup>
 
                     <FormGroup className="mb-3">

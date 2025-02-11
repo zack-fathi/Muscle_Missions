@@ -1,6 +1,6 @@
 """Workout API Routes."""
 
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request
 from api.services import register_services
 
 # Register services dynamically
@@ -24,13 +24,12 @@ def generate_split():
 @workouts_bp.route('/save/', methods=['POST'])
 def save():
     """Save a workout."""
-    form_data = request.get_json()
-    return services["workouts"]["save_workout"](form_data)
+    return services["workouts"]["save_workout"](request)
 
 @workouts_bp.route('/last_saved/', methods=['GET'])
 def get_last_saved():
     """Retrieve the last saved workout from the database."""
-    return services["workouts"]["get_last_workout"]()
+    return services["workouts"]["get_last_workout"](request)
 
 __all__ = ["workouts_bp"]
 

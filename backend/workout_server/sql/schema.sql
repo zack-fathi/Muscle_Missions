@@ -14,6 +14,6 @@ CREATE TABLE exercises (
 
 CREATE TABLE saved_workouts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    userID INTEGER,
+    username TEXT NOT NULL,
     workout_data TEXT
 );

@@ -108,14 +108,13 @@ def update_user_info(data):
 def authenticate_user():
     """Checks if user is logged in."""
     
-    print("All Cookies:", request.cookies)
 
     username = request.cookies.get("username")
     if not username:
-        print("No username cookie found!")
+        # print("No username cookie found!")
         return jsonify({"logged_in": False, "message": "No user logged in"}), 200
 
-    print(f"Authenticated user: {username}")
+    # print(f"Authenticated user: {username}")
     return jsonify({"logged_in": True, "username": username, "message": "User is authenticated"}), 200  #  FIXED!
 
 
