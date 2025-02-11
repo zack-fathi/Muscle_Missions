@@ -1,7 +1,7 @@
 """Workout API Routes."""
 
 from flask import Blueprint, request, jsonify
-from workout_server.api.services import register_services
+from api.services import register_services
 
 # Register services dynamically
 services = register_services()

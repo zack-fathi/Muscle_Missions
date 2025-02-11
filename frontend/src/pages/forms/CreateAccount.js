@@ -71,8 +71,10 @@ function CreateAccount({ logoSrc }) {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify({
+          fullname: data.fullname,
           username: data.username,
-          password: data.password
+          password: data.password,
+          workout_experience: data.experience
         }),
       });
   

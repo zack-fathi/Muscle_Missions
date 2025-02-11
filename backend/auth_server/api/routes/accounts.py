@@ -1,7 +1,7 @@
 """User Account API Routes."""
 
 from flask import Blueprint, request, make_response, jsonify
-from auth_server.api.services import register_services
+from api.services import register_services
 
 # Register services dynamically
 services = register_services()
@@ -46,7 +46,11 @@ def get_user_difficulty():
     """Fetch the difficulty level for the authenticated user."""
     return services["auth"]["get_difficulty"]()
 
-@accounts_bp.route('/profile/', methods=['GET'])
+@accounts_bp.route('/profile/', methods=['GET', 'POST'])
 def get_user_profile():
-    """Fetch the difficulty level for the authenticated user."""
-    return services["auth"]["get_profile"]()
+    """Fetch the difficulty level for the authenticated user, or update the users profile."""
+
+    if request.method == 'GET':
+        return services["auth"]["get_profile"]()
+    return services["auth"]["update_profile"](request.get_json())
+    

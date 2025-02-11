@@ -6,7 +6,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 from model import get_db
-from utils import (
+from backend.workout_server.utils import (
     do_background_check,
     get_user_information,
     get_last_split_workout,
@@ -32,15 +32,16 @@ def init_liftbot():
         return jsonify({"error": "User not found"}), 404
 
     # Extract JSON data correctly
-    workout_response = get_last_saved_workout()
+    response = get_last_saved_workout()
+    data = response.get_json()
 
-    if isinstance(workout_response, tuple):  # Handle (data, status_code)
-        workout_response = workout_response[0]
-
-    if isinstance(workout_response, dict):  # Ensure it's a dictionary
-        workout_info = workout_response
+    if isinstance(data, dict):
+        workout_info = data
     else:
-        workout_info = None  # Default to None if invalid
+        workout_info = None
+
+
+    print("Workout info:", workout_info)
 
     prev_workout = workout_info is not None
 
@@ -50,7 +51,7 @@ def init_liftbot():
     }
 
     # Store workout in session but do not send it in the response
-    session["workout_info"] = workout_response if prev_workout else {}
+    session["workout_info"] = workout_info if prev_workout else {}
     session.modified = True
 
     initial_message_content["message"] = "Hello! How can I assist with your fitness journey today?"

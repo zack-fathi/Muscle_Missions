@@ -1,19 +1,30 @@
-"""Entry point for the Workout Server."""
-
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from flask import Flask
 from flask_cors import CORS
-from workout_server.api.routes import workouts_bp 
+from api.routes import workouts_bp
+from model import get_db, close_db
+from config import Config
+
+# Load environment variables
+from dotenv import load_dotenv
+load_dotenv()
 
 # Initialize Flask App
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000", "http://localhost:5002"]}}, supports_credentials=True)
+app.config.from_object(Config)
+
+# Enable CORS
+CORS(app, resources={r"/api/*": {"origins": Config.CORS_ORIGINS}}, supports_credentials=Config.CORS_SUPPORTS_CREDENTIALS)
+
 # Register API Routes
 app.register_blueprint(workouts_bp)
 
+@app.teardown_appcontext
+def teardown_db(error):
+    close_db(error)
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=Config.DEBUG)
