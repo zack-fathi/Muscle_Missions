@@ -1,29 +1,33 @@
-"""Authentication Server - Handles user authentication and account management."""
-
-import sys
 import os
-
-# Ensure backend directory is in the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 from flask import Flask
 from flask_cors import CORS
-from liftbot_server.api.routes import liftbot_bp
-from model import get_db, close_db
+from api.routes import liftbot_bp
+from config import config  # This comes from your get_config() function
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Initialize Flask App
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000", "http://localhost:5001", "http://localhost:5002"]}}, supports_credentials=True)
+app.config.from_object(config)
+
+# Enable CORS using the origins and support settings from the config
+CORS(app, resources={r"/api/*": {"origins": config.CORS_ORIGINS}}, 
+     supports_credentials=config.CORS_SUPPORTS_CREDENTIALS)
 
 # Register API Routes
 app.register_blueprint(liftbot_bp)
-app.secret_key = os.getenv("SECRET_KEY")
-
-
-@app.teardown_appcontext
-def teardown_db(error):
-    """Close the database connection at the end of the request."""
-    close_db(error)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5003, debug=True)
+    # Determine the environment (defaults to development)
+    env = os.getenv("APP_ENV", "development").lower()
+
+    # In production, bind to all network interfaces; otherwise, use localhost.
+    host = "0.0.0.0" if env == "production" else "127.0.0.1"
+
+    # Get the port from an environment variable or default to 5003.
+    port = int(os.getenv("PORT", 5003))
+    
+    print(f"Starting app in {env} mode on {host}:{port}")
+    app.run(host=host, port=port, debug=config.DEBUG)

@@ -4,7 +4,8 @@ import json
 import random
 from flask import jsonify
 from model import get_db
-from utils import get_dynamic_workout_order, get_user_id, get_last_saved_workout
+from utils import get_dynamic_workout_order
+import requests
 
 def generate_workout_plan(data, is_split=False):
     """Generate a daily workout or a workout split based on input parameters."""
@@ -125,33 +126,48 @@ def choose_an_exercise(muscle_to_hit, muscle_subgroup, equipment_list, workout_e
 
     return random.choice(workouts_to_pick_from) if workouts_to_pick_from else None
 
-def save_workout(data):
+def save_workout(req):
     """Save the last generated workout to the database."""
     
-    if "workouts" not in data:
+    # Get the JSON payload from the request
+    json_data = req.get_json()
+    
+    # Check that the workouts data is present in the JSON payload
+    if not json_data or "workouts" not in json_data:
         return jsonify({"error": "Invalid request. Missing workouts data"}), 400
 
+    # Retrieve the username from the cookies
+    username = req.cookies.get("username")
+    if not username:
+        return jsonify({"error": "User not authenticated"}), 401
+
+    # Convert the workouts data to a JSON string for storing in the DB
+    workout_json = json.dumps(json_data["workouts"])
+
     connection = get_db()
-    user_id = get_user_id(connection)
-    print(user_id)
-
-    # Convert workout data to a JSON string
-    workout_json = json.dumps(data["workouts"])
-    print(workout_json)
-
     connection.execute(
-        "INSERT INTO saved_workouts (userID, workout_data) VALUES (?, ?)",
-        (user_id, workout_json)
+        "INSERT INTO saved_workouts (username, workout_data) VALUES (?, ?)",
+        (username, workout_json)
     )
     connection.commit()
 
     return jsonify({"message": "Workout saved successfully!"}), 201
 
-def get_last_workout():
+def get_last_workout(req):
     """Retrieve the last saved workout from the database."""
 
-    return get_last_saved_workout()
+    connection = get_db()
+    username = req.cookies.get("username")
+    cur = connection.execute(
+        "SELECT workout_data FROM saved_workouts WHERE username = ? ORDER BY id DESC LIMIT 1",
+        (username,)
+    )
+    workout = cur.fetchone()
 
+    if workout:
+        return jsonify(json.loads(workout["workout_data"]))
+    else:
+        return jsonify({"error": "No saved workouts found."}), 404
 
 
 workout_split_order = [

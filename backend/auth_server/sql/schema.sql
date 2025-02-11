@@ -8,5 +8,4 @@ CREATE TABLE users (
     weight INTEGER,
     fitness_level TEXT,
     workout_experience INTEGER NOT NULL,
-    gender TEXT
 );

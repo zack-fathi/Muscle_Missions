@@ -25,7 +25,7 @@ class Config:
     DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
     
     # CORS configuration
-    CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:5001").split(",")
+    CORS_ORIGINS = os.getenv("CORS_ORIGINS", "http://localhost:3000,http://localhost:5001,http://localhost:5003").split(",")
     CORS_SUPPORTS_CREDENTIALS = True
 
     # Cookie security
