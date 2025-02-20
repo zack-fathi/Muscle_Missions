@@ -2,4 +2,5 @@ __pycache__/
 *.pyc
 *.pyo
 .env
+/var/users.sqlite3
 /env

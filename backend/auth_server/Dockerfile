@@ -1,5 +1,6 @@
 # Use an official lightweight Python image.
 FROM python:3.11-slim
+RUN apt-get update && apt-get install -y sqlite3
 
 # Set the working directory in the container.
 WORKDIR /app
@@ -19,7 +20,7 @@ RUN chmod +x /entrypoint.sh
 ENV APP_ENV=development
 
 # Expose the port that your app listens on.
-EXPOSE 5003
+EXPOSE 5002
 
 # Use the entrypoint script.
 ENTRYPOINT ["/entrypoint.sh"]

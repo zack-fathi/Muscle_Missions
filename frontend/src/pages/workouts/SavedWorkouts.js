@@ -4,6 +4,9 @@ import WorkoutTable from "../../components/WorkoutTable";
 import Layout from "../../components/Layout";
 import "../../styles/WorkoutTable.css";
 
+const authURL = process.env.REACT_APP_AUTH_URL;
+const workoutsURL = process.env.REACT_APP_WORKOUTS_URL;
+
 function SavedWorkouts() {
   const [workoutData, setWorkoutData] = useState(null);
   const [isSplit, setIsSplit] = useState(false);
@@ -13,7 +16,7 @@ function SavedWorkouts() {
   useEffect(() => {
     async function doCheck() {
       try {
-        const res = await fetch("http://localhost:5002/api/accounts/auth/", {
+        const res = await fetch(`${authURL}/auth/`, {
           credentials: "include",
         });
         if (res.ok) {
@@ -40,7 +43,7 @@ function SavedWorkouts() {
   
   const fetchLastSavedWorkout = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/workouts/last_saved/", {
+      const response = await fetch(`${workoutsURL}/last_saved/`, {
         method: "GET",
         credentials: "include", // send cookies
       });

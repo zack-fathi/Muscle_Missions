@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 
+const authURL = process.env.REACT_APP_AUTH_URL;
+
 function CustomNavbar() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState("");
 
   useEffect(() => {
     // Check if the user is authenticated
-    fetch("http://localhost:5002/api/accounts/auth/", { credentials: "include" })
+    fetch(`${authURL}/auth/`, { credentials: "include" })
       .then((response) => response.json())
       .then((data) => {
         setIsAuthenticated(data.logged_in);
@@ -25,7 +27,7 @@ function CustomNavbar() {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5002/api/accounts/logout/", {
+      const response = await fetch(`${authURL}/logout/`, {
         method: "POST",
         credentials: "include",
       });

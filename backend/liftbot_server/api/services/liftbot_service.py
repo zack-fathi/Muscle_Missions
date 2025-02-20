@@ -1,6 +1,6 @@
 """Liftbot Service API."""
 
-from flask import jsonify, session, request
+from flask import jsonify, session
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -9,16 +9,19 @@ import requests
 
 load_dotenv()
 
-api_key = os.getenv("OPENAI_API_KEY")
-print(api_key)
+AUTH_SERVER_URL = os.getenv("AUTH_SERVER_URL")
+WORKOUT_SERVER_URL = os.getenv("WORKOUT_SERVER_URL")
 
-client = OpenAI(api_key=api_key)
+API_KEY = os.getenv("OPENAI_API_KEY")
+
+client = OpenAI(api_key=API_KEY)
 
 
 def init_liftbot(request):
     """Retrieve LiftBot screen data."""
 
     logged_in_user = call_auth_server(request)
+    print("here")
     if not logged_in_user:
         return jsonify({"error": "Unauthorized"}), 401
 
@@ -34,6 +37,7 @@ def init_liftbot(request):
     initial_message_content = {
         "username": user["username"],
         "workout_experience": workout_experience_map[user["workout_experience"]],
+        "user_info" : user
     }
 
     # Store workout in session but do not send it in the response

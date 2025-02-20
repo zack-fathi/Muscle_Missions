@@ -3,6 +3,8 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import FormComponent from "../../components/FormComponent";
 import Layout from "../../components/Layout";
 
+const authURL = process.env.REACT_APP_AUTH_URL;
+
 function UserInformationForm({ logoSrc }) {
   const fields = [
     {
@@ -75,7 +77,7 @@ function UserInformationForm({ logoSrc }) {
     const data = Object.fromEntries(formData.entries());
   
     try {
-      const response = await fetch("http://localhost:5002/api/accounts/edit_more_info/", {
+      const response = await fetch(`${authURL}/edit_more_info/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

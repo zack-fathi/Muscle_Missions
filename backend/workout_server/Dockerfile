@@ -14,12 +14,13 @@ COPY . .
 # Copy the entrypoint script and ensure it is executable.
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+RUN chmod +x scripts/exercisesdb.sh
 
 # Set environment variable for configuration (can be overridden by docker-compose or CLI).
 ENV APP_ENV=development
 
 # Expose the port that your app listens on.
-EXPOSE 5003
+EXPOSE 5001
 
 # Use the entrypoint script.
 ENTRYPOINT ["/entrypoint.sh"]

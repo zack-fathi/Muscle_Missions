@@ -3,7 +3,7 @@ import sqlite3
 import flask
 from config import Config
 
-print(Config.DATABASE_FILENAME)
+print("The db filename is: ", Config.DATABASE_FILENAME)
 
 def dict_factory(cursor, row):
     """Convert database row objects to a dictionary keyed on column name."""

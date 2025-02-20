@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+const authURL = process.env.REACT_APP_AUTH_URL;
+
 function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5002/api/accounts/logout/", {
+    fetch(`${authURL}/logout/`, {
       method: "POST",
       credentials: "include",
     })

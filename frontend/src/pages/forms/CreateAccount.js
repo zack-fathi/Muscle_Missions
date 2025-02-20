@@ -2,6 +2,8 @@ import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import FormComponent from "../../components/FormComponent";
 
+const authURL = process.env.REACT_APP_AUTH_URL;
+
 function CreateAccount({ logoSrc }) {
   const fields = [
     {
@@ -66,7 +68,7 @@ function CreateAccount({ logoSrc }) {
     }
   
     try {
-      const response = await fetch("http://localhost:5002/api/accounts/create/", {
+      const response = await fetch(`${authURL}/create/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

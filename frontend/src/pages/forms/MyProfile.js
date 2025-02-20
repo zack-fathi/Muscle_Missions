@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -11,6 +11,8 @@ import {
   FormGroup,
 } from "react-bootstrap";
 import Layout from "../../components/Layout";
+
+const authURL = process.env.REACT_APP_AUTH_URL;
 
 function MyProfile({ logoSrc }) {
   const [userData, setUserData] = useState(null);
@@ -35,7 +37,7 @@ function MyProfile({ logoSrc }) {
 
   // Fetch user data once on mount
   useEffect(() => {
-    fetch("http://localhost:5002/api/accounts/profile/", {
+    fetch(`${authURL}/profile/`, {
       credentials: "include",
     })
       .then((response) => response.json())
@@ -56,7 +58,7 @@ function MyProfile({ logoSrc }) {
         });
       })
       .catch((error) => console.error("Error fetching user data:", error));
-  }, []);
+  }, [activity_map]);
 
   // Update local form values (doesn't automatically save to DB)
   const handleChange = (e) => {
@@ -69,7 +71,7 @@ function MyProfile({ logoSrc }) {
     event.preventDefault();
     try {
       const response = await fetch(
-        "http://localhost:5002/api/accounts/profile/",
+        '${authURL}/profile/',
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

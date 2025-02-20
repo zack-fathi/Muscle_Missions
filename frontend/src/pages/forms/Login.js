@@ -2,6 +2,8 @@ import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import FormComponent from "../../components/FormComponent";
 
+const authURL = process.env.REACT_APP_AUTH_URL;
+
 function Login({ logoSrc }) {
   const fields = [
     {
@@ -29,7 +31,7 @@ function Login({ logoSrc }) {
     const data = Object.fromEntries(formData.entries());
   
     try {
-      const response = await fetch("http://localhost:5002/api/accounts/login/", {
+      const response = await fetch(`${authURL}/login/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include", // Ensures cookies are stored

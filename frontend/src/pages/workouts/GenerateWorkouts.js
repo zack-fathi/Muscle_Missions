@@ -4,6 +4,8 @@ import { Container } from "react-bootstrap";
 import Layout from "../../components/Layout";
 import WorkoutForm from "../../components/WorkoutForm";
 
+const authURL = process.env.REACT_APP_AUTH_URL;
+
 function GenerateWorkouts({ title, showDaysPerWeek }) {
   const navigate = useNavigate();
 
@@ -22,7 +24,7 @@ function GenerateWorkouts({ title, showDaysPerWeek }) {
     const fetchUserDifficulty = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5002/api/accounts/difficulty/",
+          `${authURL}/difficulty/`,
           {
             method: "GET",
             credentials: "include",

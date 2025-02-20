@@ -7,5 +7,5 @@ CREATE TABLE users (
     height INTEGER,
     weight INTEGER,
     fitness_level TEXT,
-    workout_experience INTEGER NOT NULL,
+    workout_experience INTEGER NOT NULL
 );

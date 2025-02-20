@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 
+const authURL = process.env.REACT_APP_AUTH_URL;
+
 const useAuth = () => {
   const [authenticated, setAuthenticated] = useState(null); // Start as `null`
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5002/api/accounts/auth/", {
+    fetch(`${authURL}/auth/`, {
       method: "GET",
       credentials: "include",
     })

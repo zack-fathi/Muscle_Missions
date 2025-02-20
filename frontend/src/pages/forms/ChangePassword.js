@@ -3,6 +3,8 @@ import { Container, Row, Col, Card } from "react-bootstrap";
 import FormComponent from "../../components/FormComponent";
 import Layout from "../../components/Layout";
 
+const authURL = process.env.REACT_APP_AUTH_URL;
+
 function ChangePassword({ logoSrc }) {
   const fields = [
     {
@@ -48,7 +50,7 @@ function ChangePassword({ logoSrc }) {
     }
   
     try {
-      const response = await fetch("http://localhost:5002/api/accounts/edit_password/", {
+      const response = await fetch(`${authURL}/edit_password/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

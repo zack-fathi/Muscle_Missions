@@ -1,0 +1,57 @@
+# docker-compose.yml (baseline or dev)
+version: "3.9"
+
+services:
+  auth_server:
+    build: ./backend/auth_server
+    container_name: auth_server
+    env_file: 
+      - ./backend/auth_server/.env  # environment variables
+    environment:
+      - APP_ENV=development
+      - AUTH_SERVER_URL=http://localhost:5002/api/accounts
+      - WORKOUT_SERVER_URL=http://localhost:5001/api/workouts
+    volumes:
+      - ./backend/auth_server:/app  # mount code for live reload
+    ports:
+      - "5002:5002"
+
+  workouts_server:
+    build: ./backend/workout_server
+    container_name: workout_server
+    env_file:
+      - ./backend/workout_server/.env
+    environment:
+      - APP_ENV=development
+    volumes:
+      - ./backend/workout_server:/app
+    ports:
+      - "5001:5001"
+
+  liftbot_server:
+    build: ./backend/liftbot_server
+    container_name: liftbot_server
+    env_file:
+      - ./backend/liftbot_server/.env
+    environment:
+      - APP_ENV=development
+    volumes:
+      - ./backend/liftbot_server:/app
+    ports:
+      - "5003:5003"
+
+  # For Dev: directly running React dev server on port 3000
+  frontend:
+    build:
+      context: ./frontend
+      # If you do want the multi-stage build for dev, you can do it,
+      # or simply run "npm start" locally and skip container dev for React.
+    container_name: frontend
+    command: ["npm", "start"]  # run dev server
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development

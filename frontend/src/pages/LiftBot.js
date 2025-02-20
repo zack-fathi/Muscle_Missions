@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Container,
-  InputGroup,
   FormControl,
   Button,
   Spinner,
@@ -9,6 +8,9 @@ import {
 } from "react-bootstrap";
 import Layout from "../components/Layout";
 import "../styles/LiftBot.css"; // Import external CSS
+
+const authURL = process.env.REACT_APP_AUTH_URL;
+const liftbotURL = process.env.REACT_APP_LIFTBOT_URL;
 
 function LiftBot() {
   const [messages, setMessages] = useState([]);
@@ -22,7 +24,7 @@ function LiftBot() {
   useEffect(() => {
     async function doCheck() {
       try {
-        const res = await fetch("http://localhost:5002/api/accounts/auth/", {
+        const res = await fetch(`${authURL}/auth/`, {
           credentials: "include",
         });
         if (res.ok) {
@@ -45,7 +47,7 @@ function LiftBot() {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
-        const response = await fetch("http://localhost:5003/api/liftbot/", {
+        const response = await fetch(`${liftbotURL}/`, {
           credentials: "include",
         });
         const data = await response.json();
@@ -86,7 +88,7 @@ function LiftBot() {
       setMessages((prevMessages) => [...prevMessages, typingMessage]);
 
       const response = await fetch(
-        "http://localhost:5003/api/liftbot/process_message/",
+        `${liftbotURL}/process_message/`,
         {
           method: "POST",
           credentials: "include",

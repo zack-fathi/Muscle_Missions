@@ -4,6 +4,9 @@ import { Container, Button, Alert, Spinner } from "react-bootstrap";
 import Layout from "../../components/Layout";
 import WorkoutTable from "../../components/WorkoutTable";
 
+const workoutsURL = process.env.REACT_APP_WORKOUTS_URL;
+const authURL = process.env.REACT_APP_AUTH_URL;
+
 function ViewGeneratedWorkouts() {
   const location = useLocation();
 
@@ -37,8 +40,8 @@ function ViewGeneratedWorkouts() {
     setLoading(true);
     try {
       const endpoint = isSplit
-        ? "http://localhost:5001/api/workouts/split/"
-        : "http://localhost:5001/api/workouts/day/";
+        ? `${workoutsURL}/split/`
+        : `${workoutsURL}/day/`;
 
       const response = await fetch(endpoint, {
         method: "POST",
@@ -66,7 +69,7 @@ function ViewGeneratedWorkouts() {
 
   const checkLoginStatus = async () => {
     try {
-      const res = await fetch("http://localhost:5002/api/accounts/auth/", {
+      const res = await fetch(`${authURL}/auth/`, {
         credentials: "include", // if you need cookies
       });
       if (res.ok) {
@@ -89,7 +92,7 @@ function ViewGeneratedWorkouts() {
   const handleSaveWorkout = async () => {
     try {
       const payload = { workouts: { days: workoutDays } };
-      const response = await fetch("http://localhost:5001/api/workouts/save/", {
+      const response = await fetch(`${workoutsURL}/save/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

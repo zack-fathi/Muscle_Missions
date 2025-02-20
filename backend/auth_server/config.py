@@ -9,7 +9,7 @@ class Config:
     
     # Base directory for relative paths
     BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-    print("BASE_DIR:", BASE_DIR)
+    print(BASE_DIR)
 
     # Get the database filename from the environment or default to a path within BASE_DIR.
     _db_filename = os.getenv("DATABASE_FILENAME", os.path.join(BASE_DIR, "var", "users.sqlite3"))
@@ -18,8 +18,8 @@ class Config:
     if not os.path.isabs(_db_filename):
         _db_filename = os.path.join(BASE_DIR, _db_filename)
     
+    print(f"Database filename: {_db_filename}")    
     DATABASE_FILENAME = _db_filename
-    print("DATABASE_FILENAME:", DATABASE_FILENAME)
 
     SECRET_KEY = os.getenv("SECRET_KEY", "default_secret_key")
     DEBUG = os.getenv("DEBUG", "True").lower() in ("true", "1", "yes")
