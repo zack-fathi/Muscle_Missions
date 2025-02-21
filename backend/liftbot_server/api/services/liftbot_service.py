@@ -12,6 +12,9 @@ load_dotenv()
 AUTH_SERVER_URL = os.getenv("AUTH_SERVER_URL")
 WORKOUT_SERVER_URL = os.getenv("WORKOUT_SERVER_URL")
 
+print(AUTH_SERVER_URL)
+print(WORKOUT_SERVER_URL)
+
 API_KEY = os.getenv("OPENAI_API_KEY")
 
 client = OpenAI(api_key=API_KEY)
@@ -21,7 +24,7 @@ def init_liftbot(request):
     """Retrieve LiftBot screen data."""
 
     logged_in_user = call_auth_server(request)
-    print("here")
+    print("Logged in user:", logged_in_user)
     if not logged_in_user:
         return jsonify({"error": "Unauthorized"}), 401
 
@@ -94,11 +97,15 @@ def process_message(data):
 
 def call_auth_server(req):
     """Call the auth server to retrieve user information."""
-    
-    auth_url = "http://localhost:5002/api/accounts/auth/"
 
-    # forward cookies 
+    auth_url = f"{AUTH_SERVER_URL}/auth/"
+    print("Auth URL:",
+          auth_url)
+
+    # forward cookies
     cookies = req.cookies
+    print("Forwarding cookies:", cookies, flush=True)
+
 
     try:
         response = requests.get(auth_url, cookies=cookies, timeout=5)
@@ -112,8 +119,9 @@ def call_auth_server(req):
 def get_user_profile(req):
     """Retrieve the user's profile information. This information does not have to be completed, but it helps the Liftbot."""
 
-    profile_url = "http://localhost:5002/api/accounts/profile/"
+    profile_url = f"{AUTH_SERVER_URL}/profile/"
     cookies = req.cookies
+    print("Forwarding cookies:", cookies)
 
     try:
         response = requests.get(profile_url, cookies=cookies, timeout=5)
@@ -125,7 +133,7 @@ def get_user_profile(req):
     
 def get_last_saved_workout(req):
     """Retrieve the last saved workout for the user."""
-    workout_url = "http://localhost:5001/api/workouts/last_saved/"
+    workout_url = f"{WORKOUT_SERVER_URL}/last_saved/"
     cookies = req.cookies
 
     try:

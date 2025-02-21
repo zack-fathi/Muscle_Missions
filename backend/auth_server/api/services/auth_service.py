@@ -179,6 +179,7 @@ def get_profile():
         return jsonify({"error": "User not found"}), 404
 
     # Return all fields except password
+    print("Authenticated user:", user["username"])
     return jsonify({
         "userID": user["userID"],
         "username": user["username"],
