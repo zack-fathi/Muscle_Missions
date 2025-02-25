@@ -14,5 +14,5 @@ if [ "$APP_ENV" = "development" ]; then
   exec python app.py
 else
   echo "Starting Gunicorn server..."
-  exec gunicorn --bind "0.0.0.0:5003" app:app
+  exec gunicorn --bind "0.0.0.0:5001" app:app
 fi
