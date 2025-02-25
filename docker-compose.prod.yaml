@@ -82,6 +82,7 @@ services:
     ports:
       - "80:80"    # Expose HTTP on host
       - "443:443"  # Expose HTTPS on host
+      - "81:81"      # admin ui
     # We store config/certs in local volumes
     volumes:
       - ./nginx-proxy-manager/data:/data
