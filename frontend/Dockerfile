@@ -1,7 +1,7 @@
 # --------------------
 # Development Stage
 # --------------------
-    FROM node:18-alpine AS dev
+    FROM node:20-alpine AS dev
 
     # Set the working directory
     WORKDIR /app
@@ -25,7 +25,7 @@
     # --------------------
     # Production Build Stage
     # --------------------
-    FROM node:18-alpine AS build
+    FROM node:20-alpine AS build
     
     WORKDIR /app
     
