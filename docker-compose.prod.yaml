@@ -5,50 +5,49 @@ services:
     build: ./backend/auth_server
     container_name: auth_server
     env_file: 
-      - ./backend/auth_server/.env
+      - ./backend/auth_server/.env.production
     environment:
-      - APP_ENV=development
-    volumes:
-      - ./backend/auth_server:/app
+      - APP_ENV=production
+    # In production you may not need to mount source code.
     ports:
       - "5002:5002"
+    restart: unless-stopped
 
   workouts_server:
     build: ./backend/workout_server
     container_name: workouts_server
     env_file:
-      - ./backend/workout_server/.env
+      - ./backend/workout_server/.env.production
     environment:
-      - APP_ENV=development
-    volumes:
-      - ./backend/workout_server:/app
+      - APP_ENV=production
     ports:
       - "5001:5001"
+    restart: unless-stopped
 
   liftbot_server:
     build: ./backend/liftbot_server
     container_name: liftbot_server
     env_file:
-      - ./backend/liftbot_server/.env
+      - ./backend/liftbot_server/.env.production
     environment:
-      - APP_ENV=development
+      - APP_ENV=production
       - AUTH_SERVER_URL=http://auth_server:5002/api/accounts
       - WORKOUT_SERVER_URL=http://workouts_server:5001/api/workouts
-    volumes:
-      - ./backend/liftbot_server:/app
     ports:
       - "5003:5003"
+    restart: unless-stopped
 
   frontend:
     build:
       context: ./frontend
-      target: dev   # Use the development build target from the multi-stage Dockerfile
+      target: prod  # Use the production target from your multi-stage Dockerfile
     container_name: frontend
-    command: ["npm", "start"]
-    working_dir: /app
-    volumes:
-      - ./frontend:/app
-    ports:
-      - "3000:3000"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
+    ports:
+      - "80:80"  # Nginx will serve on port 80
+    depends_on:
+      - auth_server
+      - workouts_server
+      - liftbot_server
+    restart: unless-stopped
