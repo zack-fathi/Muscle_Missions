@@ -1,4 +1,4 @@
-import React, { act, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Row,
@@ -12,18 +12,19 @@ import {
 } from "react-bootstrap";
 import Layout from "../../components/Layout";
 
+
+const activity_map = {
+  na: "Sedentary (0-2 hours per week of activity)",
+  la: "Lightly active (2-3 hours per week of activity)",
+  ma: "Moderately active (3-5 hours per week of activity)",
+  va: "Very active (5+ days per week of activity)",
+};
+
 const authURL = process.env.REACT_APP_AUTH_URL;
 
 function MyProfile({ logoSrc }) {
   const [userData, setUserData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-
-  const activity_map = {
-    na: "Sedentary (0-2 hours per week of activity)",
-    la: "Lightly active (2-3 hours per week of activity)",
-    ma: "Moderately active (3-5 hours per week of activity)",
-    va: "Very active (5+ days per week of activity)",
-  };
 
   // We'll track all relevant user info from the DB:
   const [formValues, setFormValues] = useState({
@@ -58,7 +59,7 @@ function MyProfile({ logoSrc }) {
         });
       })
       .catch((error) => console.error("Error fetching user data:", error));
-  }, [activity_map]);
+  }, []);
 
   // Update local form values (doesn't automatically save to DB)
   const handleChange = (e) => {
@@ -71,7 +72,7 @@ function MyProfile({ logoSrc }) {
     event.preventDefault();
     try {
       const response = await fetch(
-        '${authURL}/profile/',
+        `${authURL}/profile/`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
