@@ -3,23 +3,22 @@
 # --------------------
     FROM node:20-alpine AS dev
 
-    # Set the working directory
     WORKDIR /app
     
-    # Copy package files and install dependencies
+    # Copy package files & install dependencies
     COPY package*.json ./
     RUN npm install
     
     # Copy the rest of the source code
     COPY . .
     
-    # Set environment variable for development
+    # Dev environment variable
     ENV APP_ENV=development
     
-    # Expose port for the React development server
+    # Expose port 3000 for dev server
     EXPOSE 3000
     
-    # Use CMD to start the development server (npm start supports hot-reload)
+    # Default command runs the React dev server (with hot reload)
     CMD ["npm", "start"]
     
     # --------------------
@@ -29,34 +28,34 @@
     
     WORKDIR /app
     
-    # Copy package files and install dependencies
+    # Copy package files & install dependencies
     COPY package*.json ./
     RUN npm install
     
     # Copy all source code
     COPY . .
     
-    # Build the production bundle (creates a 'build' folder)
+    # Build the production bundle (makes a "build" folder)
     RUN npm run build
     
     # --------------------
-    # Production Final Stage
+    # Production Final Stage (Nginx)
     # --------------------
     FROM nginx:alpine AS prod
     
-    # Remove the default Nginx configuration
+    # Remove default config if needed
     RUN rm /etc/nginx/conf.d/default.conf
     
-    # Copy your custom Nginx configuration into the container
-    # (Make sure you create a nginx.conf file in your frontend folder)
+    # Copy your custom Nginx config
+    # Make sure you have a "nginx.conf" in your frontend folder
     COPY nginx.conf /etc/nginx/conf.d
     
-    # Copy the production build from the build stage to Nginx's html folder
+    # Copy the built app from the build stage
     COPY --from=build /app/build /usr/share/nginx/html
     
-    # Expose port 80 for serving the production build
+    # Expose port 80 inside container
     EXPOSE 80
     
-    # Start Nginx in the foreground
+    # Start Nginx
     CMD ["nginx", "-g", "daemon off;"]
     

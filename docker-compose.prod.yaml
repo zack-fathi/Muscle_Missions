@@ -1,18 +1,25 @@
 version: "3.9"
 
 services:
+  # --------------------------------
+  # AUTH SERVER
+  # --------------------------------
   auth_server:
     build: ./backend/auth_server
     container_name: auth_server
-    env_file: 
+    env_file:
       - ./backend/auth_server/.env.production
     environment:
       - APP_ENV=production
-    # In production you may not need to mount source code.
-    ports:
-      - "5002:5002"
+    # Auth server listens internally on 5002
+    # Not publishing 5002:5002 to host unless needed
+    expose:
+      - "5002"
     restart: unless-stopped
 
+  # --------------------------------
+  # WORKOUTS SERVER
+  # --------------------------------
   workouts_server:
     build: ./backend/workout_server
     container_name: workouts_server
@@ -20,10 +27,14 @@ services:
       - ./backend/workout_server/.env.production
     environment:
       - APP_ENV=production
-    ports:
-      - "5001:5001"
+    # Works out server listens on 5001 internally
+    expose:
+      - "5001"
     restart: unless-stopped
 
+  # --------------------------------
+  # LIFTBOT SERVER
+  # --------------------------------
   liftbot_server:
     build: ./backend/liftbot_server
     container_name: liftbot_server
@@ -31,23 +42,52 @@ services:
       - ./backend/liftbot_server/.env.production
     environment:
       - APP_ENV=production
+      # Internal service references
       - AUTH_SERVER_URL=http://auth_server:5002/api/accounts
       - WORKOUT_SERVER_URL=http://workouts_server:5001/api/workouts
-    ports:
-      - "5003:5003"
+    # Listening on 5003 internally
+    expose:
+      - "5003"
     restart: unless-stopped
 
+  # --------------------------------
+  # FRONTEND (React + Nginx build)
+  # --------------------------------
   frontend:
     build:
       context: ./frontend
-      target: prod  # Use the production target from your multi-stage Dockerfile
+      target: prod  # Use the production stage from the multi-stage Dockerfile
     container_name: frontend
     environment:
       - NODE_ENV=production
-    ports:
-      - "80:80"  # Nginx will serve on port 80
+    # Listen on port 80 INSIDE this container
+    # but do NOT publish to the host -> we let the proxy handle it
+    expose:
+      - "80"
     depends_on:
       - auth_server
       - workouts_server
       - liftbot_server
     restart: unless-stopped
+
+  # --------------------------------
+  # NGINX PROXY MANAGER
+  # (Handles requests on 80 & 443 from outside;
+  #  obtains Let's Encrypt certificates automatically)
+  # --------------------------------
+  proxy:
+    image: jc21/nginx-proxy-manager:latest
+    container_name: proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"    # Expose HTTP on host
+      - "443:443"  # Expose HTTPS on host
+    # We store config/certs in local volumes
+    volumes:
+      - ./nginx-proxy-manager/data:/data
+      - ./nginx-proxy-manager/letsencrypt:/etc/letsencrypt
+    depends_on:
+      - frontend
+      - auth_server
+      - workouts_server
+      - liftbot_server
