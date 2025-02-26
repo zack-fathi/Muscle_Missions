@@ -4,6 +4,8 @@ services:
   auth_server:
     build: ./backend/auth_server
     container_name: auth_server
+    volumes:
+      - auth_data:/app/var
     env_file:
       - ./backend/auth_server/.env.production
     environment:
@@ -15,6 +17,8 @@ services:
   workouts_server:
     build: ./backend/workout_server
     container_name: workouts_server
+    volumes:
+      - workouts_data:/app/var
     env_file:
       - ./backend/workout_server/.env.production
     environment:
