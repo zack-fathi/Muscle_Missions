@@ -94,12 +94,11 @@ def update_user_info(data):
     weight = data.get('weight')
     activity_level = data.get('activity_level')
     experience = data.get('experience')
-    gender = data.get('gender')
 
     connection = get_db()
     connection.execute(
-        "UPDATE users SET age = ?, height = ?, weight = ?, fitness_level = ?, workout_experience = ?, gender = ? WHERE username = ?",
-        (age, height, weight, activity_level, experience, gender, username)
+        "UPDATE users SET age = ?, height = ?, weight = ?, fitness_level = ?, workout_experience = ? WHERE username = ?",
+        (age, height, weight, activity_level, experience, username)
     )
     connection.commit()
 
@@ -189,7 +188,6 @@ def get_profile():
         "weight": user["weight"],
         "fitness_level": user["fitness_level"],
         "workout_experience": user["workout_experience"],
-        "gender": user["gender"]
     }), 200
 
 def update_profile(data):
@@ -205,7 +203,6 @@ def update_profile(data):
     weight = data.get("weight")
     fitness_level = data.get("fitness_level")
     workout_experience = data.get("workout_experience")
-    gender = data.get("gender")
 
     # Fetch existing user to ensure they exist
     conn = get_db()
@@ -227,11 +224,10 @@ def update_profile(data):
             height = COALESCE(?, height),
             weight = COALESCE(?, weight),
             fitness_level = COALESCE(?, fitness_level),
-            workout_experience = COALESCE(?, workout_experience),
-            gender = COALESCE(?, gender)
+            workout_experience = COALESCE(?, workout_experience)
         WHERE username = ?
         """,
-        (fullname, age, height, weight, fitness_level, workout_experience, gender, username)
+        (fullname, age, height, weight, fitness_level, workout_experience, username)
     )
     conn.commit()
 
