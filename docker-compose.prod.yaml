@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   auth_server:
     build: ./backend/auth_server
@@ -71,3 +69,7 @@ services:
       - auth_server
       - workouts_server
       - liftbot_server
+
+volumes:
+  auth_data:
+  workouts_data:
