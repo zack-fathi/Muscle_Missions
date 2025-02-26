@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Container, Button, Alert, Spinner } from "react-bootstrap";
 import Layout from "../../components/Layout";
 import WorkoutTable from "../../components/WorkoutTable";
+import { Helmet } from "react-helmet";
 
 const workoutsURL = process.env.REACT_APP_WORKOUTS_URL;
 const authURL = process.env.REACT_APP_AUTH_URL;
@@ -111,6 +112,9 @@ function ViewGeneratedWorkouts() {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Generated Workouts</title>
+      </Helmet>
       <Container className="mt-4">
         <h2 className="text-center mb-4">
           {isSplit

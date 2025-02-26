@@ -3,6 +3,7 @@ import { Container, Alert, Spinner } from "react-bootstrap";
 import WorkoutTable from "../../components/WorkoutTable";
 import Layout from "../../components/Layout";
 import "../../styles/WorkoutTable.css";
+import { Helmet } from "react-helmet";
 
 const authURL = process.env.REACT_APP_AUTH_URL;
 const workoutsURL = process.env.REACT_APP_WORKOUTS_URL;
@@ -75,11 +76,14 @@ function SavedWorkouts() {
 
   return (
     <Layout>
+      <Helmet>
+        <title>Your Saved Workout</title>
+      </Helmet>
       <Container className="mt-4">
         <h2 className="text-center mb-4 workout-heading">
           {isSplit
-            ? "Here is your previously saved Muscle Missions Workout Split!"
-            : "Here is your previously saved Muscle Missions Workout!"}
+            ? "Here is your previously saved Workout Split!"
+            : "Here is your previously saved Workout!"}
         </h2>
 
         {loading ? (

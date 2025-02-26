@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import FormComponent from "../../components/FormComponent";
 import Layout from "../../components/Layout";
+import { Helmet } from "react-helmet";
 
 const authURL = process.env.REACT_APP_AUTH_URL;
 
@@ -74,6 +75,9 @@ function ChangePassword({ logoSrc }) {
   
   return (
     <Layout>
+      <Helmet>
+      <title>Change Password</title>
+      </Helmet>
       <div className="bg-light min-vh-100 d-flex align-items-center">
         <Container>
           <Row className="justify-content-center">

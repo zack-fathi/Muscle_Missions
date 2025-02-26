@@ -1,0 +1,32 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out the repository code.
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. (Optional) Set up Docker Buildx for multi-platform builds.
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # 3. Deploy to DigitalOcean via SSH.
+      - name: Deploy to DigitalOcean
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.DROPLET_IP }}         # e.g., 143.198.28.42
+          username: ${{ secrets.DROPLET_USER }}     # e.g., root or your deploy user
+          key: ${{ secrets.SSH_PRIVATE_KEY }}       # Your private SSH key as a secret
+          port: 22
+          script: |
+            cd /home/zack-fathi/Muscle_Missions
+            git pull origin main
+            docker compose -f docker-compose.prod.yaml up -d --build

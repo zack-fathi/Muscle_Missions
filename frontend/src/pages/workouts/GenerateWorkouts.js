@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Layout from "../../components/Layout";
 import WorkoutForm from "../../components/WorkoutForm";
+import { Helmet } from "react-helmet";
 
 const authURL = process.env.REACT_APP_AUTH_URL;
 
@@ -164,6 +165,9 @@ function GenerateWorkouts({ title, showDaysPerWeek }) {
 
   return (
     <Layout>
+      <Helmet>
+        <title> Generate Workout </title>
+      </Helmet>
       <Container className="mt-5">
         <WorkoutForm
           title={title}

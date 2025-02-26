@@ -11,6 +11,7 @@ import {
   FormGroup,
 } from "react-bootstrap";
 import Layout from "../../components/Layout";
+import { Helmet } from "react-helmet";
 
 
 const activity_map = {
@@ -108,6 +109,9 @@ function MyProfile({ logoSrc }) {
 
   return (
     <Layout>
+      <Helmet>
+        <title>My Profile</title>
+      </Helmet>
       <div className="bg-light min-vh-100 d-flex align-items-center">
         <Container>
           <Row className="justify-content-center">

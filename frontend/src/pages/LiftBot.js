@@ -8,6 +8,7 @@ import {
 } from "react-bootstrap";
 import Layout from "../components/Layout";
 import "../styles/LiftBot.css"; // Import external CSS
+import { Helmet } from "react-helmet";
 
 const authURL = process.env.REACT_APP_AUTH_URL;
 const liftbotURL = process.env.REACT_APP_LIFTBOT_URL;
@@ -136,6 +137,9 @@ function LiftBot() {
   // 3. Rendering Logic
   return (
     <Layout>
+      <Helmet>
+        <title>LiftBot</title>
+      </Helmet>
       <Container className="liftbot-container">
         {loading ? (
           // Show a spinner while checking auth

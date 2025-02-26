@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import FormComponent from "../../components/FormComponent";
+import { Helmet } from "react-helmet";
 
 const authURL = process.env.REACT_APP_AUTH_URL;
 
@@ -59,6 +60,9 @@ function Login({ logoSrc }) {
   
   return (
     <div className="bg-light min-vh-100 d-flex align-items-center">
+      <Helmet>
+        <title>Sign In</title>
+      </Helmet>
       <Container>
         <Row className="justify-content-center">
           <Col sm={4}>
