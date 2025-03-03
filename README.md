@@ -13,7 +13,6 @@ Welcome to Muscle Missions, a multi-container fitness management web app designe
 - [Chatbot: LiftBot](#chatbot-liftbot)
 - [Future Plans](#future-plans)
 - [Lessons Learned](#lessons-learned)
-*- [Screenshots/Demos](#screenshotsdemos)
 - [Contact](#contact)
 - [Acknowledgments](#acknowledgments)
 
@@ -68,9 +67,6 @@ LiftBot is powered by OpenAI GPT-3.5 and offers real-time, personalized fitness 
 
 ## Lessons Learned
 Creating Muscle Missions was a journey of passion, combining my love for fitness with technology. The project honed my skills in containerization & microservices using Docker Compose, CI/CD implementation via GitHub Actions, robust user authentication, and efficient RESTful API design.
-
-*## Screenshots/Demos
-*(Include screenshots or links to demo videos showcasing the UI, chatbot interactions, and workout generation process.)*
 
 ## Contact
 For more information or collaboration opportunities, please email: [zackeryfathi@gmail.edu](mailto:zackeryfathi@gmail.com)
