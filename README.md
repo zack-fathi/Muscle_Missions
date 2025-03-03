@@ -1,50 +1,81 @@
 # Muscle Missions
 
 ## Introduction
-Welcome to Muscle Missions, a dynamic Web App designed to revitalize your fitness journey! Whether you're battling gym boredom or seeking new workout challenges, Muscle Missions is here to create customized daily workouts and weekly workout splits tailored just for you.
+Welcome to Muscle Missions, a multi-container fitness management web app designed to revitalize your workout routine! Whether you're looking for personalized daily workouts, weekly splits, or an interactive chatbot for fitness advice, Muscle Missions delivers a modern, scalable solution.
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Deployment](#deployment)
+- [Architecture](#architecture)
+- [Database Design](#database-design)
+- [Chatbot: LiftBot](#chatbot-liftbot)
+- [Future Plans](#future-plans)
+- [Lessons Learned](#lessons-learned)
+*- [Screenshots/Demos](#screenshotsdemos)
+- [Contact](#contact)
+- [Acknowledgments](#acknowledgments)
+
+## Introduction
+Muscle Missions offers a customized fitness experience by creating user-specific daily workouts, weekly workout splits, and providing motivational and workout support via an interactive chatbot. Whether you're a beginner or an advanced lifter, this app generates fresh, effective workouts that fit your schedule, goals, and available equipment.
 
 ## Features
-- **Custom Workouts:** Get workouts based on your experience, equipment availability, time constraints, and exercise preferences.
-- **Interactive Chatbot, LiftBot:** Chat with LiftBot for workout tips, exercise guidance, and motivational support.
-- **Complex Database Design:** A robust database storing user profiles and a comprehensive exercise directory.
-- **Responsive Frontend Design:** Using Bootstrap CSS and JavaScript for a seamless user experience.
-- **RESTful API for Workout Generation:** Efficient and quick workout generation based on user preferences.
+- **Custom Workouts:** Generate tailored workout plans based on user experience, time constraints, and equipment preferences.
+- **Interactive Chatbot (LiftBot):** Chat with LiftBot for personalized exercise guidance and motivational support powered by OpenAI GPT-3.5.
+- **User Authentication:** Secure sign-in and authentication with personalized workout histories.
+- **Microservices Architecture:** Deploy separate containerized services (auth, workout generation, chatbot) using Docker Compose.
+- **Responsive Frontend:** An interactive front end built with React and Bootstrap for a mobile-friendly experience.
+- **CI/CD:** Automated builds and deployments via GitHub Actions.
 
 ## Tech Stack
-- **Frontend:** HTML, CSS (Bootstrap), JavaScript
-- **Backend:** Python (Flask)
-- **Database:** SQLite
-- **API:** OPENAI API for the chatbot feature
-- **Other Technologies:** Jinja2 for HTML templates, RESTful API design
+- **Frontend:** React, Bootstrap  
+- **Backend:** Python (Flask)  
+- **Database:** SQLite  
+- **Chatbot:** OpenAI GPT-3.5  
+- **Containerization & Deployment:** Docker, Docker Compose, Nginx  
+- **CI/CD:** GitHub Actions  
+- **Cloud Hosting:** DigitalOcean  
+- **Additional Skills:** Microservices Architecture, RESTful API design, Linux
 
-## Project Link
-[www.musclemissions.live](www.musclemissions.live)
+## Deployment
+Muscle Missions is automatically deployed via GitHub Actions:
+- **CI/CD Pipeline:** On every push to the main branch, GitHub Actions builds Docker images and deploys the app to DigitalOcean.
+- **Docker Compose:** Orchestrates multiple services (auth_server, workouts_server, liftbot_server, frontend, and proxy) in a containerized environment.
+- **Production URL:** [https://musclemissions.fit](https://musclemissions.fit)  
 
-## Screenshots/Demos
-
-## Backend Design
-Flask, a lightweight Python framework, is at the heart of Muscle Missions' backend, providing agility and speed. The user data is securely managed in SQLite3 database, chosen for its efficiency and simplicity.
+## Architecture
+- **Auth Server:** Manages user sign-up, login, and session handling; stores user data securely in SQLite.
+- **Workouts Server:** Generates customized daily workouts and weekly splits via RESTful APIs.
+- **LiftBot Server:** Provides real-time, personalized fitness guidance using OpenAI GPT-3.5.
+- **Frontend:** A React application styled with Bootstrap that communicates with backend services via RESTful APIs.
+- **Proxy (Reverse Proxy):** An optional Nginx Proxy Manager handles SSL termination and routes incoming traffic to the appropriate service.
 
 ## Database Design
-The database is a crucial part of Muscle Missions, featuring tables for user profiles, exercises, workouts, and workout splits. It includes:
-- Over 270 exercises with detailed attributes.
-- User information, including hashed passwords for security.
-- Links between workouts, exercises, and user profiles for easy data retrieval.
+Muscle Missions uses SQLite for efficient data management. The database includes:
+- **Users:** Stores account information and hashed passwords.
+- **Exercises:** Contains a comprehensive directory of over 270 exercises with detailed attributes.
+- **Workouts & Splits:** Manages user-specific workout plans and weekly schedules.
 
-## Workout Generation
-Muscle Missions uses a REST API to generate workouts. The selection algorithm is based on user preferences and allows for a mix of structured and random elements to provide variety and effectiveness.
-
-## Chatbot Implementation
-LiftBot is powered by OpenAI's GPT-3.5 Turbo Model, offering personalized advice based on user profiles and workout histories.
+## Chatbot: LiftBot
+LiftBot is powered by OpenAI GPT-3.5 and offers real-time, personalized fitness advice, exercise tips, and motivational support through an interactive chat interface integrated into the frontend.
 
 ## Future Plans
-Continued expansion is planned, including adding more exercises, refining the selection algorithm, and incorporating video links for exercises.
+- **Video Integration:** Embed exercise demo videos to enhance workout instructions.
+- **Expanded Exercise Library:** Continuously update and refine the exercise database and workout algorithms.
+- **Progress Tracking:** Implement analytics and performance tracking with visual dashboards.
+- **Community Features:** Develop social features like member forums and workout challenges.
 
 ## Lessons Learned
-Creating Muscle Missions was a journey of passion, combining my love for fitness with technology. The project honed my skills in SQL query construction, algorithm development, and deepened my understanding of efficient database design.
+Creating Muscle Missions was a journey of passion, combining my love for fitness with technology. The project honed my skills in containerization & microservices using Docker Compose, CI/CD implementation via GitHub Actions, robust user authentication, and efficient RESTful API design.
+
+*## Screenshots/Demos
+*(Include screenshots or links to demo videos showcasing the UI, chatbot interactions, and workout generation process.)*
 
 ## Contact
-For more information or collaboration opportunities, feel free to contact me at zfathi@umich.edu.
+For more information or collaboration opportunities, please email: [zackeryfathi@gmail.edu](mailto:zackeryfathi@gmail.com)
 
 ## Acknowledgments
-Special thanks to [strengthlog](strengthlog.com) for much of the workouts in my exercise database, and [Unsplash](unsplash.com) and OpenAI's DALL-E for images.
+- **StrengthLog:** Provided reference workouts for the exercise database.
+- **Unsplash & OpenAI DALL-E:** Sources for images and AI-generated artwork.
+- **OpenAI GPT-3.5:** Powers the interactive LiftBot chat functionality.
