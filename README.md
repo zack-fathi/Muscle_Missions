@@ -1,6 +1,5 @@
 # Muscle Missions
 
-## Introduction
 Welcome to Muscle Missions, a multi-container fitness management web app designed to revitalize your workout routine! Whether you're looking for personalized daily workouts, weekly splits, or an interactive chatbot for fitness advice, Muscle Missions delivers a modern, scalable solution.
 
 ## Table of Contents
