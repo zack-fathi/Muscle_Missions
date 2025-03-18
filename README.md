@@ -68,7 +68,7 @@ LiftBot is powered by OpenAI GPT-3.5 and offers real-time, personalized fitness 
 Creating Muscle Missions was a journey of passion, combining my love for fitness with technology. The project honed my skills in containerization & microservices using Docker Compose, CI/CD implementation via GitHub Actions, robust user authentication, and efficient RESTful API design.
 
 ## Contact
-For more information or collaboration opportunities, please email: [zackeryfathi@gmail.edu](mailto:zackeryfathi@gmail.com)
+For more information or collaboration opportunities, please email: [zackeryfathi@gmail.com](mailto:zackeryfathi@gmail.com)
 
 ## Acknowledgments
 - **StrengthLog:** Provided reference workouts for the exercise database.
