@@ -1,4 +1,11 @@
+# == Production/Runtime Dependencies ==
 Flask==3.1.0
 Flask_Cors==5.0.0
 python-dotenv==1.0.1
 gunicorn==23.0.0
+
+# == Testing Dependencies ==
+pytest==8.2.1
+pytest-cov==4.1.0
+requests==2.31.0
+mock==5.1.0
